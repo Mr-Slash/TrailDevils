@@ -30,6 +30,7 @@ public class TrackArrayAdapter extends ArrayAdapter<String> {
 		TextView afternoon = (TextView) rowView.findViewById(R.id.afternoon);
 		TextView status = (TextView) rowView.findViewById(R.id.status);
 
+		//TODO Fetch data from db
 		trackName.setText(names[position]);
 		morning.setText("Vormittag: trocken");
 		afternoon.setText("Nachmittag: nass");

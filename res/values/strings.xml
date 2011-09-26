@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, TrailDevilsActivity!</string>
     <string name="app_name">Trail Devils</string>
+    <string name="search_hint">Track suchen...</string>
 </resources>

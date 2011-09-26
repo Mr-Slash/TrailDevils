@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, TrailDevilsActivity!</string>
     <string name="app_name">Trail Devils</string>
     <string name="search_hint">Track suchen...</string>
+    <string name="no_tracks">Keine Tracks verfügbar!</string>
 </resources>

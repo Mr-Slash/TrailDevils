@@ -1,18 +1,22 @@
 package ch.hsr.traildevil;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class TrailDevilsActivity extends Activity {
+public class TrailDevilsActivity extends ListActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.tracklist);
 		
+		String[] tracks = new String[] { "Monte Tamaro", "Lac Blanc", "Todtnau", "San Bernardino", "Porte du Soleil", "Livigno" };
+		
+		//TODO mit SimpleCursorAdapter ersetzen
+		setListAdapter(new TrackArrayAdapter(this, tracks));
 		
 		handleIntent(getIntent());
 	}
@@ -30,4 +34,5 @@ public class TrailDevilsActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "TEST " + query, Toast.LENGTH_SHORT).show();
 		}
 	}
+
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- Browser View -->
-    <string name="hello">Hello World, TrailDevilsActivity!</string>
     <string name="app_name">Trail Devils</string>
     <string name="search_hint">Search Track...</string>
+    <string name="no_tracks">No tracks available!</string>
     
     <!-- Detail View -->
     <string name="detailview_status">State:</string>

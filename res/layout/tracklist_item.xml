@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="3dip">
+   
+	<ImageView 
+		android:id="@+id/icon" 
+		android:layout_height="wrap_content"
+		android:layout_width="50px"
+		android:layout_marginRight="4px"
+	/>
+    
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="fill_parent"
+    >
+        <TextView
+            android:id="@+id/trackname"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:textSize="20px"
+            android:textColor="#6495ED"
+            android:singleLine="true"
+            android:ellipsize="none"
+        />
+        
+        <TextView
+            android:id="@+id/morning"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:textSize="10px"
+         />
+         
+         <TextView
+            android:id="@+id/afternoon"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:textSize="10px"
+         />
+         
+    </LinearLayout>
+        
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="fill_parent"
+    >  
+    
+       <TextView
+            android:id="@+id/status"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="#008B00"
+       />
+	 
+    </LinearLayout>
+    
+</LinearLayout>

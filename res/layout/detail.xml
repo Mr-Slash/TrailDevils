@@ -38,13 +38,11 @@
 				 
 		<TableRow>
 			<TextView android:text="Vormittags:" android:padding="3dip" />
-					  
 			<TextView android:text="Trocken" android:padding="3dip" />
 		</TableRow>
 
 		<TableRow>
 			<TextView android:text="Nachmittags:" android:padding="3dip" />
-					  
 			<TextView android:text="Trocken" android:padding="3dip" />
 		</TableRow>
 	</TableLayout>

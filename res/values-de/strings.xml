@@ -7,4 +7,10 @@
     
     <!-- Detail View -->
     <string name="detailview_status">Status:</string>    
+    
+    <!-- Tracklist Option-Menu -->
+    <string name="tracklist_menu_favorites">Favoriten</string>
+    <string name="tracklist_menu_friendlist">Friendlist</string>
+    <string name="tracklist_menu_settings">Einstellungen</string>
+    
 </resources>

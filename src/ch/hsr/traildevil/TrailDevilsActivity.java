@@ -4,6 +4,8 @@ import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 public class TrailDevilsActivity extends ListActivity {
@@ -35,4 +37,10 @@ public class TrailDevilsActivity extends ListActivity {
 		}
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.tracklist_menu, menu);
+	    return true;
+	}
 }

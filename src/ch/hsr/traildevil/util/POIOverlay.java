@@ -21,13 +21,8 @@ public class POIOverlay extends ItemizedOverlay {
 	private GeoPoint center = null;
 
 	public POIOverlay(Drawable marker, OverlayItem ...overlayItems) {
-		super(marker);
+		super(boundCenterBottom(marker));
 		
-		marker.setBounds( (int) (-marker.getIntrinsicWidth()/2), 
-				  		 -marker.getIntrinsicHeight(),
-				  		 (int) (marker.getIntrinsicWidth()/2), 
-				  		 0);
-
 		locations = Arrays.asList(overlayItems);
 		populate(); 
 	}

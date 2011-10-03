@@ -89,7 +89,7 @@
 					 android:clickable="true"
 	                 android:layout_width="fill_parent"
 	                 android:layout_height="fill_parent"
-	                 android:apiKey=""
+	                 android:apiKey="@string/map_api_key"
 	                 />	
 	
 </LinearLayout>

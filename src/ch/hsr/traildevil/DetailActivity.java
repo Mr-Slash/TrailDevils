@@ -1,7 +1,11 @@
 package ch.hsr.traildevil;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import ch.hsr.traildevil.util.POIOverlayItem;
 import ch.hsr.traildevil.util.POIOverlay;
 
@@ -18,7 +22,6 @@ public class DetailActivity extends MapActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.detail);
 		
 		mapView = (MapView) findViewById(R.id.detailview_mapview);
@@ -38,8 +41,18 @@ public class DetailActivity extends MapActivity {
 		MapController controller = mapView.getController();
 		controller.setCenter(overlay.getCenterPoint());
 		controller.zoomToSpan((int)(latSpan*1.5), (int) (lonSpan*1.5));
+		
+		handleIntent(getIntent());
 	}
 	
+	private void handleIntent(Intent intent) {
+		String trailData = intent.getStringExtra("trail");
+		setTitle(trailData);
+		//TODO Fill the Views of this activity with the data received from the intent
+		//TextView status = (TextView) findViewById(R.id.afternoon);
+		//status.setText(traildata.getTrailName());
+	}
+
 	@Override
 	protected boolean isLocationDisplayed() {
 		return false;
@@ -49,4 +62,6 @@ public class DetailActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+	
+
 }

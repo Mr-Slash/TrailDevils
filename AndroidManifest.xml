@@ -25,7 +25,7 @@
         </activity>
          
         <!-- Detail view -->
-        <!--
+        
         <activity android:name=".DetailActivity"
         		  android:label="!!TrailName!!"
         		  android:launchMode="singleTop">
@@ -35,7 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>    		  
         </activity>
-        -->
+       
     </application>
 	<uses-permission android:name="android.permission.INTERNET" />    
 </manifest>

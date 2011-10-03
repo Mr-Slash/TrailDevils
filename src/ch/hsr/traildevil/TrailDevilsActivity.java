@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class TrailDevilsActivity extends ListActivity {
@@ -42,5 +44,14 @@ public class TrailDevilsActivity extends ListActivity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.tracklist_menu, menu);
 	    return true;
+	}
+	
+	@Override
+	protected void onListItemClick(ListView listView, View view, int position, long id) {
+		super.onListItemClick(listView, view, position, id);
+		String trailData = (String)listView.getAdapter().getItem(position);	//TODO Would then be a Trail-Object an not a String
+		Intent detail = new Intent(this, DetailActivity.class);
+		detail.putExtra("trail", trailData);
+		startActivity(detail);
 	}
 }

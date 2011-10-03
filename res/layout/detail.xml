@@ -37,13 +37,13 @@
 				 >
 				 
 		<TableRow>
-			<TextView android:text="Vormittags:" android:padding="3dip" />
-			<TextView android:text="Trocken" android:padding="3dip" />
+			<TextView android:text="@string/detailview_status_weather_morning" android:padding="3dip" />
+			<TextView android:text="@string/detailview_status_weather_rainy" android:padding="3dip" />
 		</TableRow>
 
 		<TableRow>
-			<TextView android:text="Nachmittags:" android:padding="3dip" />
-			<TextView android:text="Trocken" android:padding="3dip" />
+			<TextView android:text="@string/detailview_status_weather_afternoon" android:padding="3dip" />
+			<TextView android:text="@string/detailview_status_weather_suny" android:padding="3dip" />
 		</TableRow>
 	</TableLayout>
 
@@ -56,7 +56,7 @@
 	
 		<TextView android:layout_width="wrap_content" 
 				  android:layout_height="wrap_content" 
-				  android:text="Öffnungszeiten:"/>
+				  android:text="@string/detailview_openinghours"/>
 
 		<TextView android:layout_width="wrap_content" 
 				  android:layout_height="wrap_content" 
@@ -76,7 +76,7 @@
 	
 		<TextView android:layout_width="wrap_content" 
 				  android:layout_height="wrap_content" 
-				  android:text="Preise:"/>
+				  android:text="@string/detailview_pricing"/>
 
 		<TextView android:layout_width="wrap_content" 
 				  android:layout_height="wrap_content" 

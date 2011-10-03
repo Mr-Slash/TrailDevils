@@ -37,21 +37,28 @@ public final class R {
         /**  Browser View 
          */
         public static final int app_name=0x7f050000;
+        public static final int detailview_openinghours=0x7f05000a;
+        public static final int detailview_pricing=0x7f05000b;
         /**  Detail View 
  Detail View 
          */
         public static final int detailview_status=0x7f050003;
+        public static final int detailview_status_close=0x7f050005;
+        public static final int detailview_status_open=0x7f050004;
+        public static final int detailview_status_weather_afternoon=0x7f050007;
+        public static final int detailview_status_weather_morning=0x7f050006;
+        public static final int detailview_status_weather_rainy=0x7f050008;
+        public static final int detailview_status_weather_suny=0x7f050009;
         /**  Browser View 
          */
-        public static final int hello=0x7f050007;
+        public static final int hello=0x7f05000c;
         public static final int no_tracks=0x7f050002;
         public static final int search_hint=0x7f050001;
         /**  Tracklist Option-Menu 
- Tracklist Option-Menu 
          */
-        public static final int tracklist_menu_favorites=0x7f050004;
-        public static final int tracklist_menu_friendlist=0x7f050005;
-        public static final int tracklist_menu_settings=0x7f050006;
+        public static final int tracklist_menu_favorites=0x7f05000d;
+        public static final int tracklist_menu_friendlist=0x7f05000e;
+        public static final int tracklist_menu_settings=0x7f05000f;
     }
     public static final class xml {
         public static final int searchable=0x7f040000;

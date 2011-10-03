@@ -7,10 +7,15 @@
     
     <!-- Detail View -->
     <string name="detailview_status">State:</string>
-    
-    <!-- Tracklist Option-Menu -->
-    <string name="tracklist_menu_favorites">Favorites</string>
-    <string name="tracklist_menu_friendlist">Friendlist</string>
-    <string name="tracklist_menu_settings">Settings</string>
-    
+    <string name="detailview_status_open">offen</string>
+    <string name="detailview_status_close">geschlossen</string>
+    <string name="detailview_status_weather_morning">Vormittags:</string>
+    <string name="detailview_status_weather_afternoon">Nachmittags:</string>
+    <string name="detailview_status_weather_rainy">nass</string>
+    <string name="detailview_status_weather_suny">trocken</string>
+
+	<string name="detailview_openinghours">Öffnungszeiten:</string>
+	
+	<string name="detailview_pricing">Preise:</string>
+	
 </resources>

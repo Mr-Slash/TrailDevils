@@ -7,9 +7,9 @@
 	<!-- Image section -->
 	<ImageView android:src="@drawable/trail_flims" 
 			   android:layout_width="wrap_content"
-			   android:layout_height="wrap_content" 
+			   android:layout_height="wrap_content"
 			   android:layout_gravity="center"/>
-			  
+			   
 	<View android:layout_height="2dip" android:layout_width="match_parent" android:background="#FF909090" />
 	
 	<!-- State section -->
@@ -82,5 +82,14 @@
 				  android:layout_height="wrap_content" 
 				  android:text="200.- CHF / h"/>
  	</LinearLayout>
+	
+	<!-- Map -->
+	<com.google.android.maps.MapView
+					 android:id="@+id/detailview_mapview"
+					 android:clickable="true"
+	                 android:layout_width="fill_parent"
+	                 android:layout_height="fill_parent"
+	                 android:apiKey=""
+	                 />	
 	
 </LinearLayout>

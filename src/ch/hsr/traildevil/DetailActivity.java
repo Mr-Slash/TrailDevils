@@ -46,8 +46,9 @@ public class DetailActivity extends MapActivity {
 	}
 	
 	private void handleIntent(Intent intent) {
-		String trailData = intent.getStringExtra("trail");
-		setTitle(trailData);
+		String name = intent.getStringExtra("trailName");
+		String pos = intent.getStringExtra("trailPosition");
+		setTitle(name);
 		//TODO Fill the Views of this activity with the data received from the intent
 		//TextView status = (TextView) findViewById(R.id.afternoon);
 		//status.setText(traildata.getTrailName());

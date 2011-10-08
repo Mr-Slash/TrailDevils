@@ -53,14 +53,15 @@ public final class R {
         public static final int detailview_status_weather_suny=0x7f050009;
         /**  Browser View 
          */
-        public static final int hello=0x7f05000c;
+        public static final int hello=0x7f05000d;
+        public static final int map_api_key=0x7f05000c;
         public static final int no_tracks=0x7f050002;
         public static final int search_hint=0x7f050001;
         /**  Tracklist Option-Menu 
          */
-        public static final int tracklist_menu_favorites=0x7f05000d;
-        public static final int tracklist_menu_friendlist=0x7f05000e;
-        public static final int tracklist_menu_settings=0x7f05000f;
+        public static final int tracklist_menu_favorites=0x7f05000e;
+        public static final int tracklist_menu_friendlist=0x7f05000f;
+        public static final int tracklist_menu_settings=0x7f050010;
     }
     public static final class xml {
         public static final int searchable=0x7f040000;

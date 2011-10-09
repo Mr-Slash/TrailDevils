@@ -9,8 +9,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import ch.hsr.traildevil.application.TrailDevilsController;
-
 import android.util.Log;
 
 public class HttpHandler {

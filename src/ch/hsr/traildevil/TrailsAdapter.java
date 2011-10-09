@@ -6,16 +6,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import ch.hsr.traildevil.domain.Trail;
-
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import ch.hsr.traildevil.domain.Trail;
 
 public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private int resource;
@@ -26,7 +26,9 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private TextView morning;
 	private TextView afternoon;
 	private TextView status;
-
+	private static final String TAG = "traildevil";
+	private static final String TAG_PREFIX = TrailsAdapter.class.getSimpleName() + ": ";
+	
 	public TrailsAdapter(Activity context, int resource, List<Trail> trails) {
 		super(context, resource, trails);
 		this.resource = resource;
@@ -63,17 +65,17 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		InputStream is = null;
 		try {
 			is = new URL(trail.getImageUrl120()).openStream();
-			imageView.setImageDrawable(Drawable.createFromStream(is, "src"));
+			imageView.setImageDrawable(Drawable.createFromStream(is, null));
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			Log.e(TAG, TAG_PREFIX + "parsing URL failed", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, TAG_PREFIX + "problem with inputstream", e);
 		}finally{
 			if (is != null){
 				try {
 					is.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, TAG_PREFIX + "closing input stream failed", e);
 				}
 			}
 		}

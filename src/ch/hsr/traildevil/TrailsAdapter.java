@@ -1,14 +1,8 @@
 package ch.hsr.traildevil;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.util.HttpHandler;
 
 public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private int resource;
@@ -26,8 +21,6 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private TextView morning;
 	private TextView afternoon;
 	private TextView status;
-	private static final String TAG = "traildevil";
-	private static final String TAG_PREFIX = TrailsAdapter.class.getSimpleName() + ": ";
 	
 	public TrailsAdapter(Activity context, int resource, List<Trail> trails) {
 		super(context, resource, trails);
@@ -58,30 +51,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		morning.setText("Vormittag: trocken");	//TODO Live weather?
 		afternoon.setText("Nachmittag: nass");	//TODO Live weather?
 		status.setText(trail.getState());
-		showImage();
-	}
-
-	private void showImage() {
-		InputStream is = null;
-		String image = trail.getImageUrl120();
-		try {
-			if(image != null){
-				is = new URL(image).openStream();
-				imageView.setImageDrawable(Drawable.createFromStream(is, null));
-			}
-		} catch (MalformedURLException e) {
-			Log.e(TAG, TAG_PREFIX + "parsing URL failed", e);
-		} catch (IOException e) {
-			Log.e(TAG, TAG_PREFIX + "problem with inputstream", e);
-		}finally{
-			if (is != null){
-				try {
-					is.close();
-				} catch (IOException e) {
-					Log.e(TAG, TAG_PREFIX + "closing input stream failed", e);
-				}
-			}
-		}
+		imageView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120()));
 	}
 
 }

@@ -5,48 +5,40 @@ import java.io.InputStreamReader;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import ch.hsr.traildevil.application.TrailDevilsController;
+
+import android.util.Log;
+
 public class HttpHandler {
 
-	private HttpEntity entity;
-	private HttpClient client;
-	private HttpResponse response;
-	private HttpGet httpGet;
-	private InputStreamReader isr;
+	private static final String TAG = "traildevil";
+	private static final String TAG_PREFIX = HttpHandler.class.getSimpleName() + ": ";
 
-	public HttpHandler() {
-		client = new DefaultHttpClient();
-	}
+	private HttpClient client = new DefaultHttpClient();
+	private InputStreamReader isr;
 
 	public void connectTo(String url) {
 		try {
-			httpGet = new HttpGet(url);
+			
+			HttpGet httpGet = new HttpGet(url);
 			httpGet.setHeader("Accept", "application/json");
-			response = client.execute(httpGet);
-			entity = response.getEntity();
+			
+			Log.i(TAG, TAG_PREFIX + "send http request to url:" + url);
+			HttpResponse response = client.execute(httpGet);
+			HttpEntity entity = response.getEntity();
 			isr = new InputStreamReader(entity.getContent());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			Log.i(TAG, TAG_PREFIX + "http response received");
+		} catch (Exception e) {
+			Log.e(TAG, TAG_PREFIX + "connecting to server failed", e);
 		}
 	}
 
 	public InputStreamReader getReader() {
-		try {
-			if(isr != null) return isr;
-			if(entity != null){
-				isr = new InputStreamReader(entity.getContent());
-				return isr;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return (isr != null) ? isr : null;
 	}
 
 	public void resetStream() {
@@ -54,7 +46,7 @@ public class HttpHandler {
 			try {
 				isr.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, TAG_PREFIX + "closing input stream failed", e);
 			}
 		}
 	}

@@ -63,9 +63,12 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 
 	private void showImage() {
 		InputStream is = null;
+		String image = trail.getImageUrl120();
 		try {
-			is = new URL(trail.getImageUrl120()).openStream();
-			imageView.setImageDrawable(Drawable.createFromStream(is, null));
+			if(image != null){
+				is = new URL(image).openStream();
+				imageView.setImageDrawable(Drawable.createFromStream(is, null));
+			}
 		} catch (MalformedURLException e) {
 			Log.e(TAG, TAG_PREFIX + "parsing URL failed", e);
 		} catch (IOException e) {

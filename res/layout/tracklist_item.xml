@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="3dip"
-    >
+    android:padding="1dip">
+    
 	<ImageView 
 		android:id="@+id/icon" 
 		android:layout_height="wrap_content"
-		android:layout_width="50px"
-		android:layout_marginRight="4px"
-	/>
+		android:layout_width="100dip"
+		android:layout_margin="3dip"/>
     
     <LinearLayout
         android:orientation="vertical"
@@ -24,7 +23,7 @@
             android:layout_weight="2"
             android:gravity="center_vertical"
             android:textSize="20px"
-            android:textColor="#0000CD"
+            android:textColor="@color/dark_blue"
             android:singleLine="true"
             android:ellipsize="none"
         />
@@ -35,7 +34,6 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:textSize="10px"
-            android:textColor="#000000"
          />
          
          <TextView
@@ -44,7 +42,6 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:textSize="10px"
-            android:textColor="#000000"
          />
          
     </LinearLayout>
@@ -61,10 +58,9 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:gravity="right"
-            android:textColor="#008B00"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@color/dark_green"
        />
-	 
     </LinearLayout>
     
 </LinearLayout>

@@ -5,12 +5,16 @@
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="10" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
-    	<uses-library android:name="com.google.android.maps" />
+    <application android:icon="@drawable/icon" 
+    			 android:label="@string/app_name"
+    			 android:theme="@android:style/Theme.Light">
+    			 
+    			 <uses-library android:name="com.google.android.maps" />
     	
         <activity android:name=".TrailDevilsActivity" 
         		  android:label="@string/app_name"
         		  android:launchMode="singleTop">
+        		  
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +31,6 @@
         <!-- Detail view -->
         
         <activity android:name=".DetailActivity"
-        		  android:label="!!TrailName!!"
         		  android:launchMode="singleTop">
 
 			<intent-filter>

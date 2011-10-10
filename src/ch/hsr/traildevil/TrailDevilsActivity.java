@@ -47,6 +47,12 @@ public class TrailDevilsActivity extends ListActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
+	}
+
+	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
 		handle(intent);
@@ -73,7 +79,7 @@ public class TrailDevilsActivity extends ListActivity {
 		Trail trail = (Trail) listView.getAdapter().getItem(position);
 		Intent detail = new Intent(this, DetailActivity.class);
 		detail.putExtra("trailName", trail.getName());
-		detail.putExtra("trailPosition", position);
+		detail.putExtra("trailId", trail.getTrailId());
 		startActivity(detail);
 	}
 }

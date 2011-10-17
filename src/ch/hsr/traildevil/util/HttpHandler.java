@@ -28,7 +28,7 @@ public class HttpHandler {
 		try {
 			HttpGet httpGet = new HttpGet(url);
 			httpGet.setHeader("Accept", "application/json");
-			
+
 			Log.i(TAG, TAG_PREFIX + "send http request to url:" + url);
 			HttpResponse response = client.execute(httpGet);
 			isr = new InputStreamReader(response.getEntity().getContent());
@@ -36,6 +36,17 @@ public class HttpHandler {
 		} catch (Exception e) {
 			Log.e(TAG, TAG_PREFIX + "connecting to server failed", e);
 		}
+	}
+
+	public boolean isHostReachable(String url) {
+		HttpGet httpGet = new HttpGet(url);
+		HttpResponse response = null;
+		try {
+			response = client.execute(httpGet);
+		} catch (IOException e) {
+			Log.e(TAG, TAG_PREFIX + "connecting to server failed", e);
+		}
+		return response == null ? false : true;
 	}
 
 	public InputStreamReader getReader() {
@@ -51,22 +62,22 @@ public class HttpHandler {
 			}
 		}
 	}
-	
-	public static Drawable getHttpImage(String url, Resources resources){
+
+	public static Drawable getHttpImage(String url, Resources resources) {
 		InputStream is = null;
-		try{
-			if(url != null){
+		try {
+			if (url != null) {
 				is = new URL(url).openStream();
 				return Drawable.createFromStream(is, null);
-			}else{
+			} else {
 				return resources.getDrawable(R.drawable.photo_not_available);
 			}
 		} catch (MalformedURLException e) {
 			Log.e(TAG, TAG_PREFIX + "parsing URL failed", e);
 		} catch (IOException e) {
 			Log.e(TAG, TAG_PREFIX + "problem with i/o", e);
-		}finally{
-			if (is != null){
+		} finally {
+			if (is != null) {
 				try {
 					is.close();
 				} catch (IOException e) {
@@ -74,6 +85,7 @@ public class HttpHandler {
 				}
 			}
 		}
-	return null;
+		return null;
 	}
+
 }

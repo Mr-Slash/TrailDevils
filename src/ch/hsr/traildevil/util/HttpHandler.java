@@ -11,8 +11,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import ch.hsr.traildevil.R;
 
 public class HttpHandler {
 
@@ -50,12 +52,14 @@ public class HttpHandler {
 		}
 	}
 	
-	public static Drawable getHttpImage(String url){
+	public static Drawable getHttpImage(String url, Resources resources){
 		InputStream is = null;
 		try{
 			if(url != null){
 				is = new URL(url).openStream();
 				return Drawable.createFromStream(is, null);
+			}else{
+				return resources.getDrawable(R.drawable.photo_not_available);
 			}
 		} catch (MalformedURLException e) {
 			Log.e(TAG, TAG_PREFIX + "parsing URL failed", e);

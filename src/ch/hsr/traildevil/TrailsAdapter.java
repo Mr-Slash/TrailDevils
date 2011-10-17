@@ -51,7 +51,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		morning.setText("Vormittag: trocken");	//TODO Live weather?
 		afternoon.setText("Nachmittag: nass");	//TODO Live weather?
 		status.setText(trail.getState());
-		imageView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120()));
-	}
+		imageView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getContext().getResources()));
+	}		
 
 }

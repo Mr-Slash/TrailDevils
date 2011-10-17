@@ -20,7 +20,7 @@ public class TrailDevilsController {
 	
 	private static final String TRAILS_URL = "http://152.96.80.18:8080/api/trails";
 	
-	private HttpHandler httpHandler = new HttpHandler();
+	private static HttpHandler httpHandler = new HttpHandler();
 	private TrailProvider trailProvider;
 	
 	public TrailDevilsController(String dbLocation){
@@ -28,6 +28,7 @@ public class TrailDevilsController {
 	}
 	
 	public List<Trail> getTrails(){
+		
 		if(trailProvider.findAll() == null || trailProvider.findAll().isEmpty())
 			loadTrailsData();
 		
@@ -63,5 +64,9 @@ public class TrailDevilsController {
 	 */
 	public void close() {
 		trailProvider.close();
+	}
+	
+	public boolean isNetworkAvailable(){
+		return httpHandler.isHostReachable(TRAILS_URL);
 	}
 }

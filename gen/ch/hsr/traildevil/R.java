@@ -19,21 +19,30 @@ public final class R {
         public static final int light_green=0x7f050002;
     }
     public static final class drawable {
-        public static final int icon=0x7f020000;
-        public static final int map_marker=0x7f020001;
-        public static final int trail_flims=0x7f020002;
+        public static final int austria=0x7f020000;
+        public static final int france=0x7f020001;
+        public static final int germany=0x7f020002;
+        public static final int icon=0x7f020003;
+        public static final int italy=0x7f020004;
+        public static final int liechtenstein=0x7f020005;
+        public static final int map_marker=0x7f020006;
+        public static final int photo_not_available=0x7f020007;
+        public static final int switzerland=0x7f020008;
     }
     public static final class id {
-        public static final int afternoon=0x7f080005;
-        public static final int detailview_mapview=0x7f080001;
-        public static final int favorites=0x7f080007;
-        public static final int friendlist=0x7f080008;
-        public static final int icon=0x7f080002;
-        public static final int morning=0x7f080004;
-        public static final int settings=0x7f080009;
-        public static final int status=0x7f080006;
+        public static final int afternoon=0x7f080008;
+        public static final int detailview_country=0x7f080002;
+        public static final int detailview_logo=0x7f080001;
+        public static final int detailview_mapview=0x7f080004;
+        public static final int detailview_status=0x7f080003;
+        public static final int favorites=0x7f08000a;
+        public static final int friendlist=0x7f08000b;
+        public static final int icon=0x7f080005;
+        public static final int morning=0x7f080007;
+        public static final int settings=0x7f08000c;
+        public static final int status=0x7f080009;
         public static final int statusLabelContainer=0x7f080000;
-        public static final int trackname=0x7f080003;
+        public static final int trackname=0x7f080006;
     }
     public static final class layout {
         public static final int detail=0x7f030000;

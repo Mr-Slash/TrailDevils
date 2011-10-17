@@ -26,36 +26,43 @@ public class TrailDevilsActivity extends ListActivity {
 	private static final String TAG = "traildevil";
 	private static final String TAG_PREFIX = TrailDevilsActivity.class.getSimpleName() + ": ";
 	private static final int DIALOG_PROGRESS_ID = 0;
-	
+
 	private TrailDevilsController controller;
 	private Thread syncThread;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.tracklist);
-		
+
 		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
 
-		List<Trail> trails = new ArrayList<Trail>();
-		trails.add(controller.getTrail(0));
-		trails.add(controller.getTrail(1));
-		trails.add(controller.getTrail(2));
-		trails.add(controller.getTrail(3));
-		trails.add(controller.getTrail(4));
+		if (controller.isNetworkAvailable()) {
+			List<Trail> trails = new ArrayList<Trail>();
+			trails.add(controller.getTrail(0));
+			trails.add(controller.getTrail(1));
+			trails.add(controller.getTrail(2));
+			trails.add(controller.getTrail(3));
+			trails.add(controller.getTrail(4));
 
-		setListAdapter(new TrailsAdapter(this, R.layout.tracklist_item, trails));
-		handle(getIntent());
-		
+			setListAdapter(new TrailsAdapter(this, R.layout.tracklist_item, trails));
+			handle(getIntent());
+		}
 		showDialog(DIALOG_PROGRESS_ID);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
 		controller.close();
 		controller = null;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
 	}
 
 	@Override
@@ -88,10 +95,10 @@ public class TrailDevilsActivity extends ListActivity {
 		detail.putExtra("trailPosition", position);
 		startActivity(detail);
 	}
-	
+
 	/**
-	 * Show a dialog with a progress bar. The user is informed, that the local data
-	 * is updated.
+	 * Show a dialog with a progress bar. The user is informed, that the local
+	 * data is updated.
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -109,11 +116,12 @@ public class TrailDevilsActivity extends ListActivity {
 			}
 		});
 		dialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
-			
+
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
 			}
 		});
 		return dialog;
-	}	
+	}
+
 }

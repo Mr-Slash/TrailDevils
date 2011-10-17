@@ -1,32 +1,48 @@
 package ch.hsr.traildevil;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import ch.hsr.traildevil.util.POIOverlayItem;
+import ch.hsr.traildevil.application.TrailDevilsController;
+import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.util.CountryUtility;
+import ch.hsr.traildevil.util.HttpHandler;
 import ch.hsr.traildevil.util.POIOverlay;
+import ch.hsr.traildevil.util.POIOverlayItem;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
 public class DetailActivity extends MapActivity {
 
 	private MapView mapView;	
+	private ImageView trailLogo, trailCountry;
+	private TextView trailStatus;
+	
+	private TrailDevilsController appController;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail);
-		
+		appController = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
+		initViews();
+		createGoogleMapView();
+		handleIntent(getIntent());
+	}
+
+	private void initViews() {
+		trailLogo = (ImageView) findViewById(R.id.detailview_logo);
+		trailCountry = (ImageView) findViewById(R.id.detailview_country);
+		trailStatus = (TextView) findViewById(R.id.detailview_status);
 		mapView = (MapView) findViewById(R.id.detailview_mapview);
-		mapView.setBuiltInZoomControls(true);
-		
+	}
+
+	private void createGoogleMapView() {
 		// create and add POI's
 		Drawable marker = getResources().getDrawable(R.drawable.map_marker);
 		POIOverlayItem magicKindom = new POIOverlayItem(28.418971, -81.581436, "Disney Magic Kindom", "Disney Magic Kindom");
@@ -34,26 +50,30 @@ public class DetailActivity extends MapActivity {
 
 		POIOverlay overlay = new POIOverlay(marker, magicKindom, sevenLagoon);
 		mapView.getOverlays().add(overlay);
+		mapView.setBuiltInZoomControls(true);
 
 		int latSpan = overlay.getLatSpanE6();
 		int lonSpan = overlay.getLonSpanE6();
 		
-		MapController controller = mapView.getController();
-		controller.setCenter(overlay.getCenterPoint());
-		controller.zoomToSpan((int)(latSpan*1.5), (int) (lonSpan*1.5));
-		
-		handleIntent(getIntent());
+		MapController mapController = mapView.getController();
+		mapController.setCenter(overlay.getCenterPoint());
+		mapController.zoomToSpan((int)(latSpan*1.5), (int) (lonSpan*1.5));
 	}
 	
 	private void handleIntent(Intent intent) {
-		String name = intent.getStringExtra("trailName");
-		int trailId = intent.getIntExtra("trailId", 0);
-		setTitle(name);
-		//TODO Fill the Views of this activity with the data received from the database
-		//TextView status = (TextView) findViewById(R.id.afternoon);
-		//status.setText(traildata.getTrailName());
+		int trailPosition = intent.getIntExtra("trailPosition", 0);
+		updateViews(appController.getTrail(trailPosition));
 	}
 
+	private void updateViews(Trail trail) {
+		setTitle(trail.getName());
+		trailLogo.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getBaseContext().getResources()));
+		trailCountry.setImageResource(CountryUtility.getResource(trail.getCountry()));
+//		trailCountry.setImageResource(R.drawable.austria);
+		trailStatus.setText(trail.getState());
+		//TODO Add Country Logo
+	}
+	
 	@Override
 	protected boolean isLocationDisplayed() {
 		return false;
@@ -63,6 +83,4 @@ public class DetailActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
-
 }

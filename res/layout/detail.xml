@@ -5,7 +5,7 @@
 			 android:layout_height="match_parent">
 
 	<!-- Image section -->
-	<ImageView android:src="@drawable/trail_flims" 
+	<ImageView android:id="@+id/detailview_logo"
 			   android:layout_width="wrap_content"
 			   android:layout_height="wrap_content"
 			   android:layout_gravity="center"/>
@@ -24,7 +24,7 @@
 				  android:layout_height="wrap_content"
 				  android:background="@color/dark_red"/>
 
-		<TextView android:text="offen"
+		<TextView android:id="@+id/detailview_status"
 				  android:layout_width="wrap_content" 
 				  android:layout_height="wrap_content"
 				  android:background="@color/dark_blue" 

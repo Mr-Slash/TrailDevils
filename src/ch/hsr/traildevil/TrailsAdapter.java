@@ -33,7 +33,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		rowView = inflater.inflate(resource, null, true);
 		trail = getItem(position);
 		initViews();
-		bindToViews();
+		updateViews();
 
 		return rowView;
 	}
@@ -46,7 +46,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		status = (TextView) rowView.findViewById(R.id.status);
 	}
 
-	private void bindToViews() {
+	private void updateViews() {
 		trackName.setText(trail.getName());
 		morning.setText("Vormittag: trocken");	//TODO Live weather?
 		afternoon.setText("Nachmittag: nass");	//TODO Live weather?

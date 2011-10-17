@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.application.TrailDevilsController;
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.util.CountryUtility;
 import ch.hsr.traildevil.util.HttpHandler;
 import ch.hsr.traildevil.util.POIOverlay;
 import ch.hsr.traildevil.util.POIOverlayItem;
@@ -19,7 +20,7 @@ import com.google.android.maps.MapView;
 public class DetailActivity extends MapActivity {
 
 	private MapView mapView;	
-	private ImageView trailLogo;
+	private ImageView trailLogo, trailCountry;
 	private TextView trailStatus;
 	
 	private TrailDevilsController appController;
@@ -36,6 +37,7 @@ public class DetailActivity extends MapActivity {
 
 	private void initViews() {
 		trailLogo = (ImageView) findViewById(R.id.detailview_logo);
+		trailCountry = (ImageView) findViewById(R.id.detailview_country);
 		trailStatus = (TextView) findViewById(R.id.detailview_status);
 		mapView = (MapView) findViewById(R.id.detailview_mapview);
 	}
@@ -66,6 +68,8 @@ public class DetailActivity extends MapActivity {
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
 		trailLogo.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getBaseContext().getResources()));
+		trailCountry.setImageResource(CountryUtility.getResource(trail.getCountry()));
+//		trailCountry.setImageResource(R.drawable.austria);
 		trailStatus.setText(trail.getState());
 		//TODO Add Country Logo
 	}

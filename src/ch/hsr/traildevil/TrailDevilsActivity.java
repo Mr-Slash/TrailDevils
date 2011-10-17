@@ -57,6 +57,12 @@ public class TrailDevilsActivity extends ListActivity {
 		controller.close();
 		controller = null;
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
+	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {

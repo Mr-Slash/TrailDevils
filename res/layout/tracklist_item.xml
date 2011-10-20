@@ -12,10 +12,9 @@
     
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="0dip"
-        android:layout_weight="1"
         android:layout_height="fill_parent"
-    >
+    	android:layout_width="200dip">
+    	
         <TextView
             android:id="@+id/trackname"
             android:layout_width="fill_parent"
@@ -24,6 +23,7 @@
             android:gravity="center_vertical"
             android:textSize="20px"
             android:textColor="@color/dark_blue"
+            android:background="@color/light_green"
             android:singleLine="true"
             android:ellipsize="none"
         />
@@ -34,6 +34,7 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:textSize="10px"
+            android:background="@color/dark_red"
          />
          
          <TextView
@@ -42,25 +43,29 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:textSize="10px"
+            android:background="@color/dark_blue"
          />
-         
     </LinearLayout>
         
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dip"
-        android:layout_weight="1"
-        android:layout_height="fill_parent"
+
+    <LinearLayout 	android:orientation="vertical"
+        			android:layout_width="fill_parent"
+        			android:layout_height="fill_parent"
     >  
     
-       <TextView
-            android:id="@+id/status"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
-            android:textColor="@color/dark_green"
-       />
-    </LinearLayout>
-    
+    		<ImageView  android:id="@+id/traillist_country"
+		 				android:layout_width="wrap_content"
+				  		android:layout_height="wrap_content"
+				  		android:layout_margin="1dip"
+				  		android:layout_gravity="right"
+			/>
+			
+  		    <TextView   android:id="@+id/status"
+	            		android:layout_width="fill_parent"
+	            		android:layout_height="fill_parent"
+	            		android:gravity="center_vertical|center_horizontal"
+	            		android:textColor="@color/dark_green"
+    		/>
+  </LinearLayout>
+  
 </LinearLayout>

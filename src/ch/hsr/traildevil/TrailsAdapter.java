@@ -10,13 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.util.CountryUtility;
 import ch.hsr.traildevil.util.HttpHandler;
 
 public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private int resource;
 	private View rowView;
 	private Trail trail;
-	private ImageView imageView;
+	private ImageView iconView, countryView;
 	private TextView trackName;
 	private TextView morning;
 	private TextView afternoon;
@@ -39,7 +40,8 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 	}
 
 	private void initViews() {
-		imageView = (ImageView) rowView.findViewById(R.id.icon);
+		iconView = (ImageView) rowView.findViewById(R.id.icon);
+		countryView = (ImageView) rowView.findViewById(R.id.traillist_country);
 		trackName = (TextView) rowView.findViewById(R.id.trackname);
 		morning = (TextView) rowView.findViewById(R.id.morning);
 		afternoon = (TextView) rowView.findViewById(R.id.afternoon);
@@ -51,7 +53,8 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		morning.setText("Vormittag: trocken");	//TODO Live weather?
 		afternoon.setText("Nachmittag: nass");	//TODO Live weather?
 		status.setText(trail.getState());
-		imageView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getContext().getResources()));
+		iconView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getContext().getResources()));
+		countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
 	}		
 
 }

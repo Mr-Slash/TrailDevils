@@ -37,4 +37,10 @@ public class TrailProvider extends Db4oHelper {
 	public List<Trail> findAll() {
 		return Collections.unmodifiableList(db().query(Trail.class));
 	}
+	
+	public void deleteAll(){
+		for(Trail trail : findAll()){
+			delete(trail);
+		}
+	}
 }

@@ -45,7 +45,12 @@ public class TrailDevilsActivity extends ListActivity {
 			trails.add(controller.getTrail(2));
 			trails.add(controller.getTrail(3));
 			trails.add(controller.getTrail(4));
-
+			trails.add(controller.getTrail(5));
+			trails.add(controller.getTrail(6));
+			trails.add(controller.getTrail(7));
+			trails.add(controller.getTrail(8));
+			trails.add(controller.getTrail(9));
+			trails.add(controller.getTrail(10));
 			setListAdapter(new TrailsAdapter(this, R.layout.tracklist_item, trails));
 			handle(getIntent());
 		}

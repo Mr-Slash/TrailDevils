@@ -58,7 +58,8 @@
 				  		android:layout_height="wrap_content"
 				  		android:layout_margin="1dip"
 				  		android:layout_gravity="right"
-			/>
+				  		android:paddingRight="2dip"
+		    />
 			
   		    <TextView   android:id="@+id/status"
 	            		android:layout_width="fill_parent"

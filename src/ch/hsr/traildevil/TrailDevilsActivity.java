@@ -35,22 +35,13 @@ public class TrailDevilsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.tracklist);
-
-		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
-
+		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString(), getApplicationContext());
+	
 		if (controller.isNetworkAvailable()) {
 			List<Trail> trails = new ArrayList<Trail>();
-			trails.add(controller.getTrail(0));
-			trails.add(controller.getTrail(1));
-			trails.add(controller.getTrail(2));
-			trails.add(controller.getTrail(3));
-			trails.add(controller.getTrail(4));
-			trails.add(controller.getTrail(5));
-			trails.add(controller.getTrail(6));
-			trails.add(controller.getTrail(7));
-			trails.add(controller.getTrail(8));
-			trails.add(controller.getTrail(9));
-			trails.add(controller.getTrail(10));
+			for (int i = 0; i < 11; i++) {
+				trails.add(controller.getTrail(i));
+			}
 			setListAdapter(new TrailsAdapter(this, R.layout.tracklist_item, trails));
 			handle(getIntent());
 		}
@@ -67,7 +58,7 @@ public class TrailDevilsActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
+		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString(), getApplicationContext());
 	}
 
 	@Override

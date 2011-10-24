@@ -28,7 +28,7 @@ public class DetailActivity extends MapActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail);
-		appController = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
+		appController = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString(), getApplicationContext());
 		initViews();
 		createGoogleMapView();
 		handleIntent(getIntent());
@@ -66,7 +66,7 @@ public class DetailActivity extends MapActivity {
 
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
-		trailLogo.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getBaseContext().getResources()));
+		trailLogo.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120()));
 		trailCountry.setImageResource(CountryUtility.getResource(trail.getCountry()));
 		trailStatus.setText(trail.getState());
 	}

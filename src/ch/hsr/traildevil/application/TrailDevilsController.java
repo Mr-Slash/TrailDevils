@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.content.Context;
 import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.HttpHandler;
@@ -21,10 +22,13 @@ public class TrailDevilsController {
 	private static final String TRAILS_URL = "http://152.96.80.18:8080/api/trails";
 	
 	private static HttpHandler httpHandler = new HttpHandler();
+	public static Context context;
+	
 	private TrailProvider trailProvider;
 	
-	public TrailDevilsController(String dbLocation){
+	public TrailDevilsController(String dbLocation, Context ctx){
 		trailProvider = TrailProvider.getInstance(dbLocation);
+		TrailDevilsController.context = ctx;
 	}
 	
 	public List<Trail> getTrails(){

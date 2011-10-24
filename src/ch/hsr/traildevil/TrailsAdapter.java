@@ -12,6 +12,7 @@ import android.widget.TextView;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
 import ch.hsr.traildevil.util.HttpHandler;
+import ch.hsr.traildevil.util.StorageHandler;
 
 public class TrailsAdapter extends ArrayAdapter<Trail> {
 
@@ -19,11 +20,13 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private Trail trail;
 	private final LayoutInflater inflator;
 	private ViewHolder holder;
+	StorageHandler storageHandler;
 
 	public TrailsAdapter(Activity context, int resource, List<Trail> trails) {
 		super(context, resource, trails);
 		this.resource = resource;
 		inflator = context.getLayoutInflater();
+		storageHandler = new StorageHandler(context);
 	}
 
 	@Override
@@ -59,8 +62,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		holder.afternoon.setText("Nachmittag: nass"); // TODO Live weather?
 		holder.status.setText(trail.getState());
 		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
-		holder.iconView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getContext().getResources()));
-		// DrawableBackgroundDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.photo_not_available);
+		holder.iconView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120()));
 	}
 
 	private static class ViewHolder {

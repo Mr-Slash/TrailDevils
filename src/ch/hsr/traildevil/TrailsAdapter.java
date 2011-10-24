@@ -14,47 +14,61 @@ import ch.hsr.traildevil.util.CountryUtility;
 import ch.hsr.traildevil.util.HttpHandler;
 
 public class TrailsAdapter extends ArrayAdapter<Trail> {
+
 	private int resource;
-	private View rowView;
 	private Trail trail;
-	private ImageView iconView, countryView;
-	private TextView trackName;
-	private TextView morning;
-	private TextView afternoon;
-	private TextView status;
-	
+	private final LayoutInflater inflator;
+	private ViewHolder holder;
+
 	public TrailsAdapter(Activity context, int resource, List<Trail> trails) {
 		super(context, resource, trails);
 		this.resource = resource;
+		inflator = context.getLayoutInflater();
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = ((Activity) super.getContext()).getLayoutInflater();
-		rowView = inflater.inflate(resource, null, true);
+	public View getView(int position, View rowView, ViewGroup parent) {
+
+		if (rowView == null) {
+			rowView = inflator.inflate(resource, null);
+			holder = new ViewHolder();
+			initViews(rowView);
+			rowView.setTag(holder);
+		} else {
+			holder = (ViewHolder) rowView.getTag();
+		}
+
 		trail = getItem(position);
-		initViews();
 		updateViews();
 
 		return rowView;
 	}
 
-	private void initViews() {
-		iconView = (ImageView) rowView.findViewById(R.id.icon);
-		countryView = (ImageView) rowView.findViewById(R.id.traillist_country);
-		trackName = (TextView) rowView.findViewById(R.id.trackname);
-		morning = (TextView) rowView.findViewById(R.id.morning);
-		afternoon = (TextView) rowView.findViewById(R.id.afternoon);
-		status = (TextView) rowView.findViewById(R.id.status);
+	private void initViews(View rowView) {
+		holder.trackName = (TextView) rowView.findViewById(R.id.trackname);
+		holder.morning = (TextView) rowView.findViewById(R.id.morning);
+		holder.afternoon = (TextView) rowView.findViewById(R.id.afternoon);
+		holder.status = (TextView) rowView.findViewById(R.id.status);
+		holder.iconView = (ImageView) rowView.findViewById(R.id.icon);
+		holder.countryView = (ImageView) rowView.findViewById(R.id.traillist_country);
 	}
 
 	private void updateViews() {
-		trackName.setText(trail.getName());
-		morning.setText("Vormittag: trocken");	//TODO Live weather?
-		afternoon.setText("Nachmittag: nass");	//TODO Live weather?
-		status.setText(trail.getState());
-		iconView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getContext().getResources()));
-		countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
-	}		
+		holder.trackName.setText(trail.getName());
+		holder.morning.setText("Vormittag: trocken"); // TODO Live weather?
+		holder.afternoon.setText("Nachmittag: nass"); // TODO Live weather?
+		holder.status.setText(trail.getState());
+		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
+		holder.iconView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getContext().getResources()));
+		// DrawableBackgroundDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.photo_not_available);
+	}
 
+	private static class ViewHolder {
+		public ImageView iconView;
+		public ImageView countryView;
+		public TextView trackName;
+		public TextView morning;
+		public TextView afternoon;
+		public TextView status;
+	}
 }

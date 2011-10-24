@@ -3,10 +3,15 @@ package ch.hsr.traildevil.util;
 import java.util.Collections;
 import java.util.List;
 
+import android.util.Log;
+
 import ch.hsr.traildevil.domain.Trail;
 
 public class TrailProvider extends Db4oHelper {
 
+	private static final String TAG = "traildevil";
+	private static final String TAG_PREFIX = TrailProvider.class.getSimpleName() + ": ";
+	
 	private static TrailProvider provider;
 	
 	private TrailProvider(String dbLocation) {
@@ -39,8 +44,10 @@ public class TrailProvider extends Db4oHelper {
 	}
 	
 	public void deleteAll(){
+		Log.i(TAG, TAG_PREFIX + "start deleteAll()");
 		for(Trail trail : findAll()){
 			delete(trail);
 		}
+		Log.i(TAG, TAG_PREFIX + "end deleteAll()");
 	}
 }

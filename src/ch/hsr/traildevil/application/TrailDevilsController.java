@@ -18,13 +18,18 @@ public class TrailDevilsController {
 	private static final String TAG = "traildevil";
 	private static final String TAG_PREFIX = TrailDevilsController.class.getSimpleName() + ": ";
 	
+	// productive URL
 	private static final String TRAILS_URL = "http://152.96.80.18:8080/api/trails";
+	
+	// test URL. Make sure that it points to your test server (not localhost, since we'are on the device)!
+	private static final String TEST_TRAILS_URL = "http://172.30.51.223:8080/TrailDevilsServer/trails";
 	
 	private static HttpHandler httpHandler = new HttpHandler();
 	private TrailProvider trailProvider;
 	
 	public TrailDevilsController(String dbLocation){
 		trailProvider = TrailProvider.getInstance(dbLocation);
+		trailProvider.deleteAll();
 	}
 	
 	public List<Trail> getTrails(){
@@ -42,7 +47,7 @@ public class TrailDevilsController {
 	
 	private void loadTrailsData() {
 		Log.i(TAG, TAG_PREFIX + "no trail data found in DB. Start downloading it from the web");
-		httpHandler.connectTo(TRAILS_URL);
+		httpHandler.connectTo(getTrailsUrl());
 		
 		List<Trail> trails = new ArrayList<Trail>(500);
 
@@ -67,6 +72,10 @@ public class TrailDevilsController {
 	}
 	
 	public boolean isNetworkAvailable(){
-		return httpHandler.isHostReachable(TRAILS_URL);
+		return httpHandler.isHostReachable(getTrailsUrl());
+	}
+
+	private String getTrailsUrl() {
+		return TRAILS_URL;
 	}
 }

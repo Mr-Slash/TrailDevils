@@ -22,7 +22,6 @@ public class DetailActivity extends MapActivity {
 	private MapView mapView;	
 	private ImageView trailLogo, trailCountry;
 	private TextView trailStatus;
-	
 	private TrailDevilsController appController;
 	
 	@Override
@@ -69,9 +68,7 @@ public class DetailActivity extends MapActivity {
 		setTitle(trail.getName());
 		trailLogo.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getBaseContext().getResources()));
 		trailCountry.setImageResource(CountryUtility.getResource(trail.getCountry()));
-//		trailCountry.setImageResource(R.drawable.austria);
 		trailStatus.setText(trail.getState());
-		//TODO Add Country Logo
 	}
 	
 	@Override

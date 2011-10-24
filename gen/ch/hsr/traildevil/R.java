@@ -35,14 +35,15 @@ public final class R {
         public static final int detailview_logo=0x7f080001;
         public static final int detailview_mapview=0x7f080004;
         public static final int detailview_status=0x7f080003;
-        public static final int favorites=0x7f08000a;
-        public static final int friendlist=0x7f08000b;
+        public static final int favorites=0x7f08000b;
+        public static final int friendlist=0x7f08000c;
         public static final int icon=0x7f080005;
         public static final int morning=0x7f080007;
-        public static final int settings=0x7f08000c;
-        public static final int status=0x7f080009;
+        public static final int settings=0x7f08000d;
+        public static final int status=0x7f08000a;
         public static final int statusLabelContainer=0x7f080000;
         public static final int trackname=0x7f080006;
+        public static final int traillist_country=0x7f080009;
     }
     public static final class layout {
         public static final int detail=0x7f030000;

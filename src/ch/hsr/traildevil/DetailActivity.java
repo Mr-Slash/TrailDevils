@@ -9,7 +9,7 @@ import android.widget.TextView;
 import ch.hsr.traildevil.application.TrailDevilsController;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
-import ch.hsr.traildevil.util.HttpHandler;
+import ch.hsr.traildevil.util.ImageDownloader;
 import ch.hsr.traildevil.util.POIOverlay;
 import ch.hsr.traildevil.util.POIOverlayItem;
 
@@ -28,7 +28,7 @@ public class DetailActivity extends MapActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail);
-		appController = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString());
+		appController = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString(), getApplicationContext());
 		initViews();
 		createGoogleMapView();
 		handleIntent(getIntent());
@@ -66,7 +66,7 @@ public class DetailActivity extends MapActivity {
 
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
-		trailLogo.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getBaseContext().getResources()));
+		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), trailLogo, R.drawable.photo_not_available);
 		trailCountry.setImageResource(CountryUtility.getResource(trail.getCountry()));
 		trailStatus.setText(trail.getState());
 	}

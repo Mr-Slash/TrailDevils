@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
-import ch.hsr.traildevil.util.HttpHandler;
+import ch.hsr.traildevil.util.ImageDownloader;
 
 public class TrailsAdapter extends ArrayAdapter<Trail> {
 
@@ -59,8 +59,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		holder.afternoon.setText("Nachmittag: nass"); // TODO Live weather?
 		holder.status.setText(trail.getState());
 		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
-		holder.iconView.setImageDrawable(HttpHandler.getHttpImage(trail.getImageUrl120(), getContext().getResources()));
-		// DrawableBackgroundDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.photo_not_available);
+		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.photo_not_available);
 	}
 
 	private static class ViewHolder {

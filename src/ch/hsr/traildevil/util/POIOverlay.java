@@ -61,14 +61,20 @@ public class POIOverlay extends ItemizedOverlay {
 		return center;
 	}
 	
+	/**
+	 * Use this method when more than one POI's are displayed
+	 * @return
+	 */
 	public int getZoomLatitude(){
-		double factor = size() > 1 ? 1.5 : 2;
-		return (int) factor * getLatSpanE6();
+		return (int) (1.5 * getLatSpanE6());
 	}
 
+	/**
+	 * Use this method when more than one POI's are displayed
+	 * @return
+	 */
 	public int getZoomLongitude(){
-		double factor = size() > 1 ? 1.5 : 2;
-		return (int) factor * getLonSpanE6();
+		return (int) (1.5* getLonSpanE6());
 	}
 
 	@Override

@@ -21,8 +21,9 @@ import com.google.android.maps.Overlay;
 public class DetailActivity extends MapActivity {
 
 	private MapView mapView;	
-	private ImageView trailLogo, trailCountry;
+	private ImageView trailLogo;
 	private TextView trailStatus;
+	private TextView trailDesc;
 	private TrailDevilsController appController;
 	
 	@Override
@@ -43,8 +44,8 @@ public class DetailActivity extends MapActivity {
 		appController = new TrailDevilsController();
 		
 		trailLogo = (ImageView) findViewById(R.id.detailview_logo);
-		trailCountry = (ImageView) findViewById(R.id.detailview_country);
 		trailStatus = (TextView) findViewById(R.id.detailview_status);
+		trailDesc = (TextView) findViewById(R.id.detailview_description);
 		mapView = (MapView) findViewById(R.id.detailview_mapview);
 	}
 
@@ -55,9 +56,9 @@ public class DetailActivity extends MapActivity {
 
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
-		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), trailLogo, R.drawable.photo_not_available, getApplicationContext());
-		trailCountry.setImageResource(CountryUtility.getResource(trail.getCountry()));
+		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.photo_not_available, getApplicationContext());
 		trailStatus.setText(trail.getState());
+		trailDesc.setText(trail.getDesc());
 		
 		createGoogleMapView(trail);
 	}
@@ -73,7 +74,7 @@ public class DetailActivity extends MapActivity {
 
 		MapController mapController = mapView.getController();
 		mapController.setCenter(overlay.getCenterPoint());
-		mapController.zoomToSpan(overlay.getZoomLatitude(), overlay.getZoomLongitude());
+		mapController.setZoom(17);
 	}	
 	
 	@Override

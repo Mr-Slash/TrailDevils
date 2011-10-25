@@ -7,22 +7,22 @@ import java.util.List;
 import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.AppConstants;
-import ch.hsr.traildevil.util.HttpHandler;
-import ch.hsr.traildevil.util.TrailProvider;
+import ch.hsr.traildevil.util.network.HttpHandler;
+import ch.hsr.traildevil.util.persistence.TrailProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class TrailDevilsController {
+public class Controller {
 	
 	private static final String TAG = "traildevil";
-	private static final String TAG_PREFIX = TrailDevilsController.class.getSimpleName() + ": ";
+	private static final String TAG_PREFIX = Controller.class.getSimpleName() + ": ";
 	
 	private static HttpHandler httpHandler = new HttpHandler();
 	private TrailProvider trailProvider;
 	
-	public TrailDevilsController(){
+	public Controller(){
 		trailProvider = TrailProvider.getInstance(AppConstants.DB_LOCATION);
 	}
 	

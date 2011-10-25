@@ -1,4 +1,4 @@
-package ch.hsr.traildevil.util;
+package ch.hsr.traildevil.util.maps;
 
 import java.util.Arrays;
 import java.util.Iterator;

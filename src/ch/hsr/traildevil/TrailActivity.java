@@ -3,28 +3,27 @@ package ch.hsr.traildevil;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import ch.hsr.traildevil.application.TrailDevilsController;
+import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
-import ch.hsr.traildevil.util.ImageDownloader;
-import ch.hsr.traildevil.util.POIOverlay;
-import ch.hsr.traildevil.util.POIOverlayItem;
+import ch.hsr.traildevil.util.maps.POIOverlay;
+import ch.hsr.traildevil.util.maps.POIOverlayItem;
+import ch.hsr.traildevil.util.network.ImageDownloader;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 
-public class DetailActivity extends MapActivity {
+public class TrailActivity extends MapActivity {
 
 	private MapView mapView;	
 	private ImageView trailLogo;
 	private TextView trailStatus;
 	private TextView trailDesc;
-	private TrailDevilsController appController;
+	private Controller appController;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class DetailActivity extends MapActivity {
 	 */
 	private void initComponents() {
 		
-		appController = new TrailDevilsController();
+		appController = new Controller();
 		
 		trailLogo = (ImageView) findViewById(R.id.detailview_logo);
 		trailStatus = (TextView) findViewById(R.id.detailview_status);
@@ -85,5 +84,17 @@ public class DetailActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		appController = null;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		appController = new Controller();
 	}
 }

@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-import ch.hsr.traildevil.application.TrailDevilsController;
+import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
 import ch.hsr.traildevil.util.ImageDownloader;
@@ -21,7 +21,7 @@ public class TrailActivity extends MapActivity {
 	private MapView mapView;	
 	private ImageView trailLogo, trailCountry;
 	private TextView trailStatus;
-	private TrailDevilsController appController;
+	private Controller appController;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class TrailActivity extends MapActivity {
 	 */
 	private void initComponents() {
 		
-		appController = new TrailDevilsController();
+		appController = new Controller();
 		
 		trailLogo = (ImageView) findViewById(R.id.detailview_logo);
 		trailCountry = (ImageView) findViewById(R.id.detailview_country);
@@ -93,6 +93,6 @@ public class TrailActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		appController = new TrailDevilsController();
+		appController = new Controller();
 	}
 }

@@ -17,7 +17,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
-import ch.hsr.traildevil.application.TrailDevilsController;
+import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 
 public class TraillistActivity extends ListActivity {
@@ -26,7 +26,7 @@ public class TraillistActivity extends ListActivity {
 	private static final String TAG_PREFIX = TraillistActivity.class.getSimpleName() + ": ";
 	private static final int DIALOG_PROGRESS_ID = 0;
 
-	private TrailDevilsController controller;
+	private Controller controller;
 	private Thread syncThread;
 
 	@Override
@@ -34,7 +34,7 @@ public class TraillistActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.tracklist);
-		controller = new TrailDevilsController();
+		controller = new Controller();
 	
 		if (controller.isNetworkAvailable()) {
 			List<Trail> trails = new ArrayList<Trail>();
@@ -57,7 +57,7 @@ public class TraillistActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		controller = new TrailDevilsController();
+		controller = new Controller();
 	}
 
 	@Override

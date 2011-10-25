@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
-import ch.hsr.traildevil.util.CountryUtility;
 import ch.hsr.traildevil.util.maps.POIOverlay;
 import ch.hsr.traildevil.util.maps.POIOverlayItem;
 import ch.hsr.traildevil.util.network.ImageDownloader;
@@ -55,7 +54,7 @@ public class TrailActivity extends MapActivity {
 
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
-		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.photo_not_available, getApplicationContext());
+		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.photo_not_available);
 		trailStatus.setText(trail.getState());
 		trailDesc.setText(trail.getDesc());
 		

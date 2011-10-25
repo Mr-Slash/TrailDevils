@@ -9,7 +9,6 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -50,7 +49,7 @@ public enum ImageDownloader {
 	 * @param imageView the view to set the image
 	 * @param placeHolder a default image
 	 */
-	public void loadDrawable(final String url, final ImageView imageView, int placeHolder, Context context) {
+	public void loadDrawable(final String url, final ImageView imageView, int placeHolder) {
 		imageViews.put(imageView, url);
 		Drawable drawable = getDrawableFromCache(url);
 
@@ -59,7 +58,7 @@ public enum ImageDownloader {
 			imageView.setImageDrawable(drawable);
 		} else {
 			imageView.setImageResource(placeHolder);
-			queueJob(url, imageView, placeHolder, context);
+			queueJob(url, imageView, placeHolder);
 		}
 	}
 
@@ -79,7 +78,7 @@ public enum ImageDownloader {
 	 * @param imageView the view to set the image
 	 * @param placeHolder a default image
 	 */
-	private void queueJob(final String url, final ImageView imageView, final int placeholder, final Context context) {
+	private void queueJob(final String url, final ImageView imageView, final int placeholder) {
 		/* Create handler in UI thread. */
 		final Handler handler = new Handler() {
 			@Override
@@ -98,7 +97,7 @@ public enum ImageDownloader {
 
 		threadpool.submit(new Runnable() {
 			public void run() {
-		        final Drawable drawable = HttpHandler.getHttpImage(url, context);
+		        final Drawable drawable = HttpHandler.getHttpImage(url, imageView.getContext());
 		        putDrawableInCache(url, drawable);
 
 		        //TODO STORE Drawable to internal Storage

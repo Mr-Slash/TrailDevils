@@ -20,10 +20,10 @@ import android.widget.Toast;
 import ch.hsr.traildevil.application.TrailDevilsController;
 import ch.hsr.traildevil.domain.Trail;
 
-public class TrailDevilsActivity extends ListActivity {
+public class TraillistActivity extends ListActivity {
 
 	private static final String TAG = "traildevil";
-	private static final String TAG_PREFIX = TrailDevilsActivity.class.getSimpleName() + ": ";
+	private static final String TAG_PREFIX = TraillistActivity.class.getSimpleName() + ": ";
 	private static final int DIALOG_PROGRESS_ID = 0;
 
 	private TrailDevilsController controller;
@@ -41,7 +41,7 @@ public class TrailDevilsActivity extends ListActivity {
 			for (int i = 0; i < 11; i++) {
 				trails.add(controller.getTrail(i));
 			}
-			setListAdapter(new TrailsAdapter(this, R.layout.tracklist_item, trails));
+			setListAdapter(new TraillistAdapter(this, R.layout.tracklist_item, trails));
 			handle(getIntent());
 		}
 		showDialog(DIALOG_PROGRESS_ID);
@@ -85,7 +85,7 @@ public class TrailDevilsActivity extends ListActivity {
 	protected void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 		Trail trail = (Trail) listView.getAdapter().getItem(position);
-		Intent detail = new Intent(this, DetailActivity.class);
+		Intent detail = new Intent(this, TrailActivity.class);
 		detail.putExtra("trailName", trail.getName());
 		detail.putExtra("trailPosition", position);
 		startActivity(detail);

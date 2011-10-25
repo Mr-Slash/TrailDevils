@@ -14,7 +14,7 @@ import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
 import ch.hsr.traildevil.util.ImageDownloader;
 
-public class TrailsAdapter extends ArrayAdapter<Trail> {
+public class TraillistAdapter extends ArrayAdapter<Trail> {
 
 	private int resource;
 	private Trail trail;
@@ -22,7 +22,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private ViewHolder holder;
 	private Context context;
 
-	public TrailsAdapter(Activity context, int resource, List<Trail> trails) {
+	public TraillistAdapter(Activity context, int resource, List<Trail> trails) {
 		super(context, resource, trails);
 		this.resource = resource;
 		

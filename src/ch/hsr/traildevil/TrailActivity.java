@@ -16,7 +16,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
-public class DetailActivity extends MapActivity {
+public class TrailActivity extends MapActivity {
 
 	private MapView mapView;	
 	private ImageView trailLogo, trailCountry;

@@ -3,7 +3,6 @@ package ch.hsr.traildevil;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.application.TrailDevilsController;
@@ -16,7 +15,6 @@ import ch.hsr.traildevil.util.POIOverlayItem;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 
 public class DetailActivity extends MapActivity {
 
@@ -84,5 +82,17 @@ public class DetailActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		appController = null;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		appController = new TrailDevilsController();
 	}
 }

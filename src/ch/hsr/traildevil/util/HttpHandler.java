@@ -12,12 +12,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import ch.hsr.traildevil.R;
-import ch.hsr.traildevil.application.TrailDevilsController;
 
 public class HttpHandler {
 

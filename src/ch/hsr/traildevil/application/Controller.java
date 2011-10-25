@@ -7,8 +7,8 @@ import java.util.List;
 import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.AppConstants;
-import ch.hsr.traildevil.util.HttpHandler;
-import ch.hsr.traildevil.util.TrailProvider;
+import ch.hsr.traildevil.util.network.HttpHandler;
+import ch.hsr.traildevil.util.persistence.TrailProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

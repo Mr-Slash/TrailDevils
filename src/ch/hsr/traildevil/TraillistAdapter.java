@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
-import ch.hsr.traildevil.util.ImageDownloader;
+import ch.hsr.traildevil.util.network.ImageDownloader;
 
 public class TraillistAdapter extends ArrayAdapter<Trail> {
 

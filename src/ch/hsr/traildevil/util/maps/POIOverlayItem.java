@@ -1,4 +1,4 @@
-package ch.hsr.traildevil.util;
+package ch.hsr.traildevil.util.maps;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;

@@ -1,4 +1,4 @@
-package ch.hsr.traildevil.util;
+package ch.hsr.traildevil.util.network;
 
 import java.io.IOException;
 import java.io.InputStream;

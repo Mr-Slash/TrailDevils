@@ -8,9 +8,9 @@ import android.widget.TextView;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.CountryUtility;
-import ch.hsr.traildevil.util.ImageDownloader;
-import ch.hsr.traildevil.util.POIOverlay;
-import ch.hsr.traildevil.util.POIOverlayItem;
+import ch.hsr.traildevil.util.maps.POIOverlay;
+import ch.hsr.traildevil.util.maps.POIOverlayItem;
+import ch.hsr.traildevil.util.network.ImageDownloader;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;

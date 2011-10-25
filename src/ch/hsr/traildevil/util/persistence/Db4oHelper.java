@@ -1,4 +1,4 @@
-package ch.hsr.traildevil.util;
+package ch.hsr.traildevil.util.persistence;
 
 import android.util.Log;
 

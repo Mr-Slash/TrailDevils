@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.graphics.drawable.Drawable;
+import android.webkit.GeolocationPermissions;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -36,6 +37,7 @@ public class POIOverlay extends ItemizedOverlay {
 	 */
 	public GeoPoint getCenterPoint() {
 		if (center == null) {
+			
 			int northEdge = -90000000;
 			int southEdge = 90000000;
 			int eastEdge = -180000000;
@@ -57,6 +59,16 @@ public class POIOverlay extends ItemizedOverlay {
 		}
 		
 		return center;
+	}
+	
+	public int getZoomLatitude(){
+		double factor = size() > 1 ? 1.5 : 2;
+		return (int) factor * getLatSpanE6();
+	}
+
+	public int getZoomLongitude(){
+		double factor = size() > 1 ? 1.5 : 2;
+		return (int) factor * getLonSpanE6();
 	}
 
 	@Override

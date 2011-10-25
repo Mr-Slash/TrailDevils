@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import android.content.Context;
 import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.util.AppConstants;
 import ch.hsr.traildevil.util.HttpHandler;
 import ch.hsr.traildevil.util.TrailProvider;
 
@@ -19,21 +19,11 @@ public class TrailDevilsController {
 	private static final String TAG = "traildevil";
 	private static final String TAG_PREFIX = TrailDevilsController.class.getSimpleName() + ": ";
 	
-	// productive URL
-	private static final String TRAILS_URL = "http://152.96.80.18:8080/api/trails";
-	
-	// test URL. Make sure that it points to your test server (not localhost, since we'are on the device)!
-	private static final String TEST_TRAILS_URL = "http://172.30.51.223:8080/TrailDevilsServer/trails";
-	
 	private static HttpHandler httpHandler = new HttpHandler();
-	public static Context context;
-	
 	private TrailProvider trailProvider;
 	
-	public TrailDevilsController(String dbLocation, Context ctx){
-		trailProvider = TrailProvider.getInstance(dbLocation);
-		trailProvider.deleteAll();
-		TrailDevilsController.context = ctx;
+	public TrailDevilsController(){
+		trailProvider = TrailProvider.getInstance(AppConstants.DB_LOCATION);
 	}
 	
 	public List<Trail> getTrails(){
@@ -80,6 +70,6 @@ public class TrailDevilsController {
 	}
 
 	private String getTrailsUrl() {
-		return TRAILS_URL;
+		return AppConstants.TRAILS_URL;
 	}
 }

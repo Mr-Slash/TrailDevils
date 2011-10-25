@@ -35,7 +35,7 @@ public class TrailDevilsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.tracklist);
-		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString(), getApplicationContext());
+		controller = new TrailDevilsController();
 	
 		if (controller.isNetworkAvailable()) {
 			List<Trail> trails = new ArrayList<Trail>();
@@ -58,7 +58,7 @@ public class TrailDevilsActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		controller = new TrailDevilsController(getDir("data", Context.MODE_PRIVATE).toString(), getApplicationContext());
+		controller = new TrailDevilsController();
 	}
 
 	@Override

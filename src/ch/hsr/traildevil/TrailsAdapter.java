@@ -3,6 +3,7 @@ package ch.hsr.traildevil;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,13 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 	private Trail trail;
 	private final LayoutInflater inflator;
 	private ViewHolder holder;
+	private Context context;
 
 	public TrailsAdapter(Activity context, int resource, List<Trail> trails) {
 		super(context, resource, trails);
 		this.resource = resource;
+		
+		this.context = context.getApplicationContext();
 		inflator = context.getLayoutInflater();
 	}
 
@@ -59,7 +63,7 @@ public class TrailsAdapter extends ArrayAdapter<Trail> {
 		holder.afternoon.setText("Nachmittag: nass"); // TODO Live weather?
 		holder.status.setText(trail.getState());
 		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
-		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.photo_not_available);
+		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.photo_not_available, context);
 	}
 
 	private static class ViewHolder {

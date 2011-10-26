@@ -1,66 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
 
-	<LinearLayout android:orientation="vertical" 
-				  android:layout_width="match_parent"
-				  android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" 
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent">
+
+	<ScrollView android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="0.67">
 	
-		<!-- Image section -->
-		<RelativeLayout android:id="@+id/statusLabelContainer"
-						android:layout_width="match_parent"
-					  	android:layout_height="wrap_content"
-					  	android:padding="1dip">
-					  	
-			<ImageView 	android:id="@+id/detailview_logo"
-		   				android:layout_width="wrap_content"
-		   				android:layout_height="wrap_content"
-		   				android:adjustViewBounds="true"
-		   				android:maxHeight="200dip"
-		   				android:maxWidth="200dip"
-		   				android:layout_centerHorizontal="true"/>
-				   
-		</RelativeLayout>
-				   	   
+		<LinearLayout android:orientation="vertical" 
+					  android:layout_width="match_parent"
+					  android:layout_height="match_parent">
 		
-		<!-- Information section -->
-		<TableLayout android:layout_width="match_parent" 
-					 android:layout_height="wrap_content"
-					 android:stretchColumns="1"
-					 android:shrinkColumns="1">
-	
-			<TableRow>
-				<TextView android:id="@+id/statusLabel"
-						  android:padding="3dip"
-						  android:text="@string/detailview_status"/>
-		
-				<TextView android:id="@+id/detailview_status"
-						  android:padding="3dip"
-						  android:text="No state available"/>		
-			</TableRow>
-					 
-			<TableRow>
-				<TextView android:text="Weather:" android:padding="3dip" />
-				<TextView android:text="sunny" android:padding="3dip" />
-			</TableRow>
+			<!-- Image section -->
+			<RelativeLayout android:id="@+id/statusLabelContainer"
+							android:layout_width="match_parent"
+						  	android:layout_height="wrap_content"
+						  	android:padding="1dip">
+						  	
+				<ImageView 	android:id="@+id/detailview_logo"
+			   				android:layout_width="wrap_content"
+			   				android:layout_height="wrap_content"
+			   				android:adjustViewBounds="true"
+			   				android:maxHeight="200dip"
+			   				android:maxWidth="200dip"
+			   				android:layout_centerHorizontal="true"/>
+					   
+			</RelativeLayout>
+					   	   
 			
-			<TableRow>
-				<TextView android:text="Description:" android:padding="3dip"/>
-				<TextView android:id="@+id/detailview_description" android:text="Eine der besten Schweizer BMX-Bahnen in der Schweiz. Macht auch mit dem Bike Spass! Die" android:padding="3dip"/>
-			</TableRow>
-		</TableLayout>
+			<!-- Information section -->
+			<TableLayout android:layout_width="match_parent" 
+						 android:layout_height="wrap_content"
+						 android:stretchColumns="1"
+						 android:shrinkColumns="1">
+		
+				<TableRow>
+					<TextView android:id="@+id/statusLabel" android:padding="3dip" android:text="@string/detailview_status"/>
+			
+					<TextView android:id="@+id/detailview_status" android:padding="3dip" android:text="No state available"/>		
+				</TableRow>
+						 
+				<TableRow>
+					<TextView android:text="Weather:" android:padding="3dip" />
+					<TextView android:text="sunny" android:padding="3dip" />
+				</TableRow>
+				
+				<TableRow>
+					<TextView android:text="Description:" android:padding="3dip"/>
+					<TextView android:id="@+id/detailview_description" android:padding="3dip"/>
+				</TableRow>
+			</TableLayout>
+				
+		</LinearLayout>
+	</ScrollView>
 	
-		<View android:layout_height="2dip" android:layout_width="match_parent" android:background="@color/dark_grey" />
-	
-		<!-- Map -->
-		<com.google.android.maps.MapView
-						 android:id="@+id/detailview_mapview"
-						 android:clickable="true"
-		                 android:layout_width="fill_parent"
-		                 android:layout_height="300dip"
-		                 android:apiKey="@string/map_api_key"
-		                 />	
-	</LinearLayout>
-</ScrollView>
+	<!-- Separator -->
+	<View android:layout_height="2dip" android:layout_width="match_parent" android:background="@color/dark_grey" />
 
+	<!-- Map -->
+	<com.google.android.maps.MapView
+					 android:id="@+id/detailview_mapview"
+					 android:clickable="true"
+	                 android:layout_width="fill_parent"
+	                 android:layout_height="0dp"
+	                 android:layout_weight="0.33"
+	                 android:apiKey="@string/map_api_key"
+	                 />	
+</LinearLayout>

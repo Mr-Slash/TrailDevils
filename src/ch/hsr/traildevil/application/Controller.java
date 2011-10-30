@@ -6,7 +6,7 @@ import java.util.List;
 
 import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
-import ch.hsr.traildevil.util.AppConstants;
+import ch.hsr.traildevil.util.Constants;
 import ch.hsr.traildevil.util.network.HttpHandler;
 import ch.hsr.traildevil.util.persistence.TrailProvider;
 
@@ -23,7 +23,7 @@ public class Controller {
 	private TrailProvider trailProvider;
 	
 	public Controller(){
-		trailProvider = TrailProvider.getInstance(AppConstants.DB_LOCATION);
+		trailProvider = TrailProvider.getInstance(Constants.DB_LOCATION);
 	}
 	
 	public List<Trail> getTrails(){
@@ -70,6 +70,6 @@ public class Controller {
 	}
 
 	private String getTrailsUrl() {
-		return AppConstants.TRAILS_URL;
+		return Constants.TRAILS_URL;
 	}
 }

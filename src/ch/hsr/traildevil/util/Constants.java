@@ -6,7 +6,7 @@ public class Constants {
 	public static final String TAG = "traildevil";
 	
 	/** Device wide unique account type identifier */
-	public static final String ACCOUNT_TYPE = "ch.hsr.traildevil.account";
+	public static final String ACCOUNT_TYPE = "ch.hsr.traildevil";
 
 	/** Device wide unique authentication token type */
     public static final String AUTH_TOKEN_TYPE = "ch.hsr.traildevil";

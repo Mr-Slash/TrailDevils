@@ -272,12 +272,17 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		return "Type in your username & password";
 	}
 
-	//TODO Delete this
+
+	/**
+	 * Method to create automatically a user in order to sync the data.
+	 * 	//TODO This method is never used at the moment..But could be used 
+	 * to add a dummy user account. For e.g. anonymous user without a login.
+	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		
-		Account account = new Account("myUsername", "ch.hsr.traildevil.account");
+		Account account = new Account("myUsername", Constants.ACCOUNT_TYPE);
 		AccountManager am = AccountManager.get(this);
 		boolean accountCreated = am.addAccountExplicitly(account, "myPassword", null);
 		 
@@ -287,7 +292,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		  AccountAuthenticatorResponse response = extras.getParcelable(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
 		  Bundle result = new Bundle();
 		  result.putString(AccountManager.KEY_ACCOUNT_NAME, "myUsername");
-		  result.putString(AccountManager.KEY_ACCOUNT_TYPE, "myAccountType");
+		  result.putString(AccountManager.KEY_ACCOUNT_TYPE, Constants.ACCOUNT_TYPE);
 		  response.onResult(result);
 		 }
 		 finish();

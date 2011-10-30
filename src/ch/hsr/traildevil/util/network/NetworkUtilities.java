@@ -16,9 +16,20 @@
 
 package ch.hsr.traildevil.util.network;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.http.ParseException;
+import org.apache.http.auth.AuthenticationException;
+import org.json.JSONException;
+
+import android.accounts.Account;
 import android.content.Context;
 import android.os.Handler;
 import ch.hsr.traildevil.authenticator.AuthenticatorActivity;
+import ch.hsr.traildevil.domain.Trail;
 
 /**
  * Provides utility methods for communicating with the server.
@@ -96,4 +107,18 @@ public class NetworkUtilities {
         t.start();
         return t;
     }    
+    
+    /**
+     * Fetches the list of trail data updates from the server
+     * 
+     * @param account The account being synced.
+     * @param authtoken The authtoken stored in AccountManager for this account
+     * @param lastUpdated The last time that sync was performed
+     * @return list The list of updates received from the server.
+     */
+    public static List<Trail> fetchTrailUpdates(Account account, String authtoken, Date lastUpdated) throws JSONException,
+        																ParseException, IOException, AuthenticationException {
+    	
+    	return new ArrayList<Trail>();
+    }
 }

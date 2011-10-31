@@ -6,10 +6,10 @@ import java.util.List;
 import android.util.Log;
 
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.util.Constants;
 
 public class TrailProvider extends Db4oHelper {
 
-	private static final String TAG = "traildevil";
 	private static final String TAG_PREFIX = TrailProvider.class.getSimpleName() + ": ";
 	
 	private static TrailProvider provider;
@@ -44,10 +44,10 @@ public class TrailProvider extends Db4oHelper {
 	}
 	
 	public void deleteAll(){
-		Log.i(TAG, TAG_PREFIX + "start deleteAll()");
+		Log.i(Constants.TAG, TAG_PREFIX + "start deleteAll()");
 		for(Trail trail : findAll()){
 			delete(trail);
 		}
-		Log.i(TAG, TAG_PREFIX + "end deleteAll()");
+		Log.i(Constants.TAG, TAG_PREFIX + "end deleteAll()");
 	}
 }

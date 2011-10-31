@@ -161,6 +161,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			
 			// TODO add accounts to sync => needs a sync adapter in order to work, i guess..
 			//ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
+			ContentResolver.setSyncAutomatically(account, Constants.TRAIL_AUTHORITY, true);
 		} else {
 			accountManager.setPassword(account, password);
 		}

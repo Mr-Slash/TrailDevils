@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import android.content.Context;
 import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
@@ -56,6 +57,32 @@ public class Controller {
 		// store in db
 		trailProvider.store(trails);
 		Log.i(TAG, TAG_PREFIX + "trail data downloaded and stored in the DB");
+	}
+	
+	/**
+	 * Synchronize raw Trails
+	 *  
+	 * @param context The context of Authenticator Activity
+	 * @param trails The list of trails
+	 */
+	public static synchronized void syncTrails(Context context, List<Trail> trails){
+		TrailProvider trailProvider = TrailProvider.getInstance(Constants.DB_LOCATION);
+		
+		for(Trail trail : trails){
+			Trail found = trailProvider.find(trail.getTrailId());
+			
+			if(found == null){
+				trailProvider.store(trail);
+			}else{
+				// if update
+				found.setName(trail.getName());
+				found.setCountry(trail.getName());
+				// etc
+				
+				// if delete
+				//delete from db
+			}
+		}
 	}
 
 	/**

@@ -93,7 +93,10 @@ public class Authenticator extends AbstractAccountAuthenticator {
 	@Override
 	public String getAuthTokenLabel(String authTokenType) {
 		Log.i(Constants.TAG, TAG_PREFIX + "getAuthTokenLabel()");
-		return null;
+        if (authTokenType.equals(Constants.AUTH_TOKEN_TYPE)) {
+            return "Authenticator.getAuthTokenLabel";
+        }
+        return null;
 	}
 
 	@Override

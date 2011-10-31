@@ -4,9 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import android.util.Log;
-
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
+
+import com.db4o.query.Predicate;
 
 public class TrailProvider extends Db4oHelper {
 
@@ -37,6 +38,25 @@ public class TrailProvider extends Db4oHelper {
 
 	public void delete(Trail trail) {
 		db().delete(trail);
+	}
+	
+	/**
+	 * Searches for an existing Trail with the given id.
+	 * 
+	 * @param trailId The Trail with the given id
+	 * @return The matched Trail or null if no one exists
+	 */
+	public Trail find(Integer trailId){
+		List<Trail> trails = db().query(new Predicate<Trail>() {
+			@Override
+			public boolean match(Trail trail) {
+				return trail.getTrailId().equals(trail);
+			}
+		});
+		
+		if(trails.size() > 0)
+			return trails.get(0);		
+		return null;
 	}
 
 	public List<Trail> findAll() {

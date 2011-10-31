@@ -5,8 +5,11 @@ public class Constants {
 	/** The log tag in order to filter the log output */
 	public static final String TAG = "traildevil";
 	
-	/** Device wide unique account type identifier */
+	/** Device wide unique account type identifier (must match with the name defined in authenticator.xml)*/
 	public static final String ACCOUNT_TYPE = "ch.hsr.traildevil";
+	
+	/** The authority to sync trail data (must match with the name defined in syncadapter.xml) */
+	public static final String TRAIL_AUTHORITY = "ch.hsr.traildevil.Trail";
 
 	/** Device wide unique authentication token type */
     public static final String AUTH_TOKEN_TYPE = "ch.hsr.traildevil";

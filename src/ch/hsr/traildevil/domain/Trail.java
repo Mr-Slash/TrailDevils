@@ -1,6 +1,10 @@
 package ch.hsr.traildevil.domain;
 
-public class Trail {
+import java.io.Serializable;
+
+public class Trail implements Serializable{
+
+	private static final long serialVersionUID = -657192760929891505L;
 
 	private Integer TrailId;
 	private String NextCity;

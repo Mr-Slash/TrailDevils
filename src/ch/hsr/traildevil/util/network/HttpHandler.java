@@ -8,6 +8,7 @@ import java.net.URL;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -52,7 +53,7 @@ public class HttpHandler {
 		} catch (IOException e) {
 			Log.e(TAG, TAG_PREFIX + "connecting to server failed", e);
 		}
-		return response == null ? false : true;
+		return response != null;
 	}
 
 	public InputStreamReader getReader() {

@@ -99,4 +99,14 @@ public class Controller {
 	private String getTrailsUrl() {
 		return Constants.TRAILS_URL;
 	}
+	
+	public int getMaxFavorits(){
+		int max = 0;
+		for (Trail trail : getTrails()) {
+			if(trail.getFavorits() > max){
+				max = trail.getFavorits();
+			}
+		}
+		return max;
+	}
 }

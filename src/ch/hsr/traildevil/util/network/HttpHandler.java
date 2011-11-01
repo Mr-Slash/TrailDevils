@@ -8,7 +8,6 @@ import java.net.URL;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -17,10 +16,11 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import ch.hsr.traildevil.R;
+import ch.hsr.traildevil.util.Constants;
 
 public class HttpHandler {
 
-	private static final String TAG = "traildevil";
+	private static final String TAG = Constants.TAG;
 	private static final String TAG_PREFIX = HttpHandler.class.getSimpleName() + ": ";
 
 	private HttpClient client = new DefaultHttpClient();

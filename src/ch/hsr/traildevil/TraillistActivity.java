@@ -3,13 +3,10 @@ package ch.hsr.traildevil;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -22,7 +19,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
-import ch.hsr.traildevil.util.Constants;
 
 public class TraillistActivity extends ListActivity {
 
@@ -45,7 +41,10 @@ public class TraillistActivity extends ListActivity {
 			for (int i = 0; i < 11; i++) {
 				trails.add(controller.getTrail(i));
 			}
-			setListAdapter(new TraillistAdapter(this, R.layout.tracklist_item, trails));
+//			for (Trail trail : controller.getTrails()) { //TODO
+//				trails.add(trail);
+//			}
+			setListAdapter(new TraillistAdapter(this, R.layout.tracklist_item, trails, controller.getMaxFavorits()));
 			handle(getIntent());
 		}
 		

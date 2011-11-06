@@ -24,5 +24,5 @@ public class Constants {
 	public static final String TEST_TRAILS_URL = "http://172.30.51.223:8080/TrailDevilsServer/trails";	
 	
 	/** How many stars can be maximum filled in the Trail List */
-	public static final int MAX_FAVORITE_STARS = 7;
+	public static final int MAX_FAVORITE_STARS = 5;
 }

@@ -71,26 +71,29 @@ public final class R {
  Browser View 
          */
         public static final int app_name=0x7f060000;
-        public static final int detailview_openinghours=0x7f06000a;
-        public static final int detailview_pricing=0x7f06000b;
+        public static final int detailview_openinghours=0x7f06000d;
+        public static final int detailview_pricing=0x7f06000e;
         /**  Detail View 
  Detail View 
          */
-        public static final int detailview_status=0x7f060003;
-        public static final int detailview_status_close=0x7f060005;
-        public static final int detailview_status_open=0x7f060004;
-        public static final int detailview_status_weather_afternoon=0x7f060007;
-        public static final int detailview_status_weather_morning=0x7f060006;
-        public static final int detailview_status_weather_rainy=0x7f060008;
-        public static final int detailview_status_weather_suny=0x7f060009;
-        public static final int map_api_key=0x7f06000c;
+        public static final int detailview_status=0x7f060006;
+        public static final int detailview_status_close=0x7f060008;
+        public static final int detailview_status_open=0x7f060007;
+        public static final int detailview_status_weather_afternoon=0x7f06000a;
+        public static final int detailview_status_weather_morning=0x7f060009;
+        public static final int detailview_status_weather_rainy=0x7f06000b;
+        public static final int detailview_status_weather_suny=0x7f06000c;
+        public static final int map_api_key=0x7f06000f;
         public static final int no_tracks=0x7f060002;
         public static final int search_hint=0x7f060001;
+        public static final int state_closed=0x7f060004;
+        public static final int state_new=0x7f060003;
+        public static final int state_open=0x7f060005;
         /**  Tracklist Option-Menu 
          */
-        public static final int tracklist_menu_favorites=0x7f06000d;
-        public static final int tracklist_menu_friendlist=0x7f06000e;
-        public static final int tracklist_menu_settings=0x7f06000f;
+        public static final int tracklist_menu_favorites=0x7f060010;
+        public static final int tracklist_menu_friendlist=0x7f060011;
+        public static final int tracklist_menu_settings=0x7f060012;
     }
     public static final class xml {
         public static final int authenticator=0x7f040000;

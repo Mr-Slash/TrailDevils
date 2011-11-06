@@ -13,6 +13,7 @@ import android.widget.TextView;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
 import ch.hsr.traildevil.util.CountryUtility;
+import ch.hsr.traildevil.util.StateUtility;
 import ch.hsr.traildevil.util.network.ImageDownloader;
 
 public class TraillistAdapter extends ArrayAdapter<Trail> {
@@ -59,7 +60,7 @@ public class TraillistAdapter extends ArrayAdapter<Trail> {
 	private void updateViews() {
 		holder.trackName.setText(trail.getName());
 		holder.favorits.setRating(getRating());
-		holder.status.setText(trail.getState());
+		StateUtility.setState(holder.status, trail.getState());
 		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
 		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.nophotosmall);
 	}

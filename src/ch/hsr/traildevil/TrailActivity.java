@@ -3,6 +3,7 @@ package ch.hsr.traildevil;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.hsr.traildevil.application.Controller;
@@ -55,7 +56,7 @@ public class TrailActivity extends MapActivity {
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
 		trailStatus.setText(trail.getState());
-		trailDesc.setText(trail.getDesc());
+		trailDesc.setText(Html.fromHtml(trail.getDesc()));
 		ImageDownloader.Instance.loadDrawable(WeatherService.getWeatherImageUrl(trail.getNextCity()), trailWeather, R.drawable.weather_na);
 		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.nophotobig);
 		createGoogleMapView(trail);

@@ -16,14 +16,18 @@ public class WeatherService {
 	private static final String PATTERN = "img src=";
 
 	public static String getWeatherImageUrl(String nextCity) {
-		String city = parse(nextCity);
-		String url = null;
-		try {
-			url = getImageUrl(city);
-		} catch (IOException e) {
-			Log.e(TAG, TAG_PREFIX + "i/o problem fetching image url", e);
+		if(nextCity == null){
+			return null;
+		}else{
+			String city = parse(nextCity);
+			String url = null;
+			try {
+				url = getImageUrl(city);
+			} catch (IOException e) {
+				Log.e(TAG, TAG_PREFIX + "i/o problem fetching image url", e);
+			}
+			return url;
 		}
-		return url;
 	}
 
 	private static String getImageUrl(String city) throws IOException {

@@ -52,13 +52,15 @@ public enum ImageDownloader {
 	public void loadDrawable(final String url, final ImageView imageView, int placeHolder) {
 		imageViews.put(imageView, url);
 		Drawable drawable = getDrawableFromCache(url);
-
+		
 		// check in UI thread, so no concurrency issues
 		if (drawable != null) {
 			imageView.setImageDrawable(drawable);
 		} else {
 			imageView.setImageResource(placeHolder);
-			queueJob(url, imageView, placeHolder);
+			if(url != null){
+				queueJob(url, imageView, placeHolder);
+			}
 		}
 	}
 

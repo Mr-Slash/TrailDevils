@@ -12,24 +12,25 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import ch.hsr.traildevil.R;
 import ch.hsr.traildevil.util.Constants;
 
 public class HttpHandler {
 
 	private static final String TAG = Constants.TAG;
 	private static final String TAG_PREFIX = HttpHandler.class.getSimpleName() + ": ";
-
+	
 	private HttpClient client = new DefaultHttpClient();
 	private InputStreamReader isr;
 
-	public void connectTo(String url) {
+	public static String TYPE_JSON = "application/json";
+	public static String TYPE_XML = "application/xml";
+	
+	public void connectTo(String url, String type) {
 		try {
 			HttpGet httpGet = new HttpGet(url);
-			httpGet.setHeader("Accept", "application/json");
+			httpGet.setHeader("Accept", type);
 
 			Log.i(TAG, TAG_PREFIX + "send http request to url:" + url);
 			HttpResponse response = client.execute(httpGet);
@@ -70,14 +71,14 @@ public class HttpHandler {
 		}
 	}
 
-	public static Drawable getHttpImage(String url, Context context) {
+	public static Drawable getHttpImage(String url) {
 		InputStream is = null;
 		try {
 			if (url != null) {
 				is = new URL(url).openStream();
 				return Drawable.createFromStream(is, null);
 			} else {
-				return context.getResources().getDrawable(R.drawable.photo_not_available);
+				return null;
 			}
 		} catch (MalformedURLException e) {
 			Log.e(TAG, TAG_PREFIX + "parsing URL failed", e);

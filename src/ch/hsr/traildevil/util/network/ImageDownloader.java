@@ -97,8 +97,11 @@ public enum ImageDownloader {
 
 		threadpool.submit(new Runnable() {
 			public void run() {
-		        final Drawable drawable = HttpHandler.getHttpImage(url, imageView.getContext());
-		        putDrawableInCache(url, drawable);
+		        final Drawable drawable = HttpHandler.getHttpImage(url);
+		        
+		        if(drawable != null){
+		        	putDrawableInCache(url, drawable);
+		        }
 
 		        //TODO STORE Drawable to internal Storage
 				//Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();

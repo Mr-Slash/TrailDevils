@@ -28,33 +28,34 @@ public final class R {
         public static final int map_marker=0x7f020006;
         public static final int nophotobig=0x7f020007;
         public static final int nophotosmall=0x7f020008;
-        public static final int photo_not_available=0x7f020009;
-        public static final int ratingstars=0x7f02000a;
-        public static final int star_empty=0x7f02000b;
-        public static final int star_full=0x7f02000c;
-        public static final int switzerland=0x7f02000d;
+        public static final int ratingstars=0x7f020009;
+        public static final int star_empty=0x7f02000a;
+        public static final int star_full=0x7f02000b;
+        public static final int switzerland=0x7f02000c;
+        public static final int weather_na=0x7f02000d;
     }
     public static final class id {
-        public static final int detailview_description=0x7f080004;
+        public static final int detailview_description=0x7f080005;
         public static final int detailview_logo=0x7f080001;
-        public static final int detailview_mapview=0x7f080005;
+        public static final int detailview_mapview=0x7f080006;
         public static final int detailview_status=0x7f080003;
-        public static final int favorites=0x7f080011;
-        public static final int friendlist=0x7f080012;
-        public static final int icon=0x7f08000c;
-        public static final int message=0x7f080006;
-        public static final int message_bottom=0x7f08000a;
-        public static final int ok_button=0x7f08000b;
-        public static final int password_edit=0x7f080009;
-        public static final int settings=0x7f080013;
-        public static final int status=0x7f080010;
+        public static final int detailview_weather=0x7f080004;
+        public static final int favorites=0x7f080012;
+        public static final int friendlist=0x7f080013;
+        public static final int icon=0x7f08000d;
+        public static final int message=0x7f080007;
+        public static final int message_bottom=0x7f08000b;
+        public static final int ok_button=0x7f08000c;
+        public static final int password_edit=0x7f08000a;
+        public static final int settings=0x7f080014;
+        public static final int status=0x7f080011;
         public static final int statusLabel=0x7f080002;
         public static final int statusLabelContainer=0x7f080000;
-        public static final int trackname=0x7f08000d;
-        public static final int traillist_country=0x7f08000f;
-        public static final int traillist_ratingbar=0x7f08000e;
-        public static final int username_edit=0x7f080007;
-        public static final int username_fixed=0x7f080008;
+        public static final int trackname=0x7f08000e;
+        public static final int traillist_country=0x7f080010;
+        public static final int traillist_ratingbar=0x7f08000f;
+        public static final int username_edit=0x7f080008;
+        public static final int username_fixed=0x7f080009;
     }
     public static final class layout {
         public static final int detail=0x7f030000;

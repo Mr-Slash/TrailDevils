@@ -10,6 +10,7 @@ import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.maps.POIOverlay;
 import ch.hsr.traildevil.util.maps.POIOverlayItem;
 import ch.hsr.traildevil.util.network.ImageDownloader;
+import ch.hsr.traildevil.util.network.WeatherService;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -17,19 +18,18 @@ import com.google.android.maps.MapView;
 
 public class TrailActivity extends MapActivity {
 
-	private MapView mapView;	
-	private ImageView trailLogo;
+	private MapView mapView;
+	private ImageView trailLogo, trailWeather;
 	private TextView trailStatus;
 	private TextView trailDesc;
 	private Controller appController;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.detail);
-		
+
 		initComponents();
 		handleIntent(getIntent());
 	}
@@ -38,11 +38,11 @@ public class TrailActivity extends MapActivity {
 	 * Initializes the components
 	 */
 	private void initComponents() {
-		
 		appController = new Controller();
-		
+
 		trailLogo = (ImageView) findViewById(R.id.detailview_logo);
 		trailStatus = (TextView) findViewById(R.id.detailview_status);
+		trailWeather = (ImageView) findViewById(R.id.detailview_weather);
 		trailDesc = (TextView) findViewById(R.id.detailview_description);
 		mapView = (MapView) findViewById(R.id.detailview_mapview);
 	}
@@ -54,18 +54,18 @@ public class TrailActivity extends MapActivity {
 
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
-		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.photo_not_available);
 		trailStatus.setText(trail.getState());
 		trailDesc.setText(trail.getDesc());
-		
+		ImageDownloader.Instance.loadDrawable(WeatherService.getWeatherImageUrl(trail.getNextCity()), trailWeather, R.drawable.weather_na);
+		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.nophotobig);
 		createGoogleMapView(trail);
 	}
-	
+
 	private void createGoogleMapView(Trail trail) {
 		// create and add POI's
 		Drawable marker = getResources().getDrawable(R.drawable.map_marker);
 		POIOverlayItem trailLocation = new POIOverlayItem(trail.getGmapX(), trail.getGmapY(), trail.getName(), trail.getName());
-		
+
 		POIOverlay overlay = new POIOverlay(marker, trailLocation);
 		mapView.getOverlays().add(overlay);
 		mapView.setBuiltInZoomControls(true);
@@ -73,8 +73,8 @@ public class TrailActivity extends MapActivity {
 		MapController mapController = mapView.getController();
 		mapController.setCenter(overlay.getCenterPoint());
 		mapController.setZoom(17);
-	}	
-	
+	}
+
 	@Override
 	protected boolean isLocationDisplayed() {
 		return false;
@@ -84,7 +84,7 @@ public class TrailActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();

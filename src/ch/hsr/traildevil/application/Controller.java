@@ -42,7 +42,7 @@ public class Controller {
 	
 	private void loadTrailsData() {
 		Log.i(TAG, TAG_PREFIX + "no trail data found in DB. Start downloading it from the web");
-		httpHandler.connectTo(getTrailsUrl());
+		httpHandler.connectTo(getTrailsUrl(), HttpHandler.TYPE_JSON);
 		
 		List<Trail> trails = new ArrayList<Trail>(500);
 

@@ -43,7 +43,7 @@
 						 
 				<TableRow>
 					<TextView android:text="Weather:" android:padding="3dip" />
-					<TextView android:text="sunny" android:padding="3dip" />
+					<ImageView android:layout_gravity="left" android:id="@+id/detailview_weather" android:padding="3dip" />
 				</TableRow>
 				
 				<TableRow>

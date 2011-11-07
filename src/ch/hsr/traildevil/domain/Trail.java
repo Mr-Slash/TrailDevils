@@ -150,4 +150,9 @@ public class Trail implements Serializable{
 	public void setImageUrl120(String imageUrl120) {
 		ImageUrl120 = imageUrl120;
 	}
+	
+	@Override
+	public String toString() {
+	    return this.Name;
+	}
 }

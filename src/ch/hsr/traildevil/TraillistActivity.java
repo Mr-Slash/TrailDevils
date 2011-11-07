@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 
@@ -35,19 +34,19 @@ public class TraillistActivity extends ListActivity {
 
 		setContentView(R.layout.tracklist);
 		controller = new Controller();
-	
+
 		if (controller.isNetworkAvailable()) {
 			List<Trail> trails = new ArrayList<Trail>();
 			for (int i = 0; i < 11; i++) {
 				trails.add(controller.getTrail(i));
 			}
-//			for (Trail trail : controller.getTrails()) { //TODO
-//				trails.add(trail);
-//			}
+			// for (Trail trail : controller.getTrails()) { //TODO
+			// trails.add(trail);
+			// }
 			setListAdapter(new TraillistAdapter(this, R.layout.tracklist_item, trails, controller.getMaxFavorits()));
 			handle(getIntent());
 		}
-		
+
 		showDialog(DIALOG_PROGRESS_ID);
 	}
 
@@ -73,8 +72,7 @@ public class TraillistActivity extends ListActivity {
 	private void handle(Intent intent) {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			// doSearch(query);
-			Toast.makeText(getApplicationContext(), "TEST " + query, Toast.LENGTH_SHORT).show();
+			getListView().setFilterText(query);
 		}
 	}
 

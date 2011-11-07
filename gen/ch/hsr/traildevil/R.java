@@ -52,8 +52,8 @@ public final class R {
         public static final int statusLabel=0x7f080002;
         public static final int statusLabelContainer=0x7f080000;
         public static final int trackname=0x7f08000e;
-        public static final int traillist_country=0x7f080010;
-        public static final int traillist_ratingbar=0x7f08000f;
+        public static final int traillist_country=0x7f08000f;
+        public static final int traillist_ratingbar=0x7f080010;
         public static final int username_edit=0x7f080008;
         public static final int username_fixed=0x7f080009;
     }

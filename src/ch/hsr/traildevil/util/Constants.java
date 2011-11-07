@@ -25,4 +25,7 @@ public class Constants {
 	
 	/** How many stars can be maximum filled in the Trail List */
 	public static final int MAX_FAVORITE_STARS = 5;
+	
+	/** The last modified timestamp of all trail. This key could be used to lookup the value from shared preferences.*/
+	public static final String LAST_MODIFIED_TIMESTAMP_KEY = "LAST_MODIFIED_TIMESTAMP";
 }

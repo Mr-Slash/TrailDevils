@@ -19,6 +19,7 @@ public class Trail implements Serializable{
 	private Integer CountryId;
 	private String Url;
 	private String CreatedDate;
+	private long LastModifiedTs;
 	private Integer Favorits;
 	private String ImageUrl800;
 	private String ImageUrl120;
@@ -149,5 +150,13 @@ public class Trail implements Serializable{
 
 	public void setImageUrl120(String imageUrl120) {
 		ImageUrl120 = imageUrl120;
+	}
+
+	public void setLastModifiedTs(long lastModifiedTs) {
+		LastModifiedTs = lastModifiedTs;
+	}
+
+	public long getLastModifiedTs() {
+		return LastModifiedTs;
 	}
 }

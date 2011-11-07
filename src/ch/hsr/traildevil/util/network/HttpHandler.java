@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -36,9 +35,6 @@ public class HttpHandler {
 			HttpResponse response = client.execute(httpGet);
 			isr = new InputStreamReader(response.getEntity().getContent(), "utf-8");
 			Log.i(TAG, TAG_PREFIX + "http response received");
-			for(Header header : response.getAllHeaders()){
-				Log.i(TAG, TAG_PREFIX + header.getName() + ": " + header.getValue());
-			}
 		} catch (Exception e) {
 			Log.e(TAG, TAG_PREFIX + "connecting to server failed", e);
 		}
@@ -54,6 +50,8 @@ public class HttpHandler {
 		} catch (IOException e) {
 			Log.e(TAG, TAG_PREFIX + "connecting to server failed", e);
 		}
+		
+		Log.i(TAG, TAG_PREFIX + "host is reachable = : " + (response != null));
 		return response != null;
 	}
 

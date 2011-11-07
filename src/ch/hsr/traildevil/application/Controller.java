@@ -1,19 +1,19 @@
 package ch.hsr.traildevil.application;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import android.content.Context;
+import android.os.AsyncTask;
+import android.os.AsyncTask.Status;
 import android.util.Log;
+import ch.hsr.traildevil.TraillistActivity;
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.sync.SynchronizeTask;
 import ch.hsr.traildevil.util.Constants;
 import ch.hsr.traildevil.util.network.HttpHandler;
 import ch.hsr.traildevil.util.persistence.TrailProvider;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 public class Controller {
 	
@@ -22,15 +22,16 @@ public class Controller {
 	
 	private static HttpHandler httpHandler = new HttpHandler();
 	private TrailProvider trailProvider;
-	
+	private AsyncTask<String, String, Long> asyncTask;
+
 	public Controller(){
 		trailProvider = TrailProvider.getInstance(Constants.DB_LOCATION);
 	}
 	
 	public List<Trail> getTrails(){
-		
-		if(trailProvider.findAll() == null || trailProvider.findAll().isEmpty())
-			loadTrailsData();
+		if(trailProvider.findAll() == null)
+			return new ArrayList<Trail>();
+			//loadTrailsData();
 		
 		return trailProvider.findAll();
 	}
@@ -39,58 +40,6 @@ public class Controller {
 		return getTrails().get(index);
 	}
 	
-	
-	private void loadTrailsData() {
-		Log.i(TAG, TAG_PREFIX + "no trail data found in DB. Start downloading it from the web");
-		httpHandler.connectTo(getTrailsUrl(), HttpHandler.TYPE_JSON);
-		
-		List<Trail> trails = new ArrayList<Trail>(500);
-
-		JsonElement json = new JsonParser().parse(httpHandler.getReader());
-		Iterator<JsonElement> iterator = json.getAsJsonArray().iterator();
-		Gson gson = new Gson();
-		while (iterator.hasNext()) {
-			trails.add(gson.fromJson((JsonElement) iterator.next(), Trail.class));
-		}
-		httpHandler.resetStream();
-		
-		// store in db
-		trailProvider.store(trails);
-		Log.i(TAG, TAG_PREFIX + "trail data downloaded and stored in the DB");
-	}
-	
-	/**
-	 * Synchronize raw Trails
-	 *  
-	 * @param context The context of Authenticator Activity
-	 * @param trails The list of trails
-	 */
-	public static synchronized void syncTrails(Context context, List<Trail> trails){
-		TrailProvider trailProvider = TrailProvider.getInstance(Constants.DB_LOCATION);
-		
-		for(Trail trail : trails){
-			Trail found = trailProvider.find(trail.getTrailId());
-			
-			if(found == null){
-				trailProvider.store(trail);
-			}else{
-				// if update
-				found.setName(trail.getName());
-				found.setCountry(trail.getName());
-				// etc
-				
-				// if delete
-				//delete from db
-			}
-		}
-	}
-
-	/**
-	 * Closes the db session. Note that a close is required for a commit!
-	 */
-	public void close() {
-		trailProvider.close();
-	}
 	
 	public boolean isNetworkAvailable(){
 		return httpHandler.isHostReachable(getTrailsUrl());
@@ -103,10 +52,32 @@ public class Controller {
 	public int getMaxFavorits(){
 		int max = 0;
 		for (Trail trail : getTrails()) {
-			if(trail.getFavorits() > max){
-				max = trail.getFavorits();
-			}
+			max = Math.max(max, trail.getFavorits());
 		}
 		return max;
+	}
+
+	/**
+	 * Start synchronizing the Trail data.
+	 * @param traillistActivity The activity to notify about changes
+	 */
+	public void startSynchronization(TraillistActivity activity) {
+		Log.i(Constants.TAG, TAG_PREFIX + "start async task");
+
+		long lastModifiedTimestamp = activity.getLastModifiedTimestamp();
+		//String updateUrl = getTrailsUrl() + "?$filter=LastModifiedTs%20gt%20"+ lastModifiedTimestamp;
+		String updateUrl = getTrailsUrl() + "?$filter=TrailId%20lt%2010"; // get 10 first entries to simulate update
+
+		// start async thread
+		asyncTask = new SynchronizeTask(activity).execute(updateUrl);
+	}
+
+	/**
+	 * Stops synchronizing the Trail data, if the task is running or pending(= not started yet). 
+	 */
+	public void stopSynchronization() {
+		if(asyncTask != null && asyncTask.getStatus() == Status.RUNNING || asyncTask.getStatus() == Status.PENDING){
+			asyncTask.cancel(false);
+		}
 	}
 }

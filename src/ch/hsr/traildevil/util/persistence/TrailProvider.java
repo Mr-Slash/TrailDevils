@@ -46,11 +46,11 @@ public class TrailProvider extends Db4oHelper {
 	 * @param trailId The Trail with the given id
 	 * @return The matched Trail or null if no one exists
 	 */
-	public Trail find(Integer trailId){
+	public Trail find(final Integer trailId){
 		List<Trail> trails = db().query(new Predicate<Trail>() {
 			@Override
 			public boolean match(Trail trail) {
-				return trail.getTrailId().equals(trail);
+				return trail.getTrailId().equals(trailId);
 			}
 		});
 		
@@ -60,7 +60,7 @@ public class TrailProvider extends Db4oHelper {
 	}
 
 	public List<Trail> findAll() {
-		return Collections.unmodifiableList(db().query(Trail.class));
+		return db().query(Trail.class);
 	}
 	
 	public void deleteAll(){

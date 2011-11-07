@@ -134,7 +134,8 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 				// if delete
 				//trailProvider.delete(existingTrail);
 			}
-			Log.i(Constants.TAG, TAG_PREFIX + "Trail updated");
+			Log.i(Constants.TAG, TAG_PREFIX + "Trail updated" +
+					"");
 		}	
 		
 		Log.i(Constants.TAG, TAG_PREFIX + "Db update complete, but commit is outstanding");

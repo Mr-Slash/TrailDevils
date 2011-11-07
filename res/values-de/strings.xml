@@ -4,6 +4,9 @@
     <string name="app_name">Trail Devils</string>
     <string name="search_hint">Trail suchen...</string>
     <string name="no_tracks">Keine Trails verfügbar!</string>
+    <string name="state_new">neu</string>
+    <string name="state_closed">geschlossen</string>
+    <string name="state_open">offen</string>
     
     <!-- Detail View -->
     <string name="detailview_status">Status:</string>    

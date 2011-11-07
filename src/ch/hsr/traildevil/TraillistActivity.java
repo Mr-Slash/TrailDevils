@@ -36,7 +36,7 @@ public class TraillistActivity extends ListActivity {
 
 		setContentView(R.layout.tracklist);
 		controller = new Controller();
-	
+
 		if (controller.isNetworkAvailable()) {
 			controller.startSynchronization(this);
 		}else{
@@ -79,8 +79,7 @@ public class TraillistActivity extends ListActivity {
 
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			// doSearch(query);
-			Toast.makeText(getApplicationContext(), "TEST " + query, Toast.LENGTH_SHORT).show();
+			getListView().setFilterText(query);
 		}
 	}
 

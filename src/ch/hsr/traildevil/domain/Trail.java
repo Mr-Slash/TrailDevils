@@ -159,4 +159,9 @@ public class Trail implements Serializable{
 	public long getLastModifiedTs() {
 		return LastModifiedTs;
 	}
+		
+	@Override
+	public String toString() {
+	    return this.Name;
+	}
 }

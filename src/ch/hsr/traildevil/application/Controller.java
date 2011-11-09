@@ -1,7 +1,5 @@
 package ch.hsr.traildevil.application;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +54,20 @@ public class Controller {
 		}
 		return max;
 	}
+	
+	/**
+	 * Whether this is the first data download or not. If so, the whole Data is downloaded
+	 * without any filter. Note that it is not possible to filter out deleted trails, since then
+	 * we would might miss the latest ModifiedUnixTs. 
+	 * For evaluation the lastModifiedTimestamp within the shared properties is used.
+	 * 
+	 * @param activity The activity to access shared properties 
+	 * 
+	 * @return whether or not it is the initial download
+	 */
+	private boolean isFirstDownload(TraillistActivity activity) {
+		return activity.getLastModifiedTimestamp() == 0;
+	}	
 
 	/**
 	 * Start synchronizing the Trail data.
@@ -64,12 +76,15 @@ public class Controller {
 	public void startSynchronization(TraillistActivity activity) {
 		Log.i(Constants.TAG, TAG_PREFIX + "start async task");
 
-		long lastModifiedTimestamp = activity.getLastModifiedTimestamp();
-		//String updateUrl = getTrailsUrl() + "?$filter=LastModifiedTs%20gt%20"+ lastModifiedTimestamp;
-		String updateUrl = getTrailsUrl() + "?$filter=TrailId%20lt%2010"; // get 10 first entries to simulate update
-
+		String updateUrl = getTrailsUrl();
+		
+		if(!isFirstDownload(activity)){
+			long lastModifiedTimestamp = activity.getLastModifiedTimestamp();
+			updateUrl += "?$filter=ModifiedUnixTs%20gt%20"+ lastModifiedTimestamp;
+		}
+		
 		// start async thread
-		asyncTask = new SynchronizeTask(activity).execute(updateUrl);
+		asyncTask = new SynchronizeTask(activity).execute(updateUrl, String.valueOf(isFirstDownload(activity)) );
 	}
 
 	/**

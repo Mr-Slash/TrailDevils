@@ -37,7 +37,8 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		
 		Log.i(Constants.TAG, TAG_PREFIX + "start synchronizing");
 		
-		String updateUrl = params[0]; 
+		String updateUrl = params[0];
+		boolean firstDownload = Boolean.valueOf(params[1]);
 		
 		publishProgress("get updates from server");
 		List<Trail> trails = loadTrailsData(updateUrl);
@@ -47,7 +48,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		
 		
 		publishProgress("save data");
-		long result = updateDb(trails);
+		long result = firstDownload ? fillDb(trails) : updateDb(trails);
 		
 		if(isCancelled())
 			return null;
@@ -97,6 +98,36 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	}
 	
 	/**
+	 * Fills the Db for the first time. It should just be used for this purpose. 
+	 * It is just done in a second method, for better maintainability. 
+	 * Note that the data is not yet persited after this method call!
+	 * 
+	 * @param trails The trails to fill.
+	 * @return the latest modified timestamp
+	 */
+	private long fillDb(List<Trail> trails){
+		Log.i(Constants.TAG, TAG_PREFIX + "Start filling the db for the first time");
+		long lastModifiedTimestamp = 0;
+		
+		for(Trail newTrail : trails){
+			
+			if(isCancelled()){
+				Log.i(Constants.TAG, TAG_PREFIX + "Stop filling the db, since cancel was invoked");
+				return -1;
+			}
+			
+			lastModifiedTimestamp = Math.max(lastModifiedTimestamp, newTrail.getModifiedUnixTs());
+			
+			if(isDeletedTrail(newTrail)){ 
+				trailProvider.store(newTrail);
+			}
+		}	
+		
+		Log.i(Constants.TAG, TAG_PREFIX + "Db fill complete, but commit is outstanding");
+		return lastModifiedTimestamp;		
+	}
+	
+	/**
 	 * Updates the DB with the new data. Note that the data is not yet persited after this method call!
 	 * 
 	 * @param trails A list of Trails to update
@@ -116,30 +147,46 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 				return -1;
 			}
 			
-			Log.i(Constants.TAG, TAG_PREFIX + "Find trail with id = " + updatedTrail.getTrailId());
-			lastModifiedTimestamp = Math.max(lastModifiedTimestamp, updatedTrail.getLastModifiedTs());
-			Trail existingTrail = trailProvider.find(updatedTrail.getTrailId());
+			lastModifiedTimestamp = Math.max(lastModifiedTimestamp, updatedTrail.getModifiedUnixTs());
+
+			Log.i(Constants.TAG, TAG_PREFIX + "Find trail with id = " + updatedTrail.getId());
+			Trail existingTrail = trailProvider.find(updatedTrail.getId());
 			Log.i(Constants.TAG, TAG_PREFIX + "Trail found");
 			
-			if(existingTrail == null){ 
-				trailProvider.store(updatedTrail);
+			if(isNewTrail(existingTrail)){
+				if(!isDeletedTrail(updatedTrail)){
+					trailProvider.store(updatedTrail);
+				}else{
+					// do nothing, since trail is not in local db, 
+					// but has already been deleted on server side
+				}
 			}else{
-				// update
-				// Note that its maybe better to delete it and then insert it again, instead of just updating
-				// every field. Since with this approach new fields are stored as well without the need of changing
-				// anything here.
-				trailProvider.delete(existingTrail);
-				trailProvider.store(updatedTrail);
-				
-				// if delete
-				//trailProvider.delete(existingTrail);
+				if(isDeletedTrail(updatedTrail)){ // deleted
+					trailProvider.delete(existingTrail);
+				}else{ // modified
+					trailProvider.delete(existingTrail);
+					trailProvider.store(updatedTrail);
+				}
 			}
-			Log.i(Constants.TAG, TAG_PREFIX + "Trail updated" +
-					"");
+			Log.i(Constants.TAG, TAG_PREFIX + "Trail updated");
 		}	
 		
 		Log.i(Constants.TAG, TAG_PREFIX + "Db update complete, but commit is outstanding");
 		return lastModifiedTimestamp;
+	}
+
+	private boolean isDeletedTrail(Trail updatedTrail) {
+		return updatedTrail.getDeletedUnixTs() > 0;
+	}
+
+	/**
+	 * It is a new trail if it doesn't exist on the db yet.
+	 * 
+	 * @param existingTrail The trail to check
+	 * @return true if it 
+	 */
+	private boolean isNewTrail(Trail existingTrail) {
+		return existingTrail == null;
 	}
 	
 	private List<Trail> loadTrailsData(String url) {

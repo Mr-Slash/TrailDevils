@@ -43,14 +43,14 @@ public class TrailProvider extends Db4oHelper {
 	/**
 	 * Searches for an existing Trail with the given id.
 	 * 
-	 * @param trailId The Trail with the given id
+	 * @param id The Trail with the given id
 	 * @return The matched Trail or null if no one exists
 	 */
-	public Trail find(final Integer trailId){
+	public Trail find(final int id){
 		List<Trail> trails = db().query(new Predicate<Trail>() {
 			@Override
 			public boolean match(Trail trail) {
-				return trail.getTrailId().equals(trailId);
+				return trail.getId() == id;
 			}
 		});
 		

@@ -1,11 +1,12 @@
 package ch.hsr.traildevil.util.persistence;
 
 import android.util.Log;
-
+import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import com.db4o.config.EmbeddedConfiguration;
 
 public class Db4oHelper {
 
@@ -25,16 +26,20 @@ public class Db4oHelper {
 
 		try {
 			if (oc == null || oc.ext().isClosed()) {
-				oc = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), db4oDBFullPath());
-
-				// We first load the initial data from the database
-				// ExercisesLoader.load(context, oc);
+				oc = Db4oEmbedded.openFile(createConfiguration(), db4oDBFullPath());
 			}
 			return oc;
 		} catch (Exception e) {
 			Log.e(Constants.TAG, TAG_PREFIX + "accessing the db failed", e);
 			return null;
 		}
+	}
+
+	private EmbeddedConfiguration createConfiguration() {
+		EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+		config.common().objectClass(Trail.class).objectField("Id").indexed(true);
+		config.common().messageLevel(1);
+		return config;
 	}
 
 	/**

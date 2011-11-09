@@ -6,162 +6,137 @@ public class Trail implements Serializable{
 
 	private static final long serialVersionUID = -657192760929891505L;
 
-	private Integer TrailId;
+	private int Id;
 	private String NextCity;
-	private Float GmapX;
-	private Float GmapY;
+	private float GmapX;
+	private float GmapY;
 	private String Name;
 	private String Desc;
 	private String Journey;
-	private Boolean IsCommercial;
+	private boolean IsCommercial;
 	private String State;
 	private String Country;
-	private Integer CountryId;
+	private int CountryId;
 	private String Url;
 	private String CreatedDate;
-	private long LastModifiedTs;
-	private Integer Favorits;
+	private long CreatedUnixTs;
+	private long ModifiedUnixTs;
+	private long DeletedUnixTs;
+	private int Favorits;
 	private String ImageUrl800;
 	private String ImageUrl120;
-
-	public Integer getTrailId() {
-		return TrailId;
+	public int getId() {
+		return Id;
 	}
-
+	public void setId(int id) {
+		Id = id;
+	}
 	public String getNextCity() {
 		return NextCity;
 	}
-
-	public Float getGmapX() {
-		return GmapX;
-	}
-
-	public Float getGmapY() {
-		return GmapY;
-	}
-
-	public String getName() {
-		return Name;
-	}
-
-	public String getDesc() {
-		return Desc;
-	}
-
-	public String getJourney() {
-		return Journey;
-	}
-
-	public Boolean getIsCommercial() {
-		return IsCommercial;
-	}
-
-	public String getState() {
-		return State;
-	}
-
-	public String getCountry() {
-		return Country;
-	}
-
-	public Integer getCountryId() {
-		return CountryId;
-	}
-
-	public String getUrl() {
-		return Url;
-	}
-
-	public String getCreatedDate() {
-		return CreatedDate;
-	}
-
-	public Integer getFavorits() {
-		return Favorits;
-	}
-
-	public String getImageUrl800() {
-		return ImageUrl800;
-	}
-
-	public String getImageUrl120() {
-		return ImageUrl120;
-	}
-
-	public void setTrailId(Integer trailId) {
-		TrailId = trailId;
-	}
-
 	public void setNextCity(String nextCity) {
 		NextCity = nextCity;
 	}
-
-	public void setGmapX(Float gmapX) {
+	public float getGmapX() {
+		return GmapX;
+	}
+	public void setGmapX(float gmapX) {
 		GmapX = gmapX;
 	}
-
-	public void setGmapY(Float gmapY) {
+	public float getGmapY() {
+		return GmapY;
+	}
+	public void setGmapY(float gmapY) {
 		GmapY = gmapY;
 	}
-
+	public String getName() {
+		return Name;
+	}
 	public void setName(String name) {
 		Name = name;
 	}
-
+	public String getDesc() {
+		return Desc;
+	}
 	public void setDesc(String desc) {
 		Desc = desc;
 	}
-
+	public String getJourney() {
+		return Journey;
+	}
 	public void setJourney(String journey) {
 		Journey = journey;
 	}
-
-	public void setIsCommercial(Boolean isCommercial) {
+	public boolean isIsCommercial() {
+		return IsCommercial;
+	}
+	public void setIsCommercial(boolean isCommercial) {
 		IsCommercial = isCommercial;
 	}
-
+	public String getState() {
+		return State;
+	}
 	public void setState(String state) {
 		State = state;
 	}
-
+	public String getCountry() {
+		return Country;
+	}
 	public void setCountry(String country) {
 		Country = country;
 	}
-
-	public void setCountryId(Integer countryId) {
+	public int getCountryId() {
+		return CountryId;
+	}
+	public void setCountryId(int countryId) {
 		CountryId = countryId;
 	}
-
+	public String getUrl() {
+		return Url;
+	}
 	public void setUrl(String url) {
 		Url = url;
 	}
-
+	public String getCreatedDate() {
+		return CreatedDate;
+	}
 	public void setCreatedDate(String createdDate) {
 		CreatedDate = createdDate;
 	}
-
-	public void setFavorits(Integer favorits) {
+	public long getCreatedUnixTs() {
+		return CreatedUnixTs;
+	}
+	public void setCreatedUnixTs(long createdUnixTs) {
+		CreatedUnixTs = createdUnixTs;
+	}
+	public long getModifiedUnixTs() {
+		return ModifiedUnixTs;
+	}
+	public void setModifiedUnixTs(long modifiedUnixTs) {
+		ModifiedUnixTs = modifiedUnixTs;
+	}
+	public long getDeletedUnixTs() {
+		return DeletedUnixTs;
+	}
+	public void setDeletedUnixTs(long deletedUnixTs) {
+		DeletedUnixTs = deletedUnixTs;
+	}
+	public int getFavorits() {
+		return Favorits;
+	}
+	public void setFavorits(int favorits) {
 		Favorits = favorits;
 	}
-
+	public String getImageUrl800() {
+		return ImageUrl800;
+	}
 	public void setImageUrl800(String imageUrl800) {
 		ImageUrl800 = imageUrl800;
 	}
-
+	public String getImageUrl120() {
+		return ImageUrl120;
+	}
 	public void setImageUrl120(String imageUrl120) {
 		ImageUrl120 = imageUrl120;
-	}
-
-	public void setLastModifiedTs(long lastModifiedTs) {
-		LastModifiedTs = lastModifiedTs;
-	}
-
-	public long getLastModifiedTs() {
-		return LastModifiedTs;
-	}
-		
-	@Override
-	public String toString() {
-	    return this.Name;
 	}
 }

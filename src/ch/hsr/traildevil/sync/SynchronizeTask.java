@@ -118,7 +118,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 			
 			lastModifiedTimestamp = Math.max(lastModifiedTimestamp, newTrail.getModifiedUnixTs());
 			
-			if(isDeletedTrail(newTrail)){ 
+			if(!isDeletedTrail(newTrail)){ 
 				trailProvider.store(newTrail);
 			}
 		}	

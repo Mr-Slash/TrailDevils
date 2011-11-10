@@ -212,7 +212,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 			httpHandler.resetStream(); // ensure that the stream is closed
 		}
 		
-		Log.i(Constants.TAG, TAG_PREFIX + "Data downloaded");
+		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded");
 		return trails;
 	}
 }

@@ -29,7 +29,6 @@ public class Controller {
 	public List<Trail> getTrails(){
 		if(trailProvider.findAll() == null)
 			return new ArrayList<Trail>();
-			//loadTrailsData();
 		
 		return trailProvider.findAll();
 	}

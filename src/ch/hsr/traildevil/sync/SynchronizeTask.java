@@ -15,6 +15,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+/**
+ * This class is used to synchronize asynchronously the local db with the remote one. 
+ * 
+ * @author Sandro
+ */
 public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	
 	private static final String TAG_PREFIX = SynchronizeTask.class.getSimpleName() + ": ";
@@ -84,7 +89,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		
 		activity.syncCompleted();
 	}
-
+	
 	/**
 	 * This method is invoked when the async task is canceled. This is the case when
 	 * the user presses the "cancel" button on the progress dialog. 
@@ -96,6 +101,39 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		trailProvider.rollback();
 		activity.syncAborted();
 	}
+	
+	/**
+	 * Downloads the Trails data from the web.
+	 * 
+	 * @param url The url to fetch
+	 * @return a List of downloaded Trails
+	 */
+	private List<Trail> loadTrailsData(String url) {
+		Log.i(Constants.TAG, TAG_PREFIX + "Start downloading new data from the web");
+		HttpHandler httpHandler = new HttpHandler();
+		httpHandler.connectTo(url, HttpHandler.TYPE_JSON);
+		
+		List<Trail> trails = new ArrayList<Trail>(100);
+
+		try{
+			Gson gson = new Gson();
+			JsonElement json = new JsonParser().parse(httpHandler.getReader());
+			for (JsonElement element : json.getAsJsonArray()) {
+				
+				if(isCancelled()){
+					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
+					return null;
+				}
+				
+				trails.add(gson.fromJson(element, Trail.class));
+			}
+		}finally{
+			httpHandler.resetStream(); // ensure that the stream is closed
+		}
+		
+		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded");
+		return trails;
+	}	
 	
 	/**
 	 * Fills the Db for the first time. It should just be used for this purpose. 
@@ -187,32 +225,5 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	 */
 	private boolean isNewTrail(Trail existingTrail) {
 		return existingTrail == null;
-	}
-	
-	private List<Trail> loadTrailsData(String url) {
-		Log.i(Constants.TAG, TAG_PREFIX + "Start downloading new data from the web");
-		HttpHandler httpHandler = new HttpHandler();
-		httpHandler.connectTo(url, HttpHandler.TYPE_JSON);
-		
-		List<Trail> trails = new ArrayList<Trail>(100);
-
-		try{
-			Gson gson = new Gson();
-			JsonElement json = new JsonParser().parse(httpHandler.getReader());
-			for (JsonElement element : json.getAsJsonArray()) {
-				
-				if(isCancelled()){
-					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
-					return null;
-				}
-				
-				trails.add(gson.fromJson(element, Trail.class));
-			}
-		}finally{
-			httpHandler.resetStream(); // ensure that the stream is closed
-		}
-		
-		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded");
-		return trails;
 	}
 }

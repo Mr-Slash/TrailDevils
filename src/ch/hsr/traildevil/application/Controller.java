@@ -15,7 +15,6 @@ import ch.hsr.traildevil.util.persistence.TrailProvider;
 
 public class Controller {
 	
-	private static final String TAG = "traildevil";
 	private static final String TAG_PREFIX = Controller.class.getSimpleName() + ": ";
 	
 	private static HttpHandler httpHandler = new HttpHandler();
@@ -90,7 +89,7 @@ public class Controller {
 	 * Stops synchronizing the Trail data, if the task is running or pending(= not started yet). 
 	 */
 	public void stopSynchronization() {
-		if(asyncTask != null && asyncTask.getStatus() == Status.RUNNING || asyncTask.getStatus() == Status.PENDING){
+		if(asyncTask != null && (asyncTask.getStatus() == Status.RUNNING || asyncTask.getStatus() == Status.PENDING) ){
 			asyncTask.cancel(false);
 		}
 	}

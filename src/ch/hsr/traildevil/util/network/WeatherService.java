@@ -16,9 +16,9 @@ public class WeatherService {
 	private static final String PATTERN = "img src=";
 
 	public static String getWeatherImageUrl(String nextCity) {
-		if(nextCity == null){
+		if (nextCity == null) {
 			return null;
-		}else{
+		} else {
 			String city = parse(nextCity);
 			String url = null;
 			try {
@@ -33,18 +33,20 @@ public class WeatherService {
 	private static String getImageUrl(String city) throws IOException {
 		BufferedReader in = openConnection(city);
 
-		String line = null;
-		while ((line = in.readLine()) != null) {
-			if (line.contains(PATTERN)) {
-				int startsAt = line.indexOf(PATTERN);
-				line = line.substring(startsAt, line.length() - 9).replace(PATTERN + "\"", "");
-				Log.i(TAG, TAG_PREFIX + city + "\t" + line);
-				break;
+		if (in != null) {
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				if (line.contains(PATTERN)) {
+					int startsAt = line.indexOf(PATTERN);
+					line = line.substring(startsAt, line.length() - 9).replace(PATTERN + "\"", "");
+					Log.i(TAG, TAG_PREFIX + city + "\t" + line);
+					break;
+				}
 			}
+			closeConnection(in);
+			return line;
 		}
-		closeConnection(in);
-
-		return line;
+		return null;
 	}
 
 	private static void closeConnection(BufferedReader in) throws IOException {
@@ -53,9 +55,13 @@ public class WeatherService {
 	}
 
 	private static BufferedReader openConnection(String city) {
-		httpHandler.connectTo(getUrl(city), HttpHandler.TYPE_XML);
-		BufferedReader in = new BufferedReader(httpHandler.getReader());
-		return in;
+		String url = getUrl(city);
+		if (httpHandler.isHostReachable(url)) {
+			httpHandler.connectTo(url, HttpHandler.TYPE_XML);
+			BufferedReader in = new BufferedReader(httpHandler.getReader());
+			return in;
+		}
+		return null;
 	}
 
 	private static String parse(String city) {

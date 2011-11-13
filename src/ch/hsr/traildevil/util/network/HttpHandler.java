@@ -24,7 +24,7 @@ public class HttpHandler {
 	
 	//TODO simulate with slow connection if data could be downloaded without timeout exception 
 	//TODO check also if it behaves correctly when no Internet connection is available
-	private static final int 	CONNECTION_TIMEOUT = 15 * 1000; // ms 
+	private static final int 	CONNECTION_TIMEOUT = 10 * 1000; // ms 
 	
 	private HttpClient client = new DefaultHttpClient();
 	private InputStreamReader isr;

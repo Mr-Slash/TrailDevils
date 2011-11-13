@@ -5,5 +5,5 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="lib/gson-1.7.1.jar" sourcepath="lib-sources/gson-1.7.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/db4o-8.0.184.15484-core-java5.jar" sourcepath="lib-sources/db4o-core-sources.zip"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

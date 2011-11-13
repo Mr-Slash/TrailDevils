@@ -2,6 +2,8 @@ package ch.hsr.traildevil.sync;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,13 +17,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+/**
+ * This class is used to synchronize asynchronously the local db with the remote one. 
+ * 
+ * @author Sandro
+ */
 public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	
 	private static final String TAG_PREFIX = SynchronizeTask.class.getSimpleName() + ": ";
 	
 	private final TraillistActivity activity;
-	private final TrailProvider trailProvider;
-
+	private TrailProvider trailProvider;
+	private final Lock mutex = new ReentrantLock(); 
+	
 	public SynchronizeTask(TraillistActivity activity) {
 		this.activity = activity;
 		this.trailProvider = TrailProvider.getInstance(Constants.DB_LOCATION);
@@ -35,31 +43,36 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	@Override
 	protected Long doInBackground(String... params) {
 		
-		Log.i(Constants.TAG, TAG_PREFIX + "start synchronizing");
-		
-		String updateUrl = params[0];
-		boolean firstDownload = Boolean.valueOf(params[1]);
-		
-		publishProgress("get updates from server");
-		List<Trail> trails = loadTrailsData(updateUrl);
-		
-		if(isCancelled())
-			return null;
-		
-		
-		publishProgress("save data");
-		long result = firstDownload ? fillDb(trails) : updateDb(trails);
-		
-		if(isCancelled())
-			return null;
-		
-		return result;
+		mutex.lock();
+		try{
+			Log.i(Constants.TAG, TAG_PREFIX + "start synchronizing");
+			
+			String updateUrl = params[0];
+			boolean firstDownload = Boolean.valueOf(params[1]);
+			
+			publishProgress("get updates from server");
+			List<Trail> trails = loadTrailsData(updateUrl);
+			
+			if(isCancelled())
+				return null;
+			
+			
+			publishProgress("save data");
+			long result = firstDownload ? fillDb(trails) : updateDb(trails);
+			
+			if(isCancelled())
+				return null;
+			
+			return result;
+		}finally{
+			mutex.unlock();
+		}
 	}
 	
 
 	/**
 	 * This method is invoked from the UI Thread and is therefore safe to update the
-	 * UI.
+	 * UI. This method is just called, if the task has not been canceled.
 	 */
 	@Override
 	protected void onProgressUpdate(String... values) {
@@ -72,30 +85,79 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	 */
 	@Override
 	protected void onPostExecute(Long result) {
-		// commit db changes
-		Log.i(Constants.TAG, TAG_PREFIX + "Start commiting data");
-		trailProvider.commit();
-		Log.i(Constants.TAG, TAG_PREFIX + "data commited");
-		
-		// store new timestamp (Note that when no update was found, 0 is passed as result)
-		long lastModifiedTimestamp = Math.max(result, activity.getLastModifiedTimestamp());
-		activity.setLastModifiedTimestamp(lastModifiedTimestamp);
-		Log.i(Constants.TAG, TAG_PREFIX + "synchronizing completed.");
-		
+		try{
+		}
+		finally{ // ensure that this thread is not interrupted
+			Log.i(Constants.TAG, TAG_PREFIX + "Start commiting data");
+			trailProvider.commit(); // commit db changes
+			Log.i(Constants.TAG, TAG_PREFIX + "data commited");
+			
+			// store new timestamp (Note that when no update was found, 0 is passed as result)
+			long lastModifiedTimestamp = Math.max(result, activity.getLastModifiedTimestamp());
+			activity.setLastModifiedTimestamp(lastModifiedTimestamp);
+			Log.i(Constants.TAG, TAG_PREFIX + "synchronizing completed.");
+		}
 		activity.syncCompleted();
 	}
-
+	
 	/**
 	 * This method is invoked when the async task is canceled. This is the case when
 	 * the user presses the "cancel" button on the progress dialog. 
+	 * Note: This method is invoked directly after the <code>asyncTask.cancel()</code>
+	 * 		 method call. Since the UI Thread and the Async Thread run concurrently, it's
+	 * 		 possible that this method runs before <code>doInBackground()</code> has finished.
+	 * 		 And therefore it's possible that the rollback happens before the db insert.
+	 * 		 Google API 11 (Android 3.0.x Honeycomb) offers a more convenient method <code>onCancelled(Object)</code>
+	 * 		 which is called after <code>doInBackground()</code> has finished. But since we're using
+	 * 		 Google API 10, we are implementing our own wait mechanism through a mutex.
 	 */
 	@Override
 	protected void onCancelled() {
-		Log.i(Constants.TAG, TAG_PREFIX + "synchronizing cancelled. Data is rolled back.");
-		
-		trailProvider.rollback();
-		activity.syncAborted();
+
+		mutex.lock();
+		try{
+			Log.i(Constants.TAG, TAG_PREFIX + "synchronizing cancelled. Data is rolled back.");
+			
+			trailProvider.rollback();
+			activity.syncAborted();
+		}finally{
+			mutex.unlock();
+		}
 	}
+	
+	/**
+	 * Downloads the Trails data from the web.
+	 * 
+	 * @param url The url to fetch
+	 * @return a List of downloaded Trails
+	 */
+	private List<Trail> loadTrailsData(String url) {
+		Log.i(Constants.TAG, TAG_PREFIX + "Start downloading new data from the web");
+		
+		List<Trail> trails = new ArrayList<Trail>(100);
+		HttpHandler httpHandler = new HttpHandler();
+
+		try{
+			httpHandler.connectTo(url, HttpHandler.TYPE_JSON);
+			
+			Gson gson = new Gson();
+			JsonElement json = new JsonParser().parse(httpHandler.getReader());
+			for (JsonElement element : json.getAsJsonArray()) {
+				
+				if(isCancelled()){
+					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
+					return null;
+				}
+				
+				trails.add(gson.fromJson(element, Trail.class));
+			}
+		}finally{
+			httpHandler.resetStream(); // ensure that the stream is closed
+		}
+		
+		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded");
+		return trails;
+	}	
 	
 	/**
 	 * Fills the Db for the first time. It should just be used for this purpose. 
@@ -187,32 +249,5 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	 */
 	private boolean isNewTrail(Trail existingTrail) {
 		return existingTrail == null;
-	}
-	
-	private List<Trail> loadTrailsData(String url) {
-		Log.i(Constants.TAG, TAG_PREFIX + "Start downloading new data from the web");
-		HttpHandler httpHandler = new HttpHandler();
-		httpHandler.connectTo(url, HttpHandler.TYPE_JSON);
-		
-		List<Trail> trails = new ArrayList<Trail>(100);
-
-		try{
-			Gson gson = new Gson();
-			JsonElement json = new JsonParser().parse(httpHandler.getReader());
-			for (JsonElement element : json.getAsJsonArray()) {
-				
-				if(isCancelled()){
-					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
-					return null;
-				}
-				
-				trails.add(gson.fromJson(element, Trail.class));
-			}
-		}finally{
-			httpHandler.resetStream(); // ensure that the stream is closed
-		}
-		
-		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded");
-		return trails;
 	}
 }

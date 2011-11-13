@@ -23,7 +23,6 @@ public class HttpHandler {
 	private static final String TAG_PREFIX = HttpHandler.class.getSimpleName() + ": ";
 	
 	//TODO simulate with slow connection if data could be downloaded without timeout exception 
-	//TODO check also if it behaves correctly when no Internet connection is available
 	private static final int 	CONNECTION_TIMEOUT = 10 * 1000; // ms 
 	
 	private HttpClient client = new DefaultHttpClient();
@@ -32,18 +31,36 @@ public class HttpHandler {
 	public static String TYPE_JSON = "application/json";
 	public static String TYPE_XML = "application/xml";
 	
+	
+	/** 
+	 * Keeps the connection alive for subsequent TCP requests. This is the standard behavior in HTTP1.1 when
+	 * no connection mode is set explicitly. 
+	 * Note:
+	 * When inputStream.close() is invoked (just with keep-alive mode) it takes around 60 seconds to close, 
+	 * since httpClient tries to keep the connection alive. Take a look 
+	 * at: http://web.archiveorange.com/archive/v/NoFkI0ERZDXOHvEf2bK4
+	 */
+	public static String CONNECTION_MODE_KEEP_ALIVE = "keep-alive";
+	
+	/** Closes the connection either if response is complete or inputStream.close() has been invoked */
+	public static String CONNECTION_MODE_CLOSE = "close";
+	
 	public HttpHandler(){
 		final HttpParams params = client.getParams();
+		// set connection params
         HttpConnectionParams.setConnectionTimeout(params, CONNECTION_TIMEOUT);
         HttpConnectionParams.setSoTimeout(params, CONNECTION_TIMEOUT);
+        
+        // set connection manager params
         ConnManagerParams.setTimeout(params, CONNECTION_TIMEOUT);
 	}
 	
-	public void connectTo(String url, String type) {
+	public void connectTo(String url, String type, String connectionMode) {
 		try {
 			HttpGet httpGet = new HttpGet(url);
 			httpGet.setHeader("Accept", type);
-
+			httpGet.setHeader("Connection", connectionMode);
+			
 			Log.i(Constants.TAG, TAG_PREFIX + "send http request to url:" + url);
 			HttpResponse response = client.execute(httpGet);
 			isr = new InputStreamReader(response.getEntity().getContent(), "utf-8");

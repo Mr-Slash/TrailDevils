@@ -53,7 +53,7 @@ public class WeatherService {
 	}
 
 	private static BufferedReader openConnection(String city) {
-		httpHandler.connectTo(getUrl(city), HttpHandler.TYPE_XML);
+		httpHandler.connectTo(getUrl(city), HttpHandler.TYPE_XML, HttpHandler.CONNECTION_MODE_CLOSE);
 		BufferedReader in = new BufferedReader(httpHandler.getReader());
 		return in;
 	}

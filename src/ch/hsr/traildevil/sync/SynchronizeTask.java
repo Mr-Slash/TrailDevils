@@ -1,5 +1,7 @@
 package ch.hsr.traildevil.sync;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -138,19 +140,34 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		HttpHandler httpHandler = new HttpHandler();
 
 		try{
-			httpHandler.connectTo(url, HttpHandler.TYPE_JSON);
+			httpHandler.connectTo(url, HttpHandler.TYPE_JSON, HttpHandler.CONNECTION_MODE_CLOSE);
+			
+			StringBuilder content = new StringBuilder(1000);
+			InputStreamReader reader = httpHandler.getReader();
+			char[] buffer = new char[1000];
+			int read = 0;
+			while( (read = reader.read(buffer)) >= 0){
+				if(isCancelled()){
+					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
+					return null;
+				}
+				content.append(buffer, 0, read);
+			}
+			
 			
 			Gson gson = new Gson();
-			JsonElement json = new JsonParser().parse(httpHandler.getReader());
+			JsonElement json = new JsonParser().parse(content.toString());
 			for (JsonElement element : json.getAsJsonArray()) {
 				
 				if(isCancelled()){
-					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
+					Log.i(Constants.TAG, TAG_PREFIX + "Stop parsing data, since cancel was invoked");
 					return null;
 				}
 				
 				trails.add(gson.fromJson(element, Trail.class));
 			}
+		} catch (IOException e) {
+			Log.i(Constants.TAG, TAG_PREFIX + "Exception while reading from input stream", e);
 		}finally{
 			httpHandler.resetStream(); // ensure that the stream is closed
 		}

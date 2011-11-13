@@ -23,6 +23,9 @@ public class Controller {
 
 	public Controller(){
 		trailProvider = TrailProvider.getInstance(Constants.DB_LOCATION);
+
+		// ensures that the db is created/opened within the UI Thread and access rights are given
+		trailProvider.db(); 
 	}
 	
 	public List<Trail> getTrails(){

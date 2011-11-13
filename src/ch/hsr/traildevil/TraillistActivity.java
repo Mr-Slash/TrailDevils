@@ -40,10 +40,8 @@ public class TraillistActivity extends ListActivity {
 		if (controller.isNetworkAvailable()) {
 			controller.startSynchronization(this);
 		}else{
-			// TODO It would be nicer to show an initial empty list and a dialog box which says that the old data
-			// 		is loaded. Data loading should happen in a async task, so that the dialog could be shown before.
 			displayTrailData();
-			Toast infoToast = Toast.makeText(this, "Internet connection unavailable. Old Data is displayed.", Toast.LENGTH_LONG);
+			Toast infoToast = Toast.makeText(this, "Internet connection unavailable.", Toast.LENGTH_LONG);
 			infoToast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL , 0, 0);
 			infoToast.show();
 		}

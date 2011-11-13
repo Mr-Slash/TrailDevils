@@ -180,7 +180,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 			
 			lastModifiedTimestamp = Math.max(lastModifiedTimestamp, newTrail.getModifiedUnixTs());
 			
-			if(!isDeletedTrail(newTrail)){ 
+			if(!newTrail.isDeleted()){ 
 				trailProvider.store(newTrail);
 			}
 		}	
@@ -199,35 +199,32 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		Log.i(Constants.TAG, TAG_PREFIX + "Start updating the db");
 		long lastModifiedTimestamp = 0;
 		
-		//TODO Handle if data has already been persisted, but last modified timestamp has not been updated!
-		//	   Check if updatedTrail has status deleted, if so and if existingTrail is null, it means that
-		//	   we deleted the data before, but didn't set the lastmodified timestamp!
-		for(Trail updatedTrail : trails){
+		for(Trail downloadedTrail : trails){
 			
 			if(isCancelled()){
 				Log.i(Constants.TAG, TAG_PREFIX + "Stop updating the db, since cancel was invoked");
 				return -1;
 			}
 			
-			lastModifiedTimestamp = Math.max(lastModifiedTimestamp, updatedTrail.getModifiedUnixTs());
+			lastModifiedTimestamp = Math.max(lastModifiedTimestamp, downloadedTrail.getModifiedUnixTs());
 
-			Log.i(Constants.TAG, TAG_PREFIX + "Find trail with id = " + updatedTrail.getId());
-			Trail existingTrail = trailProvider.find(updatedTrail.getId());
-			Log.i(Constants.TAG, TAG_PREFIX + "Trail found");
+			Log.i(Constants.TAG, TAG_PREFIX + "Find trail with id = " + downloadedTrail.getId());
+			Trail existingTrail = trailProvider.find(downloadedTrail.getId());
+			Log.i(Constants.TAG, TAG_PREFIX + "Trail " + existingTrail != null ? "found" : "not found");
 			
-			if(isNewTrail(existingTrail)){
-				if(!isDeletedTrail(updatedTrail)){
-					trailProvider.store(updatedTrail);
+			if(isTrailNotInDb(existingTrail)){
+				if(!downloadedTrail.isDeleted()){
+					trailProvider.store(downloadedTrail);
 				}else{
 					// do nothing, since trail is not in local db, 
 					// but has already been deleted on server side
 				}
 			}else{
-				if(isDeletedTrail(updatedTrail)){ // deleted
+				if(downloadedTrail.isDeleted()){ // deleted
 					trailProvider.delete(existingTrail);
 				}else{ // modified
 					trailProvider.delete(existingTrail);
-					trailProvider.store(updatedTrail);
+					trailProvider.store(downloadedTrail);
 				}
 			}
 			Log.i(Constants.TAG, TAG_PREFIX + "Trail updated");
@@ -237,17 +234,13 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		return lastModifiedTimestamp;
 	}
 
-	private boolean isDeletedTrail(Trail updatedTrail) {
-		return updatedTrail.getDeletedUnixTs() > 0;
-	}
-
 	/**
 	 * It is a new trail if it doesn't exist on the db yet.
 	 * 
 	 * @param existingTrail The trail to check
 	 * @return true if it 
 	 */
-	private boolean isNewTrail(Trail existingTrail) {
+	private boolean isTrailNotInDb(Trail existingTrail) {
 		return existingTrail == null;
 	}
 }

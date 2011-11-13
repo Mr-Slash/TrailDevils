@@ -34,6 +34,9 @@
         
     </application>
     
+    <!-- For external storage -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+     
     <!-- For Internet usage -->
 	<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

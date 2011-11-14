@@ -22,7 +22,7 @@ public class Controller {
 
 	private static HttpHandler httpHandler = new HttpHandler();
 	private TrailProvider trailProvider;
-	private AsyncTask<String, String, Long> asyncTask;
+	private AsyncTask<String, Integer, Long> asyncTask;
 
 	public Controller(Context ctx) {
 		initInternalStorageDir(ctx);

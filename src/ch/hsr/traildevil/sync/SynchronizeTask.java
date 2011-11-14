@@ -12,6 +12,7 @@ import org.apache.http.util.ByteArrayBuffer;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import ch.hsr.traildevil.R;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.presentation.TraillistActivity;
 import ch.hsr.traildevil.util.Constants;
@@ -27,16 +28,13 @@ import com.google.gson.JsonParser;
  * 
  * @author Sandro
  */
-public class SynchronizeTask extends AsyncTask<String, String, Long> {
+public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 	
 	private static final String TAG_PREFIX = SynchronizeTask.class.getSimpleName() + ": ";
 	
 	private final TraillistActivity activity;
 	private TrailProvider trailProvider;
-	private final Lock mutex = new ReentrantLock(); 
-	
-	private static final String PROGRESS_MESSAGE_DOWNLOAD = "Download updates...";
-	private static final String PROGRESS_MESSAGE_UPDATE_DB = "Update database...";
+	private final Lock mutex = new ReentrantLock(); // to synchronize the UI Thread and the background Thread
 	
 	public SynchronizeTask(TraillistActivity activity) {
 		this.activity = activity;
@@ -80,10 +78,10 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	 * UI. This method is just called, if the task has not been canceled.
 	 */
 	@Override
-	protected void onProgressUpdate(String... values) {
-		String message = values[0];
-		int progress = Integer.valueOf(values[1]);
-		int max = Integer.valueOf(values[2]);
+	protected void onProgressUpdate(Integer... values) {
+		String message = activity.getString(values[0]);
+		int progress = values[1];
+		int max = values[2];
 		
 		activity.updateProgressbar(message, progress, max);
 	}	
@@ -165,7 +163,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 				byteBuffer.append(buffer, 0, read);
 				
 				// update progress bar
-				publishProgress(PROGRESS_MESSAGE_DOWNLOAD, String.valueOf(byteBuffer.length()), String.valueOf(contentLength));
+				publishProgress(R.string.progressbar_downloading, byteBuffer.length(), contentLength);
 			}
 			
 			// convert from byte to string and set the correct encoding
@@ -222,7 +220,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 			}
 			
 			//update progress bar
-			publishProgress(PROGRESS_MESSAGE_UPDATE_DB, String.valueOf(i), String.valueOf(trails.size()));
+			publishProgress(R.string.progressbar_updating, i, trails.size());
 		}	
 		
 		Log.i(Constants.TAG, TAG_PREFIX + "Db fill complete, but commit is outstanding");
@@ -271,7 +269,7 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 			}
 			
 			// update progress bar
-			publishProgress(PROGRESS_MESSAGE_UPDATE_DB, String.valueOf(i), String.valueOf(trails.size()));
+			publishProgress(R.string.progressbar_updating, i, trails.size());
 			
 			Log.i(Constants.TAG, TAG_PREFIX + "Trail updated");
 		}	

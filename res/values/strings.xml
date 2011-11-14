@@ -7,7 +7,9 @@
     <string name="state_new">new</string>
     <string name="state_closed">closed</string>
     <string name="state_open">open</string>
-    
+	<string name="progressbar_downloading">Downloading updates...</string>
+	<string name="progressbar_updating">Updating database...</string>
+        
     <!-- Detail View -->
     <string name="detailview_status">State:</string>
     <string name="detailview_status_open">offen</string>
@@ -16,11 +18,6 @@
     <string name="detailview_status_weather_afternoon">Nachmittags:</string>
     <string name="detailview_status_weather_rainy">nass</string>
     <string name="detailview_status_weather_suny">trocken</string>
-
-	<string name="detailview_openinghours">Öffnungszeiten:</string>
-	
-	<string name="detailview_pricing">Preise:</string>
-	
+    
 	<string name="map_api_key">0MS7_Ddx-R-LIjRUoloSGVdvPQfuXM5AnnxG3cA</string>
-	
 </resources>

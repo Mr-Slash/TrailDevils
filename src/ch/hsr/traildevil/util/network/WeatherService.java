@@ -2,6 +2,9 @@ package ch.hsr.traildevil.util.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpResponse;
 
 import android.util.Log;
 import ch.hsr.traildevil.util.Constants;
@@ -31,9 +34,12 @@ public class WeatherService {
 	}
 
 	private static String getImageUrl(String city) throws IOException {
-		BufferedReader in = openConnection(city);
+		HttpResponse response = httpHandler.connectTo(getUrl(city), HttpHandler.TYPE_XML, HttpHandler.CONNECTION_MODE_CLOSE);
+		
+		BufferedReader in = null;
+		try{
+			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "utf-8"));
 
-		if (in != null) {
 			String line = null;
 			while ((line = in.readLine()) != null) {
 				if (line.contains(PATTERN)) {
@@ -43,25 +49,10 @@ public class WeatherService {
 					break;
 				}
 			}
-			closeConnection(in);
 			return line;
+		}finally{
+			HttpHandler.safeClose(in);
 		}
-		return null;
-	}
-
-	private static void closeConnection(BufferedReader in) throws IOException {
-		in.close();
-		httpHandler.resetStream();
-	}
-
-	private static BufferedReader openConnection(String city) {
-		String url = getUrl(city);
-		if (httpHandler.isHostReachable(url)) {
-			httpHandler.connectTo(url, HttpHandler.TYPE_XML);
-			BufferedReader in = new BufferedReader(httpHandler.getReader());
-			return in;
-		}
-		return null;
 	}
 
 	private static String parse(String city) {

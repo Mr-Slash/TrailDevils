@@ -1,6 +1,5 @@
 package ch.hsr.traildevil.util.persistence;
 
-import java.util.Collections;
 import java.util.List;
 
 import android.util.Log;

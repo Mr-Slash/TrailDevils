@@ -1,9 +1,14 @@
 package ch.hsr.traildevil.sync;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.util.ByteArrayBuffer;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -30,6 +35,9 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	private TrailProvider trailProvider;
 	private final Lock mutex = new ReentrantLock(); 
 	
+	private static final String PROGRESS_MESSAGE_DOWNLOAD = "Download updates...";
+	private static final String PROGRESS_MESSAGE_UPDATE_DB = "Update database...";
+	
 	public SynchronizeTask(TraillistActivity activity) {
 		this.activity = activity;
 		this.trailProvider = TrailProvider.getInstance(Constants.DB_LOCATION);
@@ -50,14 +58,11 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 			String updateUrl = params[0];
 			boolean firstDownload = Boolean.valueOf(params[1]);
 			
-			publishProgress("get updates from server");
 			List<Trail> trails = loadTrailsData(updateUrl);
 			
 			if(isCancelled())
 				return null;
 			
-			
-			publishProgress("save data");
 			long result = firstDownload ? fillDb(trails) : updateDb(trails);
 			
 			if(isCancelled())
@@ -76,7 +81,11 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 	 */
 	@Override
 	protected void onProgressUpdate(String... values) {
-		// TODO update progress dialog
+		String message = values[0];
+		int progress = Integer.valueOf(values[1]);
+		int max = Integer.valueOf(values[2]);
+		
+		activity.updateProgressbar(message, progress, max);
 	}	
 	
 	/**
@@ -136,26 +145,52 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		
 		List<Trail> trails = new ArrayList<Trail>(100);
 		HttpHandler httpHandler = new HttpHandler();
+		InputStream is = null;
+		int contentLength = 0;
 
 		try{
-			httpHandler.connectTo(url, HttpHandler.TYPE_JSON);
+			HttpResponse response = httpHandler.connectTo(url, HttpHandler.TYPE_JSON, HttpHandler.CONNECTION_MODE_CLOSE);
+			contentLength = (int) Math.max(0, response.getEntity().getContentLength());
+			Log.i(Constants.TAG, TAG_PREFIX + "Content Length of Download = " + contentLength);
 			
+			ByteArrayBuffer byteBuffer = new ByteArrayBuffer(contentLength);
+			is = response.getEntity().getContent();
+			byte[] buffer = new byte[2048];
+			int read = 0;
+			while( (read = is.read(buffer)) >= 0){
+				if(isCancelled()){
+					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
+					return null;
+				}
+				byteBuffer.append(buffer, 0, read);
+				
+				// update progress bar
+				publishProgress(PROGRESS_MESSAGE_DOWNLOAD, String.valueOf(byteBuffer.length()), String.valueOf(contentLength));
+			}
+			
+			// convert from byte to string and set the correct encoding
+			Log.i(Constants.TAG, TAG_PREFIX + "create parsable string");
+			String content = new String(byteBuffer.buffer(), "utf-8");
+			
+			Log.i(Constants.TAG, TAG_PREFIX + "start parsing data");
 			Gson gson = new Gson();
-			JsonElement json = new JsonParser().parse(httpHandler.getReader());
+			JsonElement json = new JsonParser().parse(content);
 			for (JsonElement element : json.getAsJsonArray()) {
 				
 				if(isCancelled()){
-					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
+					Log.i(Constants.TAG, TAG_PREFIX + "Stop parsing data, since cancel was invoked");
 					return null;
 				}
 				
 				trails.add(gson.fromJson(element, Trail.class));
 			}
+		} catch (IOException e) {
+			Log.i(Constants.TAG, TAG_PREFIX + "Exception while reading from input stream", e);
 		}finally{
-			httpHandler.resetStream(); // ensure that the stream is closed
+			HttpHandler.safeClose(is); // ensure that the stream is closed
 		}
 		
-		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded");
+		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded & parsed");
 		return trails;
 	}	
 	
@@ -171,7 +206,9 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		Log.i(Constants.TAG, TAG_PREFIX + "Start filling the db for the first time");
 		long lastModifiedTimestamp = 0;
 		
-		for(Trail newTrail : trails){
+		for(int i = 0; i < trails.size() ; i++){
+			
+			Trail newTrail = trails.get(i);
 			
 			if(isCancelled()){
 				Log.i(Constants.TAG, TAG_PREFIX + "Stop filling the db, since cancel was invoked");
@@ -183,6 +220,9 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 			if(!newTrail.isDeleted()){ 
 				trailProvider.store(newTrail);
 			}
+			
+			//update progress bar
+			publishProgress(PROGRESS_MESSAGE_UPDATE_DB, String.valueOf(i), String.valueOf(trails.size()));
 		}	
 		
 		Log.i(Constants.TAG, TAG_PREFIX + "Db fill complete, but commit is outstanding");
@@ -199,7 +239,9 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 		Log.i(Constants.TAG, TAG_PREFIX + "Start updating the db");
 		long lastModifiedTimestamp = 0;
 		
-		for(Trail downloadedTrail : trails){
+		for(int i = 0; i < trails.size(); i++){
+			
+			Trail downloadedTrail = trails.get(i);
 			
 			if(isCancelled()){
 				Log.i(Constants.TAG, TAG_PREFIX + "Stop updating the db, since cancel was invoked");
@@ -227,6 +269,10 @@ public class SynchronizeTask extends AsyncTask<String, String, Long> {
 					trailProvider.store(downloadedTrail);
 				}
 			}
+			
+			// update progress bar
+			publishProgress(PROGRESS_MESSAGE_UPDATE_DB, String.valueOf(i), String.valueOf(trails.size()));
+			
 			Log.i(Constants.TAG, TAG_PREFIX + "Trail updated");
 		}	
 		

@@ -13,7 +13,6 @@ import org.apache.http.util.ByteArrayBuffer;
 import android.os.AsyncTask;
 import android.util.Log;
 import ch.hsr.traildevil.R;
-import ch.hsr.traildevil.TraillistActivity;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.presentation.TraillistActivity;
 import ch.hsr.traildevil.util.Constants;

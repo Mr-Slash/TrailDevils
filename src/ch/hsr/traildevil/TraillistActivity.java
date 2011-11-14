@@ -29,6 +29,7 @@ public class TraillistActivity extends ListActivity {
 	public static final int DIALOG_PROGRESS_ID = 0;
 
 	private Controller controller;
+	private ProgressDialog progressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,14 +54,30 @@ public class TraillistActivity extends ListActivity {
 	public void syncCompleted(){
 		displayTrailData();
 		removeDialog(DIALOG_PROGRESS_ID);
+		progressDialog = null;
 	}
 
 	/**
-	 * This method is invoked by the Dialog when the synchronization is canceled by the user.
+	 * This method is invoked by the Async Task when the synchronization is canceled by the user.
 	 */
 	public void syncAborted(){
 		displayTrailData();
 		removeDialog(DIALOG_PROGRESS_ID);
+		progressDialog = null;
+	}
+	
+	/**
+	 * This method is invoked by the Async Task when a progress update should be displayed.
+	 * 
+	 * @param message The message to display
+	 * @param progress The total progress
+	 */
+	public void updateProgressbar(String message, int progress, int max){
+		if(progressDialog != null){
+			progressDialog.setMessage(message);
+			progressDialog.setProgress(progress);
+			progressDialog.setMax(max);
+		}
 	}
 	
 	/**
@@ -106,17 +123,18 @@ public class TraillistActivity extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		
 		if(id == DIALOG_PROGRESS_ID){
-			final ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setTitle("Synchronizing Data");
-			dialog.setMessage("Loading...");
-			dialog.setIndeterminate(true);
-			dialog.setCancelable(false); // Back Button not supported to cancel dialog
-			dialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+			progressDialog = new ProgressDialog(this);
+			progressDialog.setTitle("Synchronizing Data");
+			progressDialog.setMessage("Loading...");
+			progressDialog.setIndeterminate(false);
+			progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			progressDialog.setCancelable(false); // Back Button not supported to cancel dialog
+			progressDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					controller.stopSynchronization();
 				}
 			});
-			return dialog;
+			return progressDialog;
 		}
 		return null;
 	}

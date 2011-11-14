@@ -1,5 +1,6 @@
 package ch.hsr.traildevil.util.network;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -55,7 +56,7 @@ public class HttpHandler {
         ConnManagerParams.setTimeout(params, CONNECTION_TIMEOUT);
 	}
 	
-	public void connectTo(String url, String type, String connectionMode) {
+	public HttpResponse connectTo(String url, String type, String connectionMode) throws IOException {
 		try {
 			HttpGet httpGet = new HttpGet(url);
 			httpGet.setHeader("Accept", type);
@@ -63,10 +64,11 @@ public class HttpHandler {
 			
 			Log.i(Constants.TAG, TAG_PREFIX + "send http request to url:" + url);
 			HttpResponse response = client.execute(httpGet);
-			isr = new InputStreamReader(response.getEntity().getContent(), "utf-8");
 			Log.i(Constants.TAG, TAG_PREFIX + "http response received");
-		} catch (Exception e) {
+			return response;
+		} catch(IOException e) {
 			Log.e(Constants.TAG, TAG_PREFIX + "connecting to server failed", e);
+			throw e;
 		}
 	}
 
@@ -113,15 +115,23 @@ public class HttpHandler {
 		} catch (IOException e) {
 			Log.e(Constants.TAG, TAG_PREFIX + "problem with i/o", e);
 		} finally {
-			if (is != null) {
-				try {
-					is.close();
-				} catch (IOException e) {
-					Log.e(Constants.TAG, TAG_PREFIX + "closing input stream failed", e);
-				}
-			}
+			safeClose(is);
 		}
 		return null;
 	}
 
+	/**
+	 * Use this method to close an input/output stream safely.
+	 * 
+	 * @param closable The object to close
+	 */
+	public static void safeClose(Closeable closable){
+		try{
+			if(closable != null){
+				closable.close();
+			}
+		} catch (IOException e) {
+			Log.e(Constants.TAG, TAG_PREFIX + "closing failed", e);
+		}
+	}
 }

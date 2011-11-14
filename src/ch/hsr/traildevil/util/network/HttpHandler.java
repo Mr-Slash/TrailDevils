@@ -33,7 +33,7 @@ public class HttpHandler {
 	
 	
 	/** 
-	 * Keeps the connection alive for subsequent TCP requests. This is the standard behavior in HTTP1.1 when
+	 * Keeps the connection alive for subsequent HTTP requests. This is the standard behavior in HTTP1.1 when
 	 * no connection mode is set explicitly. 
 	 * Note:
 	 * When inputStream.close() is invoked (just with keep-alive mode) it takes around 60 seconds to close, 

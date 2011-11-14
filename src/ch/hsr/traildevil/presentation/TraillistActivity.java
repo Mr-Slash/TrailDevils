@@ -14,14 +14,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.hsr.traildevil.R;
-import ch.hsr.traildevil.R.layout;
-import ch.hsr.traildevil.R.menu;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
@@ -66,22 +62,26 @@ public class TraillistActivity extends ListActivity {
 	}
 
 	/**
-	 * This method is invoked by the Async Task when the synchronization is canceled by the user.
+	 * This method is invoked by the Async Task when the synchronization is
+	 * canceled by the user.
 	 */
 	public void syncAborted() {
 		displayTrailData();
 		removeDialog(DIALOG_PROGRESS_ID);
 		progressDialog = null;
 	}
-	
+
 	/**
-	 * This method is invoked by the Async Task when a progress update should be displayed.
+	 * This method is invoked by the Async Task when a progress update should be
+	 * displayed.
 	 * 
-	 * @param message The message to display
-	 * @param progress The total progress
+	 * @param message
+	 *            The message to display
+	 * @param progress
+	 *            The total progress
 	 */
-	public void updateProgressbar(String message, int progress, int max){
-		if(progressDialog != null){
+	public void updateProgressbar(String message, int progress, int max) {
+		if (progressDialog != null) {
 			progressDialog.setMessage(message);
 			progressDialog.setProgress(progress);
 			progressDialog.setMax(max);
@@ -106,13 +106,6 @@ public class TraillistActivity extends ListActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.tracklist_menu, menu);
-		return true;
-	}
-
-	@Override
 	protected void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 		Intent detail = new Intent(this, TrailActivity.class);
@@ -126,14 +119,15 @@ public class TraillistActivity extends ListActivity {
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		
-		if(id == DIALOG_PROGRESS_ID){
+
+		if (id == DIALOG_PROGRESS_ID) {
 			progressDialog = new ProgressDialog(this);
 			progressDialog.setTitle("Synchronizing Data");
 			progressDialog.setMessage("Loading...");
 			progressDialog.setIndeterminate(false);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			progressDialog.setCancelable(false); // Back Button not supported to cancel dialog
+			progressDialog.setCancelable(false); // Back Button not supported to
+													// cancel dialog
 			progressDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					controller.stopSynchronization();

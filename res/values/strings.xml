@@ -4,7 +4,6 @@
     <string name="app_name">Trail Devils</string>
     <string name="search_hint">Search Track...</string>
     <string name="no_tracks">No tracks available!</string>
-    <string name="state_new">new</string>
     <string name="state_closed">closed</string>
     <string name="state_open">open</string>
 	<string name="progressbar_downloading">Downloading updates...</string>

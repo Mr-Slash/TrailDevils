@@ -19,20 +19,32 @@ public final class R {
         public static final int light_green=0x7f050002;
     }
     public static final class drawable {
-        public static final int austria=0x7f020000;
-        public static final int france=0x7f020001;
-        public static final int germany=0x7f020002;
-        public static final int icon=0x7f020003;
-        public static final int italy=0x7f020004;
-        public static final int liechtenstein=0x7f020005;
-        public static final int map_marker=0x7f020006;
-        public static final int nophotobig=0x7f020007;
-        public static final int nophotosmall=0x7f020008;
-        public static final int ratingstars=0x7f020009;
-        public static final int star_empty=0x7f02000a;
-        public static final int star_full=0x7f02000b;
-        public static final int switzerland=0x7f02000c;
-        public static final int weather_na=0x7f02000d;
+        public static final int andorra=0x7f020000;
+        public static final int austria=0x7f020001;
+        public static final int belgium=0x7f020002;
+        public static final int canada=0x7f020003;
+        public static final int czechrepublic=0x7f020004;
+        public static final int france=0x7f020005;
+        public static final int germany=0x7f020006;
+        public static final int icon=0x7f020007;
+        public static final int italy=0x7f020008;
+        public static final int liechtenstein=0x7f020009;
+        public static final int map_marker=0x7f02000a;
+        public static final int newzealand=0x7f02000b;
+        public static final int nophotobig=0x7f02000c;
+        public static final int nophotosmall=0x7f02000d;
+        public static final int norway=0x7f02000e;
+        public static final int peru=0x7f02000f;
+        public static final int poland=0x7f020010;
+        public static final int ratingstars=0x7f020011;
+        public static final int slovenia=0x7f020012;
+        public static final int spain=0x7f020013;
+        public static final int star_empty=0x7f020014;
+        public static final int star_full=0x7f020015;
+        public static final int sweden=0x7f020016;
+        public static final int switzerland=0x7f020017;
+        public static final int unitedstates=0x7f020018;
+        public static final int weather_na=0x7f020019;
     }
     public static final class id {
         public static final int detailview_description=0x7f080005;

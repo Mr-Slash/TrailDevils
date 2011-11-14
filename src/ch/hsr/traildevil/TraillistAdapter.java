@@ -21,12 +21,12 @@ public class TraillistAdapter extends ArrayAdapter<Trail> {
 	private final LayoutInflater inflator;
 	private ViewHolder holder;
 	private int resource;
-	private int maxFavorites;
+	private int maxFav;
 
-	public TraillistAdapter(Activity context, int resource, List<Trail> trails, int favs) {
+	public TraillistAdapter(Activity context, int resource, List<Trail> trails, int favorites) {
 		super(context, resource, trails);
 		this.resource = resource;
-		this.maxFavorites = favs;
+		this.maxFav = favorites;
 		inflator = context.getLayoutInflater();
 	}
 
@@ -66,11 +66,7 @@ public class TraillistAdapter extends ArrayAdapter<Trail> {
 	}
 
 	private float getRating() {
-		if (trail.getFavorits() < 1) {
-			return 0;
-		} else {
-			return (((float) trail.getFavorits() / maxFavorites) * Constants.MAX_FAVORITE_STARS);
-		}
+		return (trail.getFavorits() < 1) ? 0 : (((float) trail.getFavorits() / maxFav) * Constants.MAX_FAVORITE_STARS);
 	}
 
 	private static class ViewHolder {

@@ -41,10 +41,14 @@ public class TraillistActivity extends ListActivity {
 			controller.startSynchronization(this);
 		} else {
 			displayTrailData();
-			Toast infoToast = Toast.makeText(this, "Internet connection unavailable.", Toast.LENGTH_LONG);
-			infoToast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-			infoToast.show();
+			displayToast();
 		}
+	}
+
+	private void displayToast() {
+		Toast infoToast = Toast.makeText(this, "Internet connection unavailable.", Toast.LENGTH_LONG);
+		infoToast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+		infoToast.show();
 	}
 
 	/**
@@ -76,7 +80,6 @@ public class TraillistActivity extends ListActivity {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
-
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
 			getListView().setFilterText(query);
@@ -93,9 +96,7 @@ public class TraillistActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
-		Trail trail = (Trail) listView.getAdapter().getItem(position);
 		Intent detail = new Intent(this, TrailActivity.class);
-		detail.putExtra("trailName", trail.getName());
 		detail.putExtra("trailPosition", position);
 		startActivity(detail);
 	}

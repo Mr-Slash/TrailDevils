@@ -15,6 +15,7 @@ import android.util.Log;
 import ch.hsr.traildevil.R;
 import ch.hsr.traildevil.TraillistActivity;
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.presentation.TraillistActivity;
 import ch.hsr.traildevil.util.Constants;
 import ch.hsr.traildevil.util.network.HttpHandler;
 import ch.hsr.traildevil.util.persistence.TrailProvider;

@@ -1,4 +1,4 @@
-package ch.hsr.traildevil;
+package ch.hsr.traildevil.presentation;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
+import ch.hsr.traildevil.R;
+import ch.hsr.traildevil.R.drawable;
+import ch.hsr.traildevil.R.id;
+import ch.hsr.traildevil.R.layout;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.StateUtility;
@@ -55,7 +59,7 @@ public class TrailActivity extends MapActivity {
 
 	private void updateViews(Trail trail) {
 		setTitle(trail.getName());
-		StateUtility.setState(trailStatus, trail.getState());
+		StateUtility.setState(trailStatus, trail.getIsOpen());
 		trailDesc.setText(Html.fromHtml(trail.getDesc()));
 		ImageDownloader.Instance.loadDrawable(WeatherService.getWeatherImageUrl(trail.getNextCity()), trailWeather, R.drawable.weather_na);
 		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.nophotobig);

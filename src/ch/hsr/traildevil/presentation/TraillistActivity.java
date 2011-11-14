@@ -1,4 +1,4 @@
-package ch.hsr.traildevil;
+package ch.hsr.traildevil.presentation;
 
 import java.util.List;
 
@@ -19,6 +19,9 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+import ch.hsr.traildevil.R;
+import ch.hsr.traildevil.R.layout;
+import ch.hsr.traildevil.R.menu;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;

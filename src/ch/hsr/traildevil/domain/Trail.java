@@ -13,8 +13,7 @@ public class Trail implements Serializable {
 	private String Name;
 	private String Desc;
 	private String Journey;
-	private boolean IsCommercial;
-	private String State;
+	private String IsOpen;
 	private String Country;
 	private int CountryId;
 	private String Url;
@@ -82,20 +81,12 @@ public class Trail implements Serializable {
 		Journey = journey;
 	}
 
-	public boolean isIsCommercial() {
-		return IsCommercial;
+	public String getIsOpen() {
+		return IsOpen;
 	}
 
-	public void setIsCommercial(boolean isCommercial) {
-		IsCommercial = isCommercial;
-	}
-
-	public String getState() {
-		return State;
-	}
-
-	public void setState(String state) {
-		State = state;
+	public void setIsOpen(String isOpen) {
+		IsOpen = isOpen;
 	}
 
 	public String getCountry() {

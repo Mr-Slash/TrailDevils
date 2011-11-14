@@ -1,4 +1,4 @@
-package ch.hsr.traildevil;
+package ch.hsr.traildevil.presentation;
 
 import java.util.List;
 
@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import ch.hsr.traildevil.R;
+import ch.hsr.traildevil.R.drawable;
+import ch.hsr.traildevil.R.id;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
 import ch.hsr.traildevil.util.CountryUtility;

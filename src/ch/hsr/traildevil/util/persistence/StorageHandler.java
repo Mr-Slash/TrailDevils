@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import ch.hsr.traildevil.util.Constants;
 
@@ -26,6 +25,12 @@ public class StorageHandler {
 
 	private static final String TAG = "traildevil";
 	private static final String TAG_PREFIX = StorageHandler.class.getSimpleName() + ": ";
+	private static BitmapFactory.Options options;
+
+	{
+		options = new BitmapFactory.Options();
+		options.inScaled = false;
+	}
 
 	public void storeDrawableToStorage(Drawable drawable, String filename) {
 		File file = new File(Constants.DB_LOCATION, filename);
@@ -87,8 +92,7 @@ public class StorageHandler {
 		try {
 			in = new ObjectInputStream(new FileInputStream(file));
 			BitmapDataObject obj = (BitmapDataObject) in.readObject();
-			bitmap = BitmapFactory.decodeByteArray(obj.imageByteArray, 0, obj.imageByteArray.length);
-			bitmap.setDensity(DisplayMetrics.DENSITY_HIGH);
+			bitmap = BitmapFactory.decodeByteArray(obj.imageByteArray, 0, obj.imageByteArray.length, options);
 		} catch (Exception e) {
 			Log.e(TAG, TAG_PREFIX + " Failed reading Object from storage", e);
 		} finally {
@@ -100,5 +104,4 @@ public class StorageHandler {
 		}
 		return new BitmapDrawable(bitmap);
 	}
-
 }

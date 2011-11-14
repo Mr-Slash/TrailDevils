@@ -33,44 +33,46 @@ public class TraillistActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.tracklist);
-		controller = new Controller();
+
+		controller = new Controller(getApplicationContext());
 
 		if (controller.isNetworkAvailable()) {
 			controller.startSynchronization(this);
-		}else{
+		} else {
 			displayTrailData();
 			Toast infoToast = Toast.makeText(this, "Internet connection unavailable.", Toast.LENGTH_LONG);
-			infoToast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL , 0, 0);
+			infoToast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
 			infoToast.show();
 		}
 	}
-	
+
 	/**
-	 * This method is invoked by the Async Task when the Data synchronization has completed.
+	 * This method is invoked by the Async Task when the Data synchronization
+	 * has completed.
 	 */
-	public void syncCompleted(){
+	public void syncCompleted() {
 		displayTrailData();
 		removeDialog(DIALOG_PROGRESS_ID);
 	}
 
 	/**
-	 * This method is invoked by the Dialog when the synchronization is canceled by the user.
+	 * This method is invoked by the Dialog when the synchronization is canceled
+	 * by the user.
 	 */
-	public void syncAborted(){
+	public void syncAborted() {
 		displayTrailData();
 		removeDialog(DIALOG_PROGRESS_ID);
 	}
-	
+
 	/**
-	 * Load Trail data from db and display 
+	 * Load Trail data from db and display
 	 */
 	private void displayTrailData() {
 		List<Trail> trails = controller.getTrails();
 		setListAdapter(new TraillistAdapter(this, R.layout.tracklist_item, trails, controller.getMaxFavorits()));
 	}
-	
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
@@ -104,13 +106,14 @@ public class TraillistActivity extends ListActivity {
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		
-		if(id == DIALOG_PROGRESS_ID){
+
+		if (id == DIALOG_PROGRESS_ID) {
 			final ProgressDialog dialog = new ProgressDialog(this);
 			dialog.setTitle("Synchronizing Data");
 			dialog.setMessage("Loading...");
 			dialog.setIndeterminate(true);
-			dialog.setCancelable(false); // Back Button not supported to cancel dialog
+			dialog.setCancelable(false); // Back Button not supported to cancel
+											// dialog
 			dialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					controller.stopSynchronization();
@@ -120,25 +123,28 @@ public class TraillistActivity extends ListActivity {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Returns the latest modified timestamp of all trail. This timestamp could be 
-	 * used to check for online updates. Note that this value is read as shared property.
+	 * Returns the latest modified timestamp of all trail. This timestamp could
+	 * be used to check for online updates. Note that this value is read as
+	 * shared property.
 	 * 
 	 * @return The latest timestamp or 0 if no one exists.
 	 */
-	public long getLastModifiedTimestamp(){
+	public long getLastModifiedTimestamp() {
 		SharedPreferences preferences = getPreferences(Activity.MODE_PRIVATE);
 		return preferences.getLong(Constants.LAST_MODIFIED_TIMESTAMP_KEY, 0);
-	}	
-	
+	}
+
 	/**
 	 * Saves the latest modified timestamp of all trails as shared property.
-	 * @param timestamp The latest timestamp to set.
+	 * 
+	 * @param timestamp
+	 *            The latest timestamp to set.
 	 */
-	public void setLastModifiedTimestamp(long timestamp){
+	public void setLastModifiedTimestamp(long timestamp) {
 		SharedPreferences preferences = getPreferences(Activity.MODE_PRIVATE);
-		
+
 		Editor editor = preferences.edit();
 		editor.putLong(Constants.LAST_MODIFIED_TIMESTAMP_KEY, timestamp);
 		editor.commit();

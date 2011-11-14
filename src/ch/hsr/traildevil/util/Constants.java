@@ -15,7 +15,7 @@ public class Constants {
     public static final String AUTH_TOKEN_TYPE = "ch.hsr.traildevil";
 	
 	/** The location of the DB */
-	public static final String DB_LOCATION = "/data/data/ch.hsr.traildevil/app_data";
+	public static String DB_LOCATION = "/data/data/ch.hsr.traildevil/files";
 	
 	/** productive URL */
 	public static final String TRAILS_URL = "http://152.96.80.18:8080/api/trails";

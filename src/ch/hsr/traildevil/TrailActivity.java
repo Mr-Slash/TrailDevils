@@ -29,7 +29,6 @@ public class TrailActivity extends MapActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.detail);
 
 		initComponents();
@@ -40,7 +39,7 @@ public class TrailActivity extends MapActivity {
 	 * Initializes the components
 	 */
 	private void initComponents() {
-		appController = new Controller();
+		appController = new Controller(getApplicationContext());
 
 		trailLogo = (ImageView) findViewById(R.id.detailview_logo);
 		trailStatus = (TextView) findViewById(R.id.detailview_status);
@@ -96,6 +95,6 @@ public class TrailActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		appController = new Controller();
+		appController = new Controller(getApplicationContext());
 	}
 }

@@ -19,9 +19,9 @@ public class WeatherService {
 	private static final String PATTERN = "img src=";
 
 	public static String getWeatherImageUrl(String nextCity) {
-		if(nextCity == null){
+		if (nextCity == null) {
 			return null;
-		}else{
+		} else {
 			String city = parse(nextCity);
 			String url = null;
 			try {

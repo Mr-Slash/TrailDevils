@@ -17,6 +17,7 @@ import ch.hsr.traildevil.util.StateUtility;
 import ch.hsr.traildevil.util.network.ImageDownloader;
 
 public class TraillistAdapter extends ArrayAdapter<Trail> {
+
 	private Trail trail;
 	private final LayoutInflater inflator;
 	private ViewHolder holder;
@@ -60,7 +61,7 @@ public class TraillistAdapter extends ArrayAdapter<Trail> {
 	private void updateViews() {
 		holder.trackName.setText(trail.getName());
 		holder.favorits.setRating(getRating());
-		StateUtility.setState(holder.status, trail.getState());
+		StateUtility.setState(holder.status, trail.getIsOpen());
 		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
 		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.nophotosmall);
 	}

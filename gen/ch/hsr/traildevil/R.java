@@ -96,8 +96,6 @@ public final class R {
         public static final int state_open=0x7f060004;
     }
     public static final class xml {
-        public static final int authenticator=0x7f040000;
-        public static final int searchable=0x7f040001;
-        public static final int syncadapter=0x7f040002;
+        public static final int searchable=0x7f040000;
     }
 }

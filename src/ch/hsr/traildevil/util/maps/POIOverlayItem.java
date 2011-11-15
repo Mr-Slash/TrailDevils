@@ -5,7 +5,6 @@ import com.google.android.maps.OverlayItem;
 
 public class POIOverlayItem extends OverlayItem{
 
-	
 	public POIOverlayItem(double latitude, double longitude, String title, String snippet) {
 		this(new GeoPoint( (int)(latitude * 1E6), (int) (longitude * 1E6)), title, snippet);
 	}

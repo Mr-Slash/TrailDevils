@@ -24,9 +24,7 @@ import ch.hsr.traildevil.util.Constants;
 
 public class TraillistActivity extends ListActivity {
 
-	private static final String TAG_PREFIX = TraillistActivity.class.getSimpleName() + ": ";
 	public static final int DIALOG_PROGRESS_ID = 0;
-
 	private Controller controller;
 	private ProgressDialog progressDialog;
 
@@ -100,17 +98,16 @@ public class TraillistActivity extends ListActivity {
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-			getListView().setFilterText(query);
+			getListView().setFilterText(intent.getStringExtra(SearchManager.QUERY));
 		}
 	}
 
 	@Override
 	protected void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
-		Intent detail = new Intent(this, TrailActivity.class);
-		detail.putExtra("trailPosition", position);
-		startActivity(detail);
+		Intent intent = new Intent(this, TrailActivity.class);
+		intent.putExtra("trailPosition", position);
+		startActivity(intent);
 	}
 
 	/**

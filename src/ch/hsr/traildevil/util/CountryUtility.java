@@ -56,6 +56,6 @@ public class CountryUtility {
 			return R.drawable.peru;
 		if (Country.POLAND.toString().equals(country))
 			return R.drawable.poland;		
-		return 0;	//TODO R.drawable.nocountry; 
+		return 0;
 	}
 }

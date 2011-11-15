@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import ch.hsr.traildevil.R;
-import ch.hsr.traildevil.R.drawable;
-import ch.hsr.traildevil.R.id;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
 import ch.hsr.traildevil.util.CountryUtility;
@@ -53,18 +51,18 @@ public class TraillistAdapter extends ArrayAdapter<Trail> {
 	}
 
 	private void initViews(View rowView) {
-		holder.trackName = (TextView) rowView.findViewById(R.id.trackname);
-		holder.favorits = (RatingBar) rowView.findViewById(R.id.traillist_ratingbar);
-		holder.favorits.setNumStars(Constants.MAX_FAVORITE_STARS);
-		holder.status = (TextView) rowView.findViewById(R.id.status);
+		holder.tracknameView = (TextView) rowView.findViewById(R.id.trackname);
+		holder.favoritesRatingbar = (RatingBar) rowView.findViewById(R.id.traillist_ratingbar);
+		holder.favoritesRatingbar.setNumStars(Constants.MAX_FAVORITE_STARS);
+		holder.statusView = (TextView) rowView.findViewById(R.id.status);
 		holder.iconView = (ImageView) rowView.findViewById(R.id.icon);
 		holder.countryView = (ImageView) rowView.findViewById(R.id.traillist_country);
 	}
 
 	private void updateViews() {
-		holder.trackName.setText(trail.getName());
-		holder.favorits.setRating(getRating());
-		StateUtility.setState(holder.status, trail.getIsOpen());
+		holder.tracknameView.setText(trail.getName());
+		holder.favoritesRatingbar.setRating(getRating());
+		StateUtility.setState(holder.statusView, trail.getIsOpen());
 		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
 		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.nophotosmall);
 	}
@@ -76,8 +74,8 @@ public class TraillistAdapter extends ArrayAdapter<Trail> {
 	private static class ViewHolder {
 		public ImageView iconView;
 		public ImageView countryView;
-		public TextView trackName;
-		public RatingBar favorits;
-		public TextView status;
+		public TextView tracknameView;
+		public RatingBar favoritesRatingbar;
+		public TextView statusView;
 	}
 }

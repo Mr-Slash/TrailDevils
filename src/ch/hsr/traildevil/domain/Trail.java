@@ -12,13 +12,8 @@ public class Trail implements Serializable {
 	private float GmapY;
 	private String Name;
 	private String Desc;
-	private String Journey;
 	private String IsOpen;
 	private String Country;
-	private int CountryId;
-	private String Url;
-	private String CreatedDate;
-	private long CreatedUnixTs;
 	private long ModifiedUnixTs;
 	private long DeletedUnixTs;
 	private int Favorits;
@@ -73,14 +68,6 @@ public class Trail implements Serializable {
 		Desc = desc;
 	}
 
-	public String getJourney() {
-		return Journey;
-	}
-
-	public void setJourney(String journey) {
-		Journey = journey;
-	}
-
 	public String getIsOpen() {
 		return IsOpen;
 	}
@@ -95,38 +82,6 @@ public class Trail implements Serializable {
 
 	public void setCountry(String country) {
 		Country = country;
-	}
-
-	public int getCountryId() {
-		return CountryId;
-	}
-
-	public void setCountryId(int countryId) {
-		CountryId = countryId;
-	}
-
-	public String getUrl() {
-		return Url;
-	}
-
-	public void setUrl(String url) {
-		Url = url;
-	}
-
-	public String getCreatedDate() {
-		return CreatedDate;
-	}
-
-	public void setCreatedDate(String createdDate) {
-		CreatedDate = createdDate;
-	}
-
-	public long getCreatedUnixTs() {
-		return CreatedUnixTs;
-	}
-
-	public void setCreatedUnixTs(long createdUnixTs) {
-		CreatedUnixTs = createdUnixTs;
 	}
 
 	public long getModifiedUnixTs() {
@@ -174,6 +129,6 @@ public class Trail implements Serializable {
 	}
 
 	public String toString() {
-		return Name;
+		return getName();
 	}
 }

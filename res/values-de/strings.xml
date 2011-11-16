@@ -2,12 +2,26 @@
 <resources>
 	<!-- Browser View -->
     <string name="app_name">Trail Devils</string>
-    <string name="search_hint">Trail suchen...</string>
-    <string name="no_tracks">Keine Trails verfügbar!</string>
+    <string name="search_hint">Suche Track...</string>
+    <string name="no_tracks">Keine Tracks verfügbar!</string>
     <string name="state_closed">geschlossen</string>
     <string name="state_open">offen</string>
+    <string name="button_cancel">Abbrachen</string>
     
+    <string name="progressbar_title">Daten synchronisieren</string>
+    <string name="progressbar_loading">Laden...</string>
+	<string name="progressbar_downloading">Updates runterladen...</string>
+	<string name="progressbar_updating">Datenbank updaten...</string>
+        
     <!-- Detail View -->
-    <string name="detailview_status">Status:</string>    
+    <string name="detailview_status">Zustand:</string>
+    <string name="detailview_status_unavailable">Kein Zustand verfügbar</string>
+    <string name="detailview_weather">Wetter:</string>
+    <string name="detailview_description">Beschreibung:</string>
+        
+    <!-- Errors -->
+    <string name="error_internet_unavailable">Keine Internetverbindung</string>    
     
+    <!-- Keys -->
+	<string name="map_api_key">0MS7_Ddx-R-LIjRUoloSGVdvPQfuXM5AnnxG3cA</string>
 </resources>

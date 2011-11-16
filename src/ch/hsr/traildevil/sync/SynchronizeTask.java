@@ -151,6 +151,8 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 			contentLength = (int) Math.max(0, response.getEntity().getContentLength());
 			Log.i(Constants.TAG, TAG_PREFIX + "Content Length of Download = " + contentLength);
 			
+			// TODO set Accept-Encoding: gzip and unzip
+			
 			ByteArrayBuffer byteBuffer = new ByteArrayBuffer(contentLength);
 			is = response.getEntity().getContent();
 			byte[] buffer = new byte[2048];

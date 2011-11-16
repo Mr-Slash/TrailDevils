@@ -51,7 +51,7 @@ public class Db4oHelper {
 	
 	/**
 	 * Rolls back the running transaction. Note that Data already in memory are not
-	 * restored! TODO Check what happens if data are modified and then canceled!
+	 * restored!
 	 */
 	public void rollback(){
 		if(oc != null){

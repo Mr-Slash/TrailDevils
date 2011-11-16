@@ -86,16 +86,4 @@ public class TrailActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		appController = null;
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		appController = new Controller(getApplicationContext());
-	}
 }

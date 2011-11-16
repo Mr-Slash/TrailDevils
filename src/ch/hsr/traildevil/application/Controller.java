@@ -36,6 +36,7 @@ public class Controller {
 	private void initInternalStorageDir(Context ctx) {
 		Constants.DB_LOCATION = ctx.getFilesDir().getAbsolutePath();
 
+		// TODO remove test output stream
 		File file = new File(ctx.getFilesDir(), "testFile");
 		if (file.exists())
 			file.delete();

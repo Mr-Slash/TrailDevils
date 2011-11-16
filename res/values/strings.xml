@@ -6,6 +6,9 @@
     <string name="no_tracks">No tracks available!</string>
     <string name="state_closed">closed</string>
     <string name="state_open">open</string>
+    
+    <string name="progressbar_title">Synchronizing Data</string>
+    <string name="progressbar_loading">Loading...</string>
 	<string name="progressbar_downloading">Downloading updates...</string>
 	<string name="progressbar_updating">Updating database...</string>
         
@@ -17,6 +20,11 @@
     <string name="detailview_status_weather_afternoon">Nachmittags:</string>
     <string name="detailview_status_weather_rainy">nass</string>
     <string name="detailview_status_weather_suny">trocken</string>
+    
+    <string name="global_button_cancel">Cancel</string>
+    
+    <!-- Errors -->
+    <string name="error_internet_unavailable">Internet connection is unavailable</string>    
     
 	<string name="map_api_key">0MS7_Ddx-R-LIjRUoloSGVdvPQfuXM5AnnxG3cA</string>
 </resources>

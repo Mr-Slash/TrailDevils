@@ -44,7 +44,7 @@ public class TraillistActivity extends ListActivity {
 	}
 
 	private void displayToast() {
-		Toast infoToast = Toast.makeText(this, "Internet connection unavailable.", Toast.LENGTH_LONG);
+		Toast infoToast = Toast.makeText(this, getString(R.string.error_internet_unavailable), Toast.LENGTH_LONG);
 		infoToast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
 		infoToast.show();
 	}
@@ -80,6 +80,7 @@ public class TraillistActivity extends ListActivity {
 	 */
 	public void updateProgressbar(String message, int progress, int max) {
 		if (progressDialog != null) {
+			progressDialog.setIndeterminate(false);
 			progressDialog.setMessage(message);
 			progressDialog.setProgress(progress);
 			progressDialog.setMax(max);
@@ -119,13 +120,12 @@ public class TraillistActivity extends ListActivity {
 
 		if (id == DIALOG_PROGRESS_ID) {
 			progressDialog = new ProgressDialog(this);
-			progressDialog.setTitle("Synchronizing Data");
-			progressDialog.setMessage("Loading...");
-			progressDialog.setIndeterminate(false);
+			progressDialog.setTitle(getString(R.string.progressbar_title));
+			progressDialog.setMessage(getString(R.string.progressbar_loading));
+			progressDialog.setIndeterminate(true);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			progressDialog.setCancelable(false); // Back Button not supported to
-													// cancel dialog
-			progressDialog.setButton(Dialog.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+			progressDialog.setCancelable(false); // Back Button not supported to cancel dialog
+			progressDialog.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.global_button_cancel), new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					controller.stopSynchronization();
 				}

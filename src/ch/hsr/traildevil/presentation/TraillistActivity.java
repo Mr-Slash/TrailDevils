@@ -125,7 +125,7 @@ public class TraillistActivity extends ListActivity {
 			progressDialog.setIndeterminate(true);
 			progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			progressDialog.setCancelable(false); // Back Button not supported to cancel dialog
-			progressDialog.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.global_button_cancel), new OnClickListener() {
+			progressDialog.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.button_cancel), new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					controller.stopSynchronization();
 				}

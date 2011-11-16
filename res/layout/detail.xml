@@ -16,7 +16,7 @@
 			<RelativeLayout android:id="@+id/statusLabelContainer"
 							android:layout_width="match_parent"
 						  	android:layout_height="wrap_content"
-						  	android:padding="1dip">
+						  	android:padding="5dip">
 						  	
 				<ImageView 	android:id="@+id/detailview_logo"
 			   				android:layout_width="wrap_content"
@@ -37,17 +37,16 @@
 		
 				<TableRow>
 					<TextView android:id="@+id/statusLabel" android:padding="3dip" android:text="@string/detailview_status"/>
-			
-					<TextView android:id="@+id/detailview_status" android:padding="3dip" android:text="No state available"/>		
+					<TextView android:id="@+id/detailview_status" android:padding="3dip" android:text="@string/detailview_status_unavailable"/>		
 				</TableRow>
 						 
 				<TableRow>
-					<TextView android:text="Weather:" android:padding="3dip" />
+					<TextView android:text="@string/detailview_weather" android:padding="3dip" />
 					<ImageView android:layout_gravity="left" android:id="@+id/detailview_weather" android:padding="3dip" />
 				</TableRow>
 				
 				<TableRow>
-					<TextView android:text="Description:" android:padding="3dip"/>
+					<TextView android:text="@string/detailview_description" android:padding="3dip"/>
 					<TextView android:id="@+id/detailview_description" android:padding="3dip"/>
 				</TableRow>
 			</TableLayout>

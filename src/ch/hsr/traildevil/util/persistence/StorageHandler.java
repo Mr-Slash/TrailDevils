@@ -15,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import ch.hsr.traildevil.util.Constants;
+import ch.hsr.traildevil.util.network.HttpHandler;
 
 class BitmapDataObject implements Serializable {
 	private static final long serialVersionUID = 210784625591104095L;
@@ -23,11 +24,10 @@ class BitmapDataObject implements Serializable {
 
 public class StorageHandler {
 
-	private static final String TAG = "traildevil";
 	private static final String TAG_PREFIX = StorageHandler.class.getSimpleName() + ": ";
 	private static BitmapFactory.Options options;
 
-	{
+	public StorageHandler(){
 		options = new BitmapFactory.Options();
 		options.inScaled = false;
 	}
@@ -36,7 +36,7 @@ public class StorageHandler {
 		File file = new File(Constants.DB_LOCATION, filename);
 
 		if (file.exists()) {
-			Log.i(TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " already exists on storage! Nothing to store. ");
+			Log.i(Constants.TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " already exists on storage! Nothing to store. ");
 		} else {
 			BitmapDataObject obj = createStorableObject(drawable);
 			store(obj, file);
@@ -47,13 +47,11 @@ public class StorageHandler {
 		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 		BitmapDataObject bitmapDataObject = new BitmapDataObject();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try {
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-			bitmapDataObject.imageByteArray = out.toByteArray();
-			out.close();
-		} catch (IOException e) {
-			Log.e(TAG, TAG_PREFIX + " Failed to close ByteArrayOutputStream");
-		}
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+		bitmapDataObject.imageByteArray = out.toByteArray();
+		
+		HttpHandler.safeClose(out);
+		
 		return bitmapDataObject;
 	}
 
@@ -62,15 +60,11 @@ public class StorageHandler {
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(file));
 			out.writeObject(obj);
-			Log.i(TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " successfully stored!");
+			Log.i(Constants.TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " successfully stored!");
 		} catch (Exception e) {
-			Log.e(TAG, TAG_PREFIX + " Failed writing Object to storage", e);
+			Log.e(Constants.TAG, TAG_PREFIX + " Failed writing Object to storage", e);
 		} finally {
-			try {
-				out.close();
-			} catch (IOException e) {
-				Log.e(TAG, TAG_PREFIX + " Failed to close ObjectOutputStream", e);
-			}
+			HttpHandler.safeClose(out);
 		}
 	}
 
@@ -78,10 +72,10 @@ public class StorageHandler {
 		File file = new File(Constants.DB_LOCATION, filename);
 
 		if (file.exists()) {
-			Log.i(TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " already exists on storage! Reading from storage.");
+			Log.i(Constants.TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " already exists on storage! Reading from storage.");
 			return read(file);
 		}
-		Log.i(TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " doesn't exist on storage! Nothing to read.");
+		Log.i(Constants.TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " doesn't exist on storage! Nothing to read.");
 
 		return null;
 	}
@@ -94,13 +88,9 @@ public class StorageHandler {
 			BitmapDataObject obj = (BitmapDataObject) in.readObject();
 			bitmap = BitmapFactory.decodeByteArray(obj.imageByteArray, 0, obj.imageByteArray.length, options);
 		} catch (Exception e) {
-			Log.e(TAG, TAG_PREFIX + " Failed reading Object from storage", e);
+			Log.e(Constants.TAG, TAG_PREFIX + " Failed reading Object from storage", e);
 		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				Log.e(TAG, TAG_PREFIX + " Failed to close ObjectInputStream", e);
-			}
+			HttpHandler.safeClose(in);
 		}
 		return new BitmapDrawable(bitmap);
 	}

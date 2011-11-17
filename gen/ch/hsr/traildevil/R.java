@@ -52,45 +52,44 @@ public final class R {
         public static final int detailview_mapview=0x7f070006;
         public static final int detailview_status=0x7f070003;
         public static final int detailview_weather=0x7f070004;
-        public static final int icon=0x7f07000d;
-        public static final int message=0x7f070007;
-        public static final int message_bottom=0x7f07000b;
-        public static final int ok_button=0x7f07000c;
-        public static final int password_edit=0x7f07000a;
-        public static final int status=0x7f070011;
+        public static final int icon=0x7f070007;
+        public static final int status=0x7f07000b;
         public static final int statusLabel=0x7f070002;
         public static final int statusLabelContainer=0x7f070000;
-        public static final int trackname=0x7f07000e;
-        public static final int traillist_country=0x7f07000f;
-        public static final int traillist_ratingbar=0x7f070010;
-        public static final int username_edit=0x7f070008;
-        public static final int username_fixed=0x7f070009;
+        public static final int trackname=0x7f070008;
+        public static final int traillist_country=0x7f070009;
+        public static final int traillist_ratingbar=0x7f07000a;
     }
     public static final class layout {
         public static final int detail=0x7f030000;
-        public static final int login=0x7f030001;
-        public static final int tracklist=0x7f030002;
-        public static final int tracklist_item=0x7f030003;
+        public static final int tracklist=0x7f030001;
+        public static final int tracklist_item=0x7f030002;
     }
     public static final class string {
         /**  Browser View 
  Browser View 
          */
         public static final int app_name=0x7f060000;
+        public static final int button_cancel=0x7f060005;
+        public static final int detailview_description=0x7f06000d;
         /**  Detail View 
  Detail View 
          */
-        public static final int detailview_status=0x7f060007;
-        public static final int detailview_status_close=0x7f060009;
-        public static final int detailview_status_open=0x7f060008;
-        public static final int detailview_status_weather_afternoon=0x7f06000b;
-        public static final int detailview_status_weather_morning=0x7f06000a;
-        public static final int detailview_status_weather_rainy=0x7f06000c;
-        public static final int detailview_status_weather_suny=0x7f06000d;
-        public static final int map_api_key=0x7f06000e;
+        public static final int detailview_status=0x7f06000a;
+        public static final int detailview_status_unavailable=0x7f06000b;
+        public static final int detailview_weather=0x7f06000c;
+        /**  Errors 
+ Errors 
+         */
+        public static final int error_internet_unavailable=0x7f06000e;
+        /**  Keys 
+         */
+        public static final int map_api_key=0x7f06000f;
         public static final int no_tracks=0x7f060002;
-        public static final int progressbar_downloading=0x7f060005;
-        public static final int progressbar_updating=0x7f060006;
+        public static final int progressbar_downloading=0x7f060008;
+        public static final int progressbar_loading=0x7f060007;
+        public static final int progressbar_title=0x7f060006;
+        public static final int progressbar_updating=0x7f060009;
         public static final int search_hint=0x7f060001;
         public static final int state_closed=0x7f060003;
         public static final int state_open=0x7f060004;

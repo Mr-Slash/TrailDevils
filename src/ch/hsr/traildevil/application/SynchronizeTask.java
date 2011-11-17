@@ -1,4 +1,4 @@
-package ch.hsr.traildevil.sync;
+package ch.hsr.traildevil.application;
 
 import java.io.IOException;
 import java.io.InputStream;

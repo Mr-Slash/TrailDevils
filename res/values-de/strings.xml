@@ -6,7 +6,7 @@
     <string name="no_tracks">Keine Tracks verfügbar!</string>
     <string name="state_closed">geschlossen</string>
     <string name="state_open">offen</string>
-    <string name="button_cancel">Abbrachen</string>
+    <string name="button_cancel">Abbrechen</string>
     
     <string name="progressbar_title">Daten synchronisieren</string>
     <string name="progressbar_loading">Laden...</string>

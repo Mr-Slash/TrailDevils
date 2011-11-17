@@ -70,8 +70,15 @@ public class TrailProvider extends Db4oHelper {
 	
 	public List<Trail> findAllSorted(){
 		List<Trail> trails = findAll();
-		Collections.sort(trails);
-		return trails;
+		
+		// copy the returned result, since the list returned by the db doesn't support reordering!
+		List<Trail> copy = new ArrayList<Trail>(trails.size());
+		for(Trail trail : trails){
+			copy.add(trail);
+		}
+		
+		Collections.sort(copy);
+		return copy;
 	}
 	
 	public void deleteAll(){

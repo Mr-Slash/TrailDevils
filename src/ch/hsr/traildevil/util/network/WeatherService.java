@@ -34,7 +34,7 @@ public class WeatherService {
 	}
 
 	private static String getImageUrl(String city) throws IOException {
-		HttpResponse response = httpHandler.connectTo(getUrl(city), HttpHandler.TYPE_XML, HttpHandler.CONNECTION_MODE_CLOSE);
+		HttpResponse response = httpHandler.connectTo(getUrl(city), HttpHandler.TYPE_XML, HttpHandler.CONNECTION_MODE_CLOSE, false);
 		
 		BufferedReader in = null;
 		try{

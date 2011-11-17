@@ -1,12 +1,21 @@
 package ch.hsr.traildevil.application;
 
+import static ch.hsr.traildevil.util.network.HttpHandler.CONNECTION_MODE_CLOSE;
+import static ch.hsr.traildevil.util.network.HttpHandler.TYPE_JSON;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.zip.GZIPInputStream;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.ByteArrayBuffer;
 
@@ -143,21 +152,21 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 		
 		List<Trail> trails = new ArrayList<Trail>(100);
 		HttpHandler httpHandler = new HttpHandler();
-		InputStream is = null;
+		InputStream responseInputStream = null;
+		Reader responseReader = null;
 		int contentLength = 0;
 
 		try{
-			HttpResponse response = httpHandler.connectTo(url, HttpHandler.TYPE_JSON, HttpHandler.CONNECTION_MODE_CLOSE);
+			HttpResponse response = httpHandler.connectTo(url, TYPE_JSON, CONNECTION_MODE_CLOSE, true);
 			contentLength = (int) Math.max(0, response.getEntity().getContentLength());
 			Log.i(Constants.TAG, TAG_PREFIX + "Content Length of Download = " + contentLength);
-			
-			// TODO set Accept-Encoding: gzip and unzip
-			
+
+			// download data
 			ByteArrayBuffer byteBuffer = new ByteArrayBuffer(contentLength);
-			is = response.getEntity().getContent();
+			responseInputStream = response.getEntity().getContent();
 			byte[] buffer = new byte[2048];
 			int read = 0;
-			while( (read = is.read(buffer)) >= 0){
+			while( (read = responseInputStream.read(buffer)) >= 0){
 				if(isCancelled()){
 					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
 					return null;
@@ -168,13 +177,22 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 				publishProgress(R.string.progressbar_downloading, byteBuffer.length(), contentLength);
 			}
 			
-			// convert from byte to string and set the correct encoding
-			Log.i(Constants.TAG, TAG_PREFIX + "create parsable string");
-			String content = new String(byteBuffer.buffer(), "utf-8");
+			// unzip if set
+			Header header = response.getFirstHeader("Content-Encoding");
+			if(header != null && "gzip".equalsIgnoreCase(header.getValue())){
+				Log.i(Constants.TAG, TAG_PREFIX + "unzip input stream");
+				ByteArrayInputStream bais = new ByteArrayInputStream(byteBuffer.buffer());
+				responseReader = new InputStreamReader(new GZIPInputStream(bais), "utf-8");
+			}else{
+				// convert from byte to string and set the correct encoding
+				Log.i(Constants.TAG, TAG_PREFIX + "create parsable string");
+				responseReader = new StringReader(new String(byteBuffer.buffer(), "utf-8"));
+			}
+			
 			
 			Log.i(Constants.TAG, TAG_PREFIX + "start parsing data");
 			Gson gson = new Gson();
-			JsonElement json = new JsonParser().parse(content);
+			JsonElement json = new JsonParser().parse(responseReader);
 			for (JsonElement element : json.getAsJsonArray()) {
 				
 				if(isCancelled()){
@@ -187,7 +205,9 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 		} catch (IOException e) {
 			Log.i(Constants.TAG, TAG_PREFIX + "Exception while reading from input stream", e);
 		}finally{
-			HttpHandler.safeClose(is); // ensure that the stream is closed
+			// ensure that the stream is closed
+			HttpHandler.safeClose(responseInputStream); 
+			HttpHandler.safeClose(responseReader);
 		}
 		
 		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded & parsed");

@@ -56,12 +56,15 @@ public class HttpHandler {
         ConnManagerParams.setTimeout(params, CONNECTION_TIMEOUT);
 	}
 	
-	public HttpResponse connectTo(String url, String type, String connectionMode) throws IOException {
+	public HttpResponse connectTo(String url, String type, String connectionMode, boolean useGZip) throws IOException {
 		try {
 			HttpGet httpGet = new HttpGet(url);
 			httpGet.setHeader("Accept", type);
 			httpGet.setHeader("Connection", connectionMode);
 			
+			if(useGZip)
+				httpGet.setHeader("Accept-Encoding", "gzip");
+				
 			Log.i(Constants.TAG, TAG_PREFIX + "send http request to url:" + url);
 			HttpResponse response = client.execute(httpGet);
 			Log.i(Constants.TAG, TAG_PREFIX + "http response received");

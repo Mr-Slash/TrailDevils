@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
-import ch.hsr.traildevil.util.persistence.StorageHandler;
 
 public enum ImageDownloader {
 	Instance;

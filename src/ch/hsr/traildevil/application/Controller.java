@@ -52,10 +52,7 @@ public class Controller {
 	}
 
 	public List<Trail> getTrails() {
-		if (trailProvider.findAll() == null)
-			return new ArrayList<Trail>();
-
-		return trailProvider.findAll();
+		return trailProvider.findAllSorted();
 	}
 
 	public Trail getTrail(int index) {

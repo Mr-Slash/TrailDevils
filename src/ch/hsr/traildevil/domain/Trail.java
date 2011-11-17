@@ -2,7 +2,7 @@ package ch.hsr.traildevil.domain;
 
 import java.io.Serializable;
 
-public class Trail implements Serializable {
+public class Trail implements Serializable, Comparable<Trail> {
 
 	private static final long serialVersionUID = -657192760929891505L;
 
@@ -128,6 +128,10 @@ public class Trail implements Serializable {
 		return getDeletedUnixTs() > 0;
 	}
 
+	public int compareTo(Trail another) {
+		return Integer.valueOf(another.getFavorits()).compareTo(getFavorits());
+	}
+	
 	public String toString() {
 		return getName();
 	}

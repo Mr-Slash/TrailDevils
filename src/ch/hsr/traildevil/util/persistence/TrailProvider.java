@@ -1,5 +1,7 @@
 package ch.hsr.traildevil.util.persistence;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.util.Log;
@@ -59,7 +61,17 @@ public class TrailProvider extends Db4oHelper {
 	}
 
 	public List<Trail> findAll() {
-		return db().query(Trail.class);
+		List<Trail> trails = db().query(Trail.class);
+		if(trails == null)
+			trails = new ArrayList<Trail>();
+		
+		return trails;
+	}
+	
+	public List<Trail> findAllSorted(){
+		List<Trail> trails = findAll();
+		Collections.sort(trails);
+		return trails;
 	}
 	
 	public void deleteAll(){

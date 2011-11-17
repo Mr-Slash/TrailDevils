@@ -108,7 +108,7 @@ public class Controller {
 
 		if (!isFirstDownload(activity)) {
 			long lastModifiedTimestamp = activity.getLastModifiedTimestamp();
-			updateUrl += "&?$filter=ModifiedUnixTs%20gt%20" + lastModifiedTimestamp;
+			updateUrl += "&$filter=ModifiedUnixTs%20gt%20" + lastModifiedTimestamp;
 		}
 
 		// start async thread

@@ -1,4 +1,4 @@
-package ch.hsr.traildevil.util.persistence;
+package ch.hsr.traildevil.util.network;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,7 +15,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import ch.hsr.traildevil.util.Constants;
-import ch.hsr.traildevil.util.network.HttpHandler;
 
 class BitmapDataObject implements Serializable {
 	private static final long serialVersionUID = 210784625591104095L;

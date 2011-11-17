@@ -106,8 +106,9 @@ public class TraillistActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
+		Trail trail = (Trail) listView.getAdapter().getItem(position);
 		Intent intent = new Intent(this, TrailActivity.class);
-		intent.putExtra("trailPosition", position);
+		intent.putExtra("trailId", trail.getId());
 		startActivity(intent);
 	}
 

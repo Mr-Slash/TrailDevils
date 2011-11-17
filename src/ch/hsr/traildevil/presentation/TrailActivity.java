@@ -50,8 +50,7 @@ public class TrailActivity extends MapActivity {
 	}
 
 	private void handleIntent(Intent intent) {
-		int trailPosition = intent.getIntExtra("trailPosition", 0);
-		updateViews(appController.getTrail(trailPosition));
+		updateViews(appController.findTrail(intent.getIntExtra("trailId", 0)));
 	}
 
 	private void updateViews(Trail trail) {

@@ -61,6 +61,10 @@ public class Controller {
 	public Trail getTrail(int index) {
 		return getTrails().get(index);
 	}
+	
+	public Trail findTrail(int id){
+		return trailProvider.find(id);
+	}
 
 	public boolean isNetworkAvailable() {
 		return httpHandler.isHostReachable(getTrailsUrl());

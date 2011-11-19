@@ -22,8 +22,8 @@ public enum ImageDownloader {
 	private ExecutorService threadpool;
 	private final Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 
-	public static int MAX_CACHE_SIZE = 80;
-	public int THREAD_POOL_SIZE = 3;
+	public static final int MAX_CACHE_SIZE = 80;
+	public static final int THREAD_POOL_SIZE = 3;
 
 	ImageDownloader() {
 		threadpool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);

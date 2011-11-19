@@ -23,8 +23,7 @@ public class HttpHandler {
 
 	private static final String TAG_PREFIX = HttpHandler.class.getSimpleName() + ": ";
 	
-	//TODO simulate with slow connection if data could be downloaded without timeout exception 
-	private static final int 	CONNECTION_TIMEOUT = 10 * 1000; // ms 
+	private static final int CONNECTION_TIMEOUT = 10 * 1000; // ms 
 	
 	private HttpClient client = new DefaultHttpClient();
 	private InputStreamReader isr;

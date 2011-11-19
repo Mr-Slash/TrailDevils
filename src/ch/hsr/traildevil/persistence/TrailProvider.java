@@ -49,14 +49,10 @@ public class TrailProvider extends Db4oHelper {
 	 * @return The matched Trail or null if no one exists
 	 */
 	public Trail find(final int id) {
-		List<Trail> trails = db().query(new Predicate<Trail>() {
-			private static final long serialVersionUID = -8938882796103149092L;
-
-			@Override
-			public boolean match(Trail trail) {
-				return trail.getId() == id;
-			}
-		});
+		Trail trail = new Trail();
+		trail.setId(id);
+		
+		List<Trail> trails = db().queryByExample(trail);
 
 		if (trails.size() > 0)
 			return trails.get(0);

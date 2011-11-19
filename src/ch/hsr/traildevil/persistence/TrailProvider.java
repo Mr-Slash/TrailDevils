@@ -49,10 +49,10 @@ public class TrailProvider extends Db4oHelper {
 	 * @return The matched Trail or null if no one exists
 	 */
 	public Trail find(final int id) {
-		Trail trail = new Trail();
-		trail.setId(id);
+		Trail template = new Trail();
+		template.setId(id);
 		
-		List<Trail> trails = db().queryByExample(trail);
+		List<Trail> trails = db().queryByExample(template);
 
 		if (trails.size() > 0)
 			return trails.get(0);

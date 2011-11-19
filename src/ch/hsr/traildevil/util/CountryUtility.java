@@ -2,9 +2,6 @@ package ch.hsr.traildevil.util;
 
 import ch.hsr.traildevil.R;
 
-//TODO when Server data is ready, parsing http://152.96.80.18:8080/api/trails/countries 
-//and save countries in a list
-
 public class CountryUtility {
 
 	enum Country {

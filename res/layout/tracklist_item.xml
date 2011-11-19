@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="1dip"
     android:minHeight="65dip">
     
@@ -13,55 +13,54 @@
     
     <LinearLayout
         android:orientation="vertical"
-        android:layout_height="fill_parent"
-    	android:layout_width="fill_parent">
+        android:layout_height="match_parent"
+    	android:layout_width="match_parent">
     	
          	<TextView
             	android:id="@+id/trackname"
-            	android:layout_width="fill_parent"
+            	android:layout_width="match_parent"
             	android:layout_height="wrap_content"
             	android:gravity="left"
             	android:textSize="20px"
             	android:textColor="@color/dark_blue"
             	android:singleLine="true"
-            	android:ellipsize="none"
+            	android:ellipsize="end"
+            	android:paddingTop="2dip"
         	/>
         	
-        	<ImageView  
-        		android:id="@+id/traillist_country"
-        		android:layout_height="wrap_content"
-        		android:layout_width="wrap_content"
-        		android:minWidth="30dip"
-        		android:minHeight="19dip"
-        		android:layout_gravity="right"
-        		android:layout_marginRight="3dip"
-			/>
-        	
-        
-            <LinearLayout 
-            		android:orientation="horizontal"
-        			android:layout_width="fill_parent"
-        			android:layout_height="wrap_content">  
-        
+			<RelativeLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:paddingTop="5dip"
+			    android:paddingRight="5dip">
+	
              	<RatingBar 
              			android:id="@+id/traillist_ratingbar"
 			 			android:layout_width="wrap_content"
-             			android:layout_height="14dip"
-             			android:layout_marginTop="5dip"
+			 			android:layout_height="14dip"
              			android:isIndicator="true"
 			 			android:progressDrawable="@drawable/ratingstars"
+			 			android:layout_alignParentLeft="true"
 		 		/>
-		 		
+             	
 		 		<TextView   
 		 				android:id="@+id/status"
 	            		android:layout_width="wrap_content"
 	            		android:layout_height="wrap_content"
-	            		android:gravity="left"
-	            		android:layout_marginTop="3dip"
-	            		android:layout_marginLeft="60dip"
+	            		android:layout_toLeftOf="@+id/traillist_country"
+	            		android:layout_marginRight="5dip"
     			/>
-    			
-    		</LinearLayout>
+		 		
+	        	<ImageView  
+	        		android:id="@+id/traillist_country"
+	        		android:layout_height="wrap_content"
+	        		android:layout_width="wrap_content"
+	        		android:minWidth="30dip"
+	        		android:minHeight="19dip"
+	        		android:layout_alignParentRight="true"
+				/>		              				        
+
+			</RelativeLayout>
 
     </LinearLayout>
   

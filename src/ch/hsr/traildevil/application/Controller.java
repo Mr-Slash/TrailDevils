@@ -1,8 +1,5 @@
 package ch.hsr.traildevil.application;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -10,17 +7,17 @@ import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
+import ch.hsr.traildevil.persistence.TrailProvider;
 import ch.hsr.traildevil.presentation.TraillistActivity;
 import ch.hsr.traildevil.util.Constants;
 import ch.hsr.traildevil.util.network.HttpHandler;
-import ch.hsr.traildevil.util.persistence.TrailProvider;
 
 public class Controller {
 
 	private static final String TAG_PREFIX = Controller.class.getSimpleName() + ": ";
 
 	private static HttpHandler httpHandler = new HttpHandler();
-	private TrailProvider trailProvider;
+	private ch.hsr.traildevil.persistence.TrailProvider trailProvider;
 	private AsyncTask<String, Integer, Long> asyncTask;
 
 	public Controller(Context ctx) {
@@ -34,21 +31,6 @@ public class Controller {
 
 	private void initInternalStorageDir(Context ctx) {
 		Constants.DB_LOCATION = ctx.getFilesDir().getAbsolutePath();
-
-		// TODO remove test output stream
-		File file = new File(ctx.getFilesDir(), "testFile");
-		if (file.exists())
-			file.delete();
-
-		FileOutputStream fos;
-		try {
-			fos = ctx.openFileOutput(file.getName(), Context.MODE_PRIVATE);
-			fos.write(1);
-			fos.flush();
-			fos.close();
-		} catch (Exception e) {
-			Log.e(Constants.TAG, TAG_PREFIX + "Error writing to file " + file.getAbsolutePath(), e);
-		}
 	}
 
 	public List<Trail> getTrails() {
@@ -58,8 +40,8 @@ public class Controller {
 	public Trail getTrail(int index) {
 		return getTrails().get(index);
 	}
-	
-	public Trail findTrail(int id){
+
+	public Trail findTrail(int id) {
 		return trailProvider.find(id);
 	}
 

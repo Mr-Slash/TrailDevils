@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.graphics.drawable.Drawable;
-import android.webkit.GeolocationPermissions;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -16,16 +15,17 @@ import com.google.android.maps.OverlayItem;
  * 
  * @author Sandro
  */
+@SuppressWarnings("rawtypes")
 public class POIOverlay extends ItemizedOverlay {
 
 	private List<OverlayItem> locations = null;
 	private GeoPoint center = null;
 
-	public POIOverlay(Drawable marker, OverlayItem ...overlayItems) {
+	public POIOverlay(Drawable marker, OverlayItem... overlayItems) {
 		super(boundCenterBottom(marker));
-		
+
 		locations = Arrays.asList(overlayItems);
-		populate(); 
+		populate();
 	}
 
 	/**
@@ -37,12 +37,12 @@ public class POIOverlay extends ItemizedOverlay {
 	 */
 	public GeoPoint getCenterPoint() {
 		if (center == null) {
-			
+
 			int northEdge = -90000000;
 			int southEdge = 90000000;
 			int eastEdge = -180000000;
 			int westEdge = 180000000;
-			
+
 			Iterator<OverlayItem> iter = locations.iterator();
 			while (iter.hasNext()) {
 				GeoPoint pt = iter.next().getPoint();
@@ -57,24 +57,26 @@ public class POIOverlay extends ItemizedOverlay {
 			}
 			center = new GeoPoint((int) ((northEdge + southEdge) / 2), (int) ((westEdge + eastEdge) / 2));
 		}
-		
+
 		return center;
 	}
-	
+
 	/**
 	 * Use this method when more than one POI's are displayed
+	 * 
 	 * @return
 	 */
-	public int getZoomLatitude(){
+	public int getZoomLatitude() {
 		return (int) (1.5 * getLatSpanE6());
 	}
 
 	/**
 	 * Use this method when more than one POI's are displayed
+	 * 
 	 * @return
 	 */
-	public int getZoomLongitude(){
-		return (int) (1.5* getLonSpanE6());
+	public int getZoomLongitude() {
+		return (int) (1.5 * getLonSpanE6());
 	}
 
 	@Override

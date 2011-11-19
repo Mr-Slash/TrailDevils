@@ -21,6 +21,7 @@ import ch.hsr.traildevil.R;
 import ch.hsr.traildevil.application.Controller;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
+import ch.hsr.traildevil.util.network.ImageDownloader;
 
 public class TraillistActivity extends ListActivity {
 
@@ -160,5 +161,11 @@ public class TraillistActivity extends ListActivity {
 		Editor editor = preferences.edit();
 		editor.putLong(Constants.LAST_MODIFIED_TIMESTAMP_KEY, timestamp);
 		editor.commit();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ImageDownloader.Instance.Reset();
 	}
 }

@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -26,12 +25,12 @@ public class StorageHandler {
 	private static final String TAG_PREFIX = StorageHandler.class.getSimpleName() + ": ";
 	private static BitmapFactory.Options options;
 
-	public StorageHandler(){
+	public StorageHandler() {
 		options = new BitmapFactory.Options();
 		options.inScaled = false;
 	}
 
-	public void storeDrawableToStorage(Drawable drawable, String filename) {
+	public synchronized void storeDrawableToStorage(Drawable drawable, String filename) {
 		File file = new File(Constants.DB_LOCATION, filename);
 
 		if (file.exists()) {
@@ -48,9 +47,9 @@ public class StorageHandler {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 		bitmapDataObject.imageByteArray = out.toByteArray();
-		
+
 		HttpHandler.safeClose(out);
-		
+
 		return bitmapDataObject;
 	}
 
@@ -67,7 +66,7 @@ public class StorageHandler {
 		}
 	}
 
-	public Drawable getDrawableFromStorage(String filename) {
+	public synchronized Drawable getDrawableFromStorage(String filename) {
 		File file = new File(Constants.DB_LOCATION, filename);
 
 		if (file.exists()) {

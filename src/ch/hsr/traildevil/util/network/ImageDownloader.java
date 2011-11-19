@@ -32,7 +32,7 @@ public enum ImageDownloader {
 	/**
 	 * Clears all instance data and stops running threads.
 	 */
-	public void Reset() { // TODO insert in onDestroy() of list activity
+	public void Reset() {
 		ExecutorService oldThreadPool = threadpool;
 		threadpool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 		oldThreadPool.shutdownNow();

@@ -14,9 +14,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
 
-public enum ImageDownloader {
-	Instance;
-
+public class ImageDownloader {
+	
+	private static final ImageDownloader instance = new ImageDownloader();
+	
 	private final Map<String, SoftReference<Drawable>> cacheMap = new HashMap<String, SoftReference<Drawable>>();
 	private final LinkedList<Drawable> cacheController = new LinkedList<Drawable>();
 	private ExecutorService threadpool;
@@ -25,17 +26,20 @@ public enum ImageDownloader {
 	public static final int MAX_CACHE_SIZE = 80;
 	public static final int THREAD_POOL_SIZE = 3;
 
-	ImageDownloader() {
+	private ImageDownloader() {
 		threadpool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+	}
+	
+	public static ImageDownloader getInstance(){
+		return instance;
 	}
 
 	/**
 	 * Clears all instance data and stops running threads.
 	 */
 	public void Reset() {
-		ExecutorService oldThreadPool = threadpool;
+		threadpool.shutdown();
 		threadpool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-		oldThreadPool.shutdownNow();
 		cacheController.clear();
 		cacheMap.clear();
 		imageViews.clear();

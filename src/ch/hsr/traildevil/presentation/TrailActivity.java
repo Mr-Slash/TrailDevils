@@ -57,8 +57,8 @@ public class TrailActivity extends MapActivity {
 		setTitle(trail.getName());
 		StateUtility.setState(trailStatus, trail.getIsOpen());
 		trailDesc.setText(Html.fromHtml(trail.getDesc()));
-		ImageDownloader.Instance.loadDrawable(WeatherService.getWeatherImageUrl(trail.getNextCity()), trailWeather, R.drawable.weather_na);
-		ImageDownloader.Instance.loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.nophotobig);
+		ImageDownloader.getInstance().loadDrawable(WeatherService.getWeatherImageUrl(trail.getNextCity()), trailWeather, R.drawable.weather_na);
+		ImageDownloader.getInstance().loadDrawable(trail.getImageUrl800(), trailLogo, R.drawable.nophotobig);
 		createGoogleMapView(trail);
 	}
 

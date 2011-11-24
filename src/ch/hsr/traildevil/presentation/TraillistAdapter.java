@@ -64,7 +64,7 @@ public class TraillistAdapter extends ArrayAdapter<Trail> {
 		holder.favoritesRatingbar.setRating(getRating());
 		StateUtility.setState(holder.statusView, trail.getIsOpen());
 		holder.countryView.setImageResource(CountryUtility.getResource(trail.getCountry()));
-		ImageDownloader.Instance.loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.nophotosmall);
+		ImageDownloader.getInstance().loadDrawable(trail.getImageUrl120(), holder.iconView, R.drawable.nophotosmall);
 	}
 
 	private float getRating() {

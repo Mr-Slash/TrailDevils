@@ -166,6 +166,6 @@ public class TraillistActivity extends ListActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		ImageDownloader.Instance.Reset();
+		ImageDownloader.getInstance().Reset();
 	}
 }

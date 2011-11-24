@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -142,7 +143,8 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 	}
 	
 	/**
-	 * Downloads the Trails data from the web.
+	 * Downloads the Trails data from the web. Converts it into Trail objects and
+	 * returns it as list.
 	 * 
 	 * @param url The url to fetch
 	 * @return a List of downloaded Trails
@@ -150,7 +152,7 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 	private List<Trail> loadTrailsData(String url) {
 		Log.i(Constants.TAG, TAG_PREFIX + "Start downloading new data from the web");
 		
-		List<Trail> trails = new ArrayList<Trail>(100);
+		List<Trail> trails = new ArrayList<Trail>();
 		HttpHandler httpHandler = new HttpHandler();
 		InputStream responseInputStream = null;
 		Reader responseReader = null;
@@ -161,47 +163,17 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 			contentLength = (int) Math.max(0, response.getEntity().getContentLength());
 			Log.i(Constants.TAG, TAG_PREFIX + "Content Length of Download = " + contentLength);
 
-			// download data
-			ByteArrayBuffer byteBuffer = new ByteArrayBuffer(contentLength);
 			responseInputStream = response.getEntity().getContent();
-			byte[] buffer = new byte[2048];
-			int read = 0;
-			while( (read = responseInputStream.read(buffer)) >= 0){
-				if(isCancelled()){
-					Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
-					return null;
-				}
-				byteBuffer.append(buffer, 0, read);
-				
-				// update progress bar
-				publishProgress(R.string.progressbar_downloading, byteBuffer.length(), contentLength);
-			}
+			ByteArrayBuffer byteBuffer = downloadData(responseInputStream, contentLength);
+			if(byteBuffer == null) // if cancel was invoked
+				return null;
 			
-			// unzip if set
-			Header header = response.getFirstHeader("Content-Encoding");
-			if(header != null && "gzip".equalsIgnoreCase(header.getValue())){
-				Log.i(Constants.TAG, TAG_PREFIX + "unzip input stream");
-				ByteArrayInputStream bais = new ByteArrayInputStream(byteBuffer.buffer());
-				responseReader = new InputStreamReader(new GZIPInputStream(bais), "utf-8");
-			}else{
-				// convert from byte to string and set the correct encoding
-				Log.i(Constants.TAG, TAG_PREFIX + "create parsable string");
-				responseReader = new StringReader(new String(byteBuffer.buffer(), "utf-8"));
-			}
+			responseReader = unzip(response, byteBuffer);
 			
+			trails = parseData(responseReader);
+			if(trails == null) // if cancel was invoked
+				return null;
 			
-			Log.i(Constants.TAG, TAG_PREFIX + "start parsing data");
-			Gson gson = new Gson();
-			JsonElement json = new JsonParser().parse(responseReader);
-			for (JsonElement element : json.getAsJsonArray()) {
-				
-				if(isCancelled()){
-					Log.i(Constants.TAG, TAG_PREFIX + "Stop parsing data, since cancel was invoked");
-					return null;
-				}
-				
-				trails.add(gson.fromJson(element, Trail.class));
-			}
 		} catch (IOException e) {
 			Log.i(Constants.TAG, TAG_PREFIX + "Exception while reading from input stream", e);
 		}finally{
@@ -212,6 +184,80 @@ public class SynchronizeTask extends AsyncTask<String, Integer, Long> {
 		
 		Log.i(Constants.TAG, TAG_PREFIX + "#" + trails.size() + " Trails downloaded & parsed");
 		return trails;
+	}
+
+	/**
+	 * Downloads the data. It reads all content from the inputStream and stores it into a byteBuffer.
+	 * The reason why it is copied in chunks, is because the user might pushes the cancel button during
+	 * the download.
+	 * 
+	 * @param inputStream The input stream to read from
+	 * @param contentLength The amount of data to read (just necessary for the progressbar)
+	 * @return A ByteArrayBuffer with the whole http response or null if cancel was invoked.
+	 * @throws IOException
+	 */
+	private ByteArrayBuffer downloadData(InputStream inputStream, int contentLength) throws IOException {
+		ByteArrayBuffer byteBuffer = new ByteArrayBuffer(contentLength);
+		byte[] buffer = new byte[2048];
+		int read = 0;
+		while( (read = inputStream.read(buffer)) >= 0){
+			if(isCancelled()){
+				Log.i(Constants.TAG, TAG_PREFIX + "Stop downloading data, since cancel was invoked");
+				return null;
+			}
+			byteBuffer.append(buffer, 0, read);
+			
+			// update progress bar
+			publishProgress(R.string.progressbar_downloading, byteBuffer.length(), contentLength);
+		}
+		return byteBuffer;
+	}
+
+	/**
+	 * Parses the JSON Data and converts them into a List of Trail data.
+	 *  
+	 * @param reader The Reader which contains the JSON Data
+	 * @return a List of Trails or null if cancel was invoked.
+	 */
+	private List<Trail> parseData(Reader reader) {
+		Log.i(Constants.TAG, TAG_PREFIX + "start parsing data");
+		List<Trail> trails = new ArrayList<Trail>();
+		Gson gson = new Gson();
+		JsonElement json = new JsonParser().parse(reader);
+		
+		for (JsonElement element : json.getAsJsonArray()) {
+			
+			if(isCancelled()){
+				Log.i(Constants.TAG, TAG_PREFIX + "Stop parsing data, since cancel was invoked");
+				return null;
+			}
+			trails.add(gson.fromJson(element, Trail.class));
+		}
+		return trails;
+	}
+	
+	
+	/**
+	 * Checks whether the HTTP response is gzip encoded and if so decodes it. 
+	 * 
+	 * @param response The HTTP response
+	 * @param buffer The buffer which contains the HTTP response content
+	 * @return A Reader containing the decoded HTTP response content 
+	 * 
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException
+	 */
+	private Reader unzip(HttpResponse response, ByteArrayBuffer buffer) throws UnsupportedEncodingException, IOException {
+		Header header = response.getFirstHeader("Content-Encoding");
+		if(header != null && "gzip".equalsIgnoreCase(header.getValue())){
+			Log.i(Constants.TAG, TAG_PREFIX + "unzip input stream");
+			ByteArrayInputStream bais = new ByteArrayInputStream(buffer.buffer());
+			return new InputStreamReader(new GZIPInputStream(bais), "utf-8");
+		}
+
+		// convert from byte to string and set the correct encoding
+		Log.i(Constants.TAG, TAG_PREFIX + "create parsable string");
+		return new StringReader(new String(buffer.buffer(), "utf-8"));
 	}	
 	
 	/**

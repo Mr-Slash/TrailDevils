@@ -8,8 +8,6 @@ import android.util.Log;
 import ch.hsr.traildevil.domain.Trail;
 import ch.hsr.traildevil.util.Constants;
 
-import com.db4o.query.Predicate;
-
 public class TrailProvider extends Db4oHelper {
 
 	private static final String TAG_PREFIX = TrailProvider.class.getSimpleName() + ": ";
@@ -51,7 +49,7 @@ public class TrailProvider extends Db4oHelper {
 	public Trail find(final int id) {
 		Trail template = new Trail();
 		template.setId(id);
-		
+
 		List<Trail> trails = db().queryByExample(template);
 
 		if (trails.size() > 0)

@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 import ch.hsr.traildevil.util.Constants;
 
@@ -24,6 +26,7 @@ public class StorageHandler {
 
 	private static final String TAG_PREFIX = StorageHandler.class.getSimpleName() + ": ";
 	private static BitmapFactory.Options options;
+	private static long MIN_AVAILABLE_MEGABYTES = 100;
 
 	public StorageHandler() {
 		options = new BitmapFactory.Options();
@@ -36,8 +39,10 @@ public class StorageHandler {
 		if (file.exists()) {
 			Log.i(Constants.TAG, TAG_PREFIX + " File " + file.getAbsolutePath() + " already exists on storage! Nothing to store. ");
 		} else {
-			BitmapDataObject obj = createStorableObject(drawable);
-			store(obj, file);
+			if (isEnoughStorageAvailable()) {
+				BitmapDataObject obj = createStorableObject(drawable);
+				store(obj, file);
+			}
 		}
 	}
 
@@ -92,4 +97,17 @@ public class StorageHandler {
 		}
 		return new BitmapDrawable(bitmap);
 	}
+
+	private boolean isEnoughStorageAvailable() {
+		return (getAvailableMegaBytes() > MIN_AVAILABLE_MEGABYTES) ? true : false;
+	}
+
+	private long getAvailableMegaBytes() {
+		StatFs statistics = new StatFs(Environment.getDataDirectory().getPath());
+		long bytesAvailable = (long) statistics.getFreeBlocks() * (long) statistics.getBlockSize();
+		long mbytesAvailable = bytesAvailable / 1048576;
+		Log.i(Constants.TAG, TAG_PREFIX + mbytesAvailable + " MB available on Storage");
+		return mbytesAvailable;
+	}
+
 }

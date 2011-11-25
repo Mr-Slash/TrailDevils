@@ -104,8 +104,7 @@ public class StorageHandler {
 
 	private long getAvailableMegaBytes() {
 		StatFs statistics = new StatFs(Environment.getDataDirectory().getPath());
-		long bytesAvailable = (long) statistics.getFreeBlocks() * (long) statistics.getBlockSize();
-		long mbytesAvailable = bytesAvailable / 1048576;
+		long mbytesAvailable = (statistics.getFreeBlocks() * statistics.getBlockSize()) / 1048576;
 		Log.i(Constants.TAG, TAG_PREFIX + mbytesAvailable + " MB available on Storage");
 		return mbytesAvailable;
 	}
